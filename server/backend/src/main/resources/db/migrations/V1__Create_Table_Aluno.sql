@@ -1,0 +1,1 @@
+CREATE TABLE aluno (aluno_id varchar(13) PRIMARY KEY NOT NULL, aluno_nome varchar(40) NOT NULL);
