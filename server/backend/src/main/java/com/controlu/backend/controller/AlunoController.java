@@ -26,12 +26,12 @@ public class AlunoController {
 
     @PostMapping(value = "/")
     public AlunoVO registrarDadosAluno(@RequestBody AlunoVO aluno){
-        return alunoService.obterDadosAluno();
+        return alunoService.registrarDadosAluno();
     }
 
     @PutMapping(value = "/")
     public AlunoVO atualizarDadosAluno(@RequestBody AlunoVO aluno){
-        return alunoService.obterDadosAluno();
+        return alunoService.atualizarDadosAluno();
     }
 
     @DeleteMapping(value = "/{id}")
