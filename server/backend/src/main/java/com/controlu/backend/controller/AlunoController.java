@@ -5,37 +5,38 @@ import com.controlu.backend.vo.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/aluno")
+@RequestMapping("/api/aluno")
 public class AlunoController {
     @Autowired
     private AlunoService alunoService;
 
     @GetMapping(value = "/all")
-    public List<AlunoVO> obterDadosDeTodosAlunoa(){
-        return alunoService.obterDadosDeTodosAlunoa();
+    public List<AlunoVO> obterDadosDeTodosAlunos(){
+        return alunoService.obterDadosDeTodosAlunos();
     }
 
-    @GetMapping(value = "/")
-    public AlunoVO obterDadosAluno(@PathVariable String id){
-        return alunoService.obterDadosAluno();
+    @GetMapping("/{id}")
+    public AlunoVO obterDadosAluno(@PathVariable("id") String id){
+        return alunoService.obterDadosAluno(id);
     }
 
 
-    @PostMapping(value = "/")
+    @PostMapping()
     public AlunoVO registrarDadosAluno(@RequestBody AlunoVO aluno){
-        return alunoService.registrarDadosAluno();
+        return alunoService.registrarDadosAluno(aluno);
     }
 
-    @PutMapping(value = "/")
+    @PutMapping()
     public AlunoVO atualizarDadosAluno(@RequestBody AlunoVO aluno){
-        return alunoService.atualizarDadosAluno();
+        return alunoService.atualizarDadosAluno(aluno);
     }
 
-    @DeleteMapping(value = "/{id}")
-    public void apagarDadosAlunos(@PathVariable String id){
-        alunoService.apagarDadosAlunos();
+    @DeleteMapping("/{id}")
+    public void apagarDadosAlunos(@PathVariable("id") String id){
+        alunoService.apagarDadosAlunos(id);
     }
 }
