@@ -10,7 +10,7 @@ import Orders from '../components/dashboard/Orders';
 
 import { Toaster, toast } from 'sonner';
 import { AlunoProps } from '../interface/AlunoProps';
-import { postAluno } from '../http/HttpClientAluno';
+import { registrarDadosAluno } from '../http/HttpClientAluno';
 
 export default function Aluno() {
 
@@ -19,11 +19,12 @@ export default function Aluno() {
     const data = new FormData(event.currentTarget);
     const aluno: AlunoProps = {
       nome: data.get('nome') as string,
-      ra: data.get('ra') as string,
+      id: data.get('id') as string,
     };
+    console.log(aluno)
 
     try {
-      await postAluno(aluno);
+      await registrarDadosAluno(aluno);
       toast.success("Cadastro realizado com sucesso");
     } catch (error) {
       toast.error("Erro ao cadastrar aluno");
@@ -51,10 +52,10 @@ export default function Aluno() {
               margin="normal"
               required
               fullWidth
-              name="ra"
+              name="id"
               label="R.A"
               type="text"
-              id="ra"
+              id="id"
               autoComplete="ra"
             />
 
