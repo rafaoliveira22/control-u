@@ -1,0 +1,1 @@
+CREATE TABLE curso (curso_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, curso_nome varchar(40) NOT NULL);

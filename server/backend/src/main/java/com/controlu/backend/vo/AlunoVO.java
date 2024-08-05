@@ -3,36 +3,39 @@ package com.controlu.backend.vo;
 import org.springframework.hateoas.RepresentationModel;
 
 public class AlunoVO extends RepresentationModel<AlunoVO> {
-    private String id;
-    private String nome;
+    private AlunoIdVO id;
+    private String alunoRa;
 
     public AlunoVO() {}
 
-    public AlunoVO(String id, String nome) {
+    public AlunoVO(AlunoIdVO id, String alunoRa) {
         this.id = id;
-        this.nome = nome;
+        this.alunoRa = alunoRa;
     }
 
-    public String getId(){
+    public AlunoIdVO getId() {
         return id;
     }
 
-    public void setId(String id){
+    public void setId(AlunoIdVO id) {
         this.id = id;
     }
-    public String getNome(){
-        return nome;
+
+
+
+    public String getAlunoRa() {
+        return alunoRa;
     }
 
-    public void setNome(String nome){
-        this.nome = nome;
+    public void setAlunoRa(String alunoRa) {
+        this.alunoRa = alunoRa;
     }
 
     @Override
     public String toString() {
         return "AlunoVO{" +
-                "id='" + id + '\'' +
-                ", nome='" + nome + '\'' +
+                "id=" + id +
+                ", alunoRa='" + alunoRa + '\'' +
                 '}';
     }
 }

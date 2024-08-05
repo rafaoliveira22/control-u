@@ -3,6 +3,8 @@ package com.controlu.backend.controller;
 import com.controlu.backend.service.AlunoService;
 import com.controlu.backend.vo.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,15 +21,25 @@ public class AlunoController {
         return alunoService.obterDadosDeTodosAlunos();
     }
 
-    @GetMapping("/{id}")
-    public AlunoVO obterDadosAluno(@PathVariable("id") String id){
-        return alunoService.obterDadosAluno(id);
+    @GetMapping("/{nome}/{cursoId}/{anoIngressao}")
+    public AlunoVO obterDadosAluno(@PathVariable("nome") String nome, @PathVariable("cursoId") String cursoId, @PathVariable("anoIngressao") String anoIngressao){
+        return alunoService.obterDadosAluno(nome, cursoId, anoIngressao);
+    }
+
+    @GetMapping("/{ra}")
+    public AlunoVO obterDadosAluno(@PathVariable("ra") String ra){
+        return alunoService.obterDadosAluno(ra);
     }
 
 
     @PostMapping()
-    public AlunoVO registrarDadosAluno(@RequestBody AlunoVO aluno){
-        return alunoService.registrarDadosAluno(aluno);
+    public ResponseEntity<?> registrarDadosAluno(@RequestBody AlunoVO aluno){
+        try {
+            AlunoVO alunoRegistrado = alunoService.registrarDadosAluno(aluno);
+            return new ResponseEntity<>(alunoRegistrado, HttpStatus.CREATED);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PutMapping()
@@ -35,8 +47,8 @@ public class AlunoController {
         return alunoService.atualizarDadosAluno(aluno);
     }
 
-    @DeleteMapping("/{id}")
-    public void apagarDadosAlunos(@PathVariable("id") String id){
-        alunoService.apagarDadosAlunos(id);
+    @DeleteMapping("/{ra}")
+    public void apagarDadosAlunos(@PathVariable("ra") String ra){
+        alunoService.apagarDadosAlunos(ra);
     }
 }

@@ -1,46 +1,50 @@
 package com.controlu.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.controlu.backend.entity.embeddable.AlunoId;
+import jakarta.persistence.*;
 
-@Entity(name="aluno")
+@Entity
+@Table(name  = "aluno")
 public class Aluno {
-    @Id
-    @Column(name = "aluno_id")
-    private String id;
 
-    @Column(name = "aluno_nome")
-    private String nome;
+    @EmbeddedId
+    private AlunoId id;
 
-    public Aluno(){}
+    @Column(name = "aluno_ra")
+    private String alunoRa;
 
-    public Aluno(String id, String nome) {
-        this.id = id;
-        this.nome = nome;
+
+    public Aluno() {
     }
 
-    public String getId() {
+    public Aluno(AlunoId id, String alunoRa) {
+        this.id = id;
+        this.alunoRa = alunoRa;
+    }
+
+    // Getters and Setters
+
+    public AlunoId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(AlunoId id) {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getAlunoRa() {
+        return alunoRa;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setAlunoRa(String alunoRa) {
+        this.alunoRa = alunoRa;
     }
 
     @Override
     public String toString() {
         return "Aluno{" +
-                "id='" + id + '\'' +
-                ", nome='" + nome + '\'' +
+                "id=" + id +
+                ", alunoRa='" + alunoRa + '\'' +
                 '}';
     }
 }
