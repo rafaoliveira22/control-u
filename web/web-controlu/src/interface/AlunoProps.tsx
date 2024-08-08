@@ -1,4 +1,10 @@
-export interface AlunoProps{
-  id: string
-  nome: string,
+export interface AlunoIdProps {
+  alunoNome: string;
+  cursoId: number;
+  alunoAnoIngressao: number;
+}
+
+export interface AlunoProps {
+  alunoRa: string;
+  id: AlunoIdProps;
 }

@@ -162,7 +162,7 @@ export default function Main() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4, p: 2 }} >
+          <Container maxWidth="lg" sx={{ p: 5 }} >
             <Grid container spacing={3}>
               <Outlet />
             </Grid>
