@@ -2,6 +2,7 @@ package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AlunoService;
 import com.controlu.backend.vo.aluno.AlunoVO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class AlunoController {
 
 
     @PostMapping()
-    public ResponseEntity<?> registrarDadosAluno(@RequestBody AlunoVO aluno){
+    public ResponseEntity<?> registrarDadosAluno(@Valid @RequestBody AlunoVO aluno){
         try {
             AlunoVO alunoRegistrado = alunoService.registrarDadosAluno(aluno);
             return new ResponseEntity<>(alunoRegistrado, HttpStatus.CREATED);

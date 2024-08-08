@@ -20,6 +20,13 @@ public class AlunoService {
     @Autowired
     private AlunoRepository repository;
 
+    /**
+     * MÉTODO PARA OBTER OS DADOS DE UM ALUNO ESPECÍFICO NA BASE DE DADOS
+     * @param nome NOME DO ALUNO
+     * @param cursoId ID DO CURSO
+     * @param anoIngressao ANO DE INGRESSÃO DO ALUNO NA FACULDADE
+     * @return DADOS DO ALUNO ENCONTRADO
+     */
     public AlunoVO obterDadosAluno(String nome, String cursoId, String anoIngressao){
         AlunoId id = new AlunoId(nome, Integer.parseInt(cursoId), Integer.parseInt(anoIngressao));
 
@@ -30,6 +37,11 @@ public class AlunoService {
         return vo;
     }
 
+    /**
+     * MÉTODO PARA OBTER OS DADOS DE UM ALUNO ESPECÍFICO
+     * @param ra REGISTRO DO ALUNO
+     * @return DADOS DO ALUNO
+     */
     public AlunoVO obterDadosAluno(String ra){
         var aluno = repository.findByAlunoRa(ra).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse RA."));
         var vo = DozerMapper.parseObject(aluno, AlunoVO.class);
@@ -38,6 +50,11 @@ public class AlunoService {
         return vo;
     }
 
+    /**
+     * MÉTODO PARA OBTER DADOS DE TODOS OS ALUNOS
+     * @return LISTA COM DADOS DE TOOS OS ALUNOS
+     */
+
     public List<AlunoVO> obterDadosDeTodosAlunos(){
         var alunos = DozerMapper.parseListObjects(repository.findAll(), AlunoVO.class);
         alunos.stream().forEach(aluno -> aluno.add(linkTo(methodOn(AlunoController.class).obterDadosAluno(aluno.getId().getAlunoNome(), String.valueOf(aluno.getId().getCursoId()), String.valueOf(aluno.getId().getAlunoAnoIngressao()))).withSelfRel()));
@@ -45,7 +62,11 @@ public class AlunoService {
         return alunos;
     }
 
-
+    /**
+     * MÉTODO PARA REGISTRAR UM NOVO ALUNO NA BASE DE DADOS
+     * @param alunoVO OBJETO CARREGADO COM OS DADOS DO ALUNO
+     * @return ALUNO REGISTRADO
+     */
     public AlunoVO registrarDadosAluno(AlunoVO alunoVO){
         AlunoId id = new AlunoId(alunoVO.getId().getAlunoNome(), alunoVO.getId().getCursoId(), alunoVO.getId().getAlunoAnoIngressao());
 
@@ -60,6 +81,11 @@ public class AlunoService {
         return vo;
     }
 
+    /**
+     * MÉTODO PARA ATUALIZAR O REGISTRO DO ALUNO NA BASE DE DADOS
+     * @param alunoVO OBJETO CARREGADO COM OS DADOS DO ALUNO
+     * @return ALUNO ATUALIZADO
+     */
     public AlunoVO atualizarDadosAluno(AlunoVO alunoVO){
         AlunoId id = new AlunoId(alunoVO.getId().getAlunoNome(), alunoVO.getId().getCursoId(), alunoVO.getId().getAlunoAnoIngressao());
 
@@ -72,6 +98,10 @@ public class AlunoService {
         return vo;
     }
 
+    /**
+     * MÉTODDO PARA APAGAR O REGISTRO DO ALUNO NA BASE DE DADOS
+     * @param ra REGISTRO DO ALUNO
+     */
     public void apagarDadosAlunos(String ra){
         var aluno = repository.findByAlunoRa(ra).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse RA."));
         repository.delete(aluno);

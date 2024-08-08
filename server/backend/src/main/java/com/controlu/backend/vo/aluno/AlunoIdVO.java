@@ -1,8 +1,16 @@
 package com.controlu.backend.vo.aluno;
 
+import jakarta.validation.constraints.NotNull;
+
 public class AlunoIdVO {
+
+    @NotNull(message = "O Nome do aluno é obrigatório")
     private String alunoNome;
+
+    @NotNull(message = "O ID do Curso é obrigatório")
     private Integer cursoId;
+
+    @NotNull(message = "O Ano de Ingressão do aluno é obrigatório")
     private Integer alunoAnoIngressao;
 
     public AlunoIdVO() {}

@@ -1,9 +1,12 @@
 package com.controlu.backend.vo.aluno;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.hateoas.RepresentationModel;
 
 public class AlunoVO extends RepresentationModel<AlunoVO> {
     private AlunoIdVO id;
+
+    @NotNull(message = "O RA do aluno é obrigatório")
     private String alunoRa;
 
     public AlunoVO() {}
