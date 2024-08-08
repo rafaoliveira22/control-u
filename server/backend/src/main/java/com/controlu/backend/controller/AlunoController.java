@@ -1,7 +1,7 @@
 package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AlunoService;
-import com.controlu.backend.vo.AlunoVO;
+import com.controlu.backend.vo.aluno.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ public class AlunoController {
     @Autowired
     private AlunoService alunoService;
 
-    @GetMapping(value = "/all")
+    @GetMapping
     public List<AlunoVO> obterDadosDeTodosAlunos(){
         return alunoService.obterDadosDeTodosAlunos();
     }

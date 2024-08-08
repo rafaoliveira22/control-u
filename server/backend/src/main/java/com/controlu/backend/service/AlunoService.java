@@ -6,7 +6,7 @@ import com.controlu.backend.entity.embeddable.AlunoId;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AlunoRepository;
-import com.controlu.backend.vo.AlunoVO;
+import com.controlu.backend.vo.aluno.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

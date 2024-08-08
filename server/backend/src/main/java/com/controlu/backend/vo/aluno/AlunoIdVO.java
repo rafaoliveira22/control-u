@@ -1,4 +1,4 @@
-package com.controlu.backend.vo;
+package com.controlu.backend.vo.aluno;
 
 public class AlunoIdVO {
     private String alunoNome;
