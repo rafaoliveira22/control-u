@@ -27,7 +27,8 @@ export const obterDadosAluno = async (id: string) => {
   });
 
   if (!response.ok) {
-    throw new Error('Error');
+    const errorData = await response.json();
+    throw new Error(errorData.message ? errorData.message : "Erro ao obter os dados do professor! Tente novamente ou contate o suporte.");
   }
 
   return response.json();

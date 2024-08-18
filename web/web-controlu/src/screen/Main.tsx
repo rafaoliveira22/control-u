@@ -83,10 +83,40 @@ export default function Main() {
     switch (pathname) {
       case '/dashboard':
         return 'Administrativo / Dashboard';
+
       case '/dashboard/relatorios':
           return 'Administrativo / Relatório';
+
       case '/dashboard/aluno':
         return 'Cadastro / Aluno';
+
+      case '/dashboard/professor':
+        return 'Cadastro / Professor';
+
+      case '/dashboard/disciplina':
+        return 'Cadastro / Disciplina';
+
+      case '/dashboard/sala':
+        return 'Cadastro / Sala';
+
+      case '/dashboard/cartao':
+        return 'Cadastro / Cartão';
+
+      case '/dashboard/grade':
+        return 'Cadastro / Grade';
+        
+      case '/dashboard/curso':
+        return 'Cadastro / Curso';
+    
+      case '/dashboard/dispositivo':
+        return 'Cadastro / Dispositivo de Leitura';
+
+      case '/dashboard/usuario':
+        return 'Cadastro / Usuário do Sistema';
+
+      case '/dashboard/nivel_acesso':
+        return 'Cadastro / Nivel de Acesso do Usuário';
+      
       default:
         return 'Dashboard';
     }

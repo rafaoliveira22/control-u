@@ -14,7 +14,15 @@ const CursoSelect: React.FC<CursoSelectProps> = ({ value, onChange }) => {
         setCursos(data);
       } catch (error) {
         if (error instanceof Error) {
+          if(error.message.toLowerCase() === "failed to fetch"){
+            error.message = "Erro ao carregar os cursos disponíveis! Tente novamente ou contate o suporte."
+          }
           toast.error(error.message);
+          const cursoError: Curso = {
+            cursoId: 0,
+            cursoNome: error.message
+          };
+          setCursos([cursoError]);
         } else {
           toast.error('Erro desconhecido');
         }

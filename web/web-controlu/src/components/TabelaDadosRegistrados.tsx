@@ -7,14 +7,17 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './dashboard/Title';
 import { DadosRegistradosProps } from '../interface/DadosRegistradosProps';
+import { Toaster, toast } from 'sonner';
 
-function preventDefault(event: React.MouseEvent) {
+function obterDetalhes(event: React.MouseEvent) {
   event.preventDefault();
+  toast.warning("Recurso não disponível no momento. Em desenvolvimento...")
 }
 
 export default function TabelaDadosRegistrados(props: DadosRegistradosProps) {
   return (
     <React.Fragment>
+      <Toaster richColors expand={true} closeButton />
       <Title>{props.titulo}</Title>
       <Table size="small">
         <TableHead>
@@ -34,7 +37,7 @@ export default function TabelaDadosRegistrados(props: DadosRegistradosProps) {
           ))}
         </TableBody>
       </Table>
-      <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
+      <Link color="primary" href="#" onClick={obterDetalhes} sx={{ mt: 3 }}>
         Obter detalhes
       </Link>
     </React.Fragment>

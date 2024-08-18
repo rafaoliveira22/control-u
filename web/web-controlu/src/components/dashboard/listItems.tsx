@@ -35,7 +35,7 @@ export const secondaryListItems = (
 
     <ListItem icon={WcIcon} primary="Aluno" pathRouter="aluno" />
     <ListItem icon={SchoolIcon} primary="Professor" pathRouter="professor" />
-    <ListItem icon={BadgeIcon} primary="Cartão de acesso" pathRouter="cartao" />
+    <ListItem icon={BadgeIcon} primary="Cartão de leitura" pathRouter="cartao" />
     <ListItem icon={ClassIcon} primary="Disciplina" pathRouter="disciplina" />
     <ListItem icon={RoomPreferencesIcon} primary="Sala" pathRouter="sala" />
     <ListItem icon={GradeIcon} primary="Curso" pathRouter="curso" />

@@ -5,9 +5,10 @@ import Dashboard from './screen/Dashboard';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './assets/theme';
-import Aluno from './screen/Aluno';
+import Aluno from './screen/cadastro/Aluno';
 import Main from './screen/Main';
-import Professor from './screen/Professor';
+import Professor from './screen/cadastro/Professor';
+import Disciplina from './screen/cadastro/Disiciplina';
 
 const App: React.FC = () => {
   return (
@@ -22,7 +23,7 @@ const App: React.FC = () => {
             <Route path="aluno" element={<Aluno />} />
             <Route path="professor" element={<Professor />} />
             <Route path="cartao" element={<Aluno />} />
-            <Route path="disciplina" element={<Aluno />} />
+            <Route path="disciplina" element={<Disciplina />} />
             <Route path="sala" element={<Aluno />} />
             <Route path="curso" element={<Aluno />} />
             <Route path="grade" element={<Aluno />} />

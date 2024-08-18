@@ -8,11 +8,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
 import { Toaster, toast } from 'sonner';
-import { AlunoProps } from '../interface/AlunoProps';
-import { registrarDadosAluno, obterDadosDeTodosAlunos } from '../http/HttpClientAluno';
-import CursoSelect from '../components/CursoSelect';
-import TabelaDadosRegistrados from '../components/TabelaDadosRegistrados';
-import config from '../config/config';
+import { AlunoProps } from '../../interface/AlunoProps';
+import { registrarDadosAluno, obterDadosDeTodosAlunos } from '../../http/HttpClientAluno';
+import CursoSelect from '../../components/CursoSelect';
+import TabelaDadosRegistrados from '../../components/TabelaDadosRegistrados';
+import config from '../../config/config';
 
 export default function Aluno() {
   const [cursoSelecionado, setCursoSelecionado] = useState<number | string>('')
@@ -38,7 +38,11 @@ export default function Aluno() {
       ]);
       setAlunos(dadosConvertidos)
     } catch (error) {
+      
       if (error instanceof Error) {
+        if(error.message.toLowerCase() === "failed to fetch"){
+          error.message = "Erro ao obter dados dos alunos! Tente novamente ou contate o suporte."
+        }
         toast.error(error.message)
       } else {
         toast.error('Erro desconhecido')

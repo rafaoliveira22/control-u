@@ -1,9 +1,9 @@
 import { Grid, Box, TextField, Button, Paper } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
-import TabelaDadosRegistrados from '../components/TabelaDadosRegistrados';
-import { ProfessorProps } from '../interface/ProfessorProps';
-import { obterTodosProfessores, registrarDadosProfessor } from '../http/HttpClientProfessor';
+import TabelaDadosRegistrados from '../../components/TabelaDadosRegistrados';
+import { ProfessorProps } from '../../interface/ProfessorProps';
+import { obterTodosProfessores, registrarDadosProfessor } from '../../http/HttpClientProfessor';
 
 export default function Professor(){
   const [professorNome, setProfessorNome] = useState("")
@@ -24,6 +24,9 @@ export default function Professor(){
       setProfessores(dadosConvertidos)
     } catch (error) {
       if (error instanceof Error) {
+        if(error.message.toLowerCase() === "failed to fetch"){
+          error.message = "Erro ao obter dados dos professores! Tente novamente ou contate o suporte."
+        }
         toast.error(error.message)
       } else {
         toast.error('Erro desconhecido')
