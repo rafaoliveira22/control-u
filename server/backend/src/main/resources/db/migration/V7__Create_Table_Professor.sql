@@ -1,0 +1,1 @@
+CREATE TABLE professor (professor_id VARCHAR(20) PRIMARY KEY NOT NULL, professor_nome varchar(40) NOT NULL);

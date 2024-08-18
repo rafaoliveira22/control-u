@@ -51,12 +51,12 @@ public class AlunoService {
     }
 
     /**
-     * MÉTODO PARA OBTER DADOS DE TODOS OS ALUNOS
+     * MÉTODO PARA OBTER DADOS DE TODOS OS ALUNOS, ORDERNADO POR ANO (DESC) E NOME (ASC)
      * @return LISTA COM DADOS DE TOOS OS ALUNOS
      */
 
     public List<AlunoVO> obterDadosDeTodosAlunos(){
-        var alunos = DozerMapper.parseListObjects(repository.findAll(), AlunoVO.class);
+        var alunos = DozerMapper.parseListObjects(repository.findAllByOrderByIdAlunoAnoIngressaoDescIdAlunoNomeAsc(), AlunoVO.class);
         alunos.stream().forEach(aluno -> aluno.add(linkTo(methodOn(AlunoController.class).obterDadosAluno(aluno.getId().getAlunoNome(), String.valueOf(aluno.getId().getCursoId()), String.valueOf(aluno.getId().getAlunoAnoIngressao()))).withSelfRel()));
 
         return alunos;

@@ -23,7 +23,7 @@ public class CursoController {
     public ResponseEntity<?> obterTodosCursos(){
         try {
             List<CursoVO> cursos = service.obterTodosCursos();
-            return new ResponseEntity<>(cursos, HttpStatus.CREATED);
+            return new ResponseEntity<>(cursos, HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

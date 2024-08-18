@@ -18,18 +18,33 @@ public class AlunoController {
     private AlunoService alunoService;
 
     @GetMapping
-    public List<AlunoVO> obterDadosDeTodosAlunos(){
-        return alunoService.obterDadosDeTodosAlunos();
+    public ResponseEntity<?> obterDadosDeTodosAlunos(){
+        try {
+            List<AlunoVO> alunos = alunoService.obterDadosDeTodosAlunos();
+            return new ResponseEntity<>(alunos, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @GetMapping("/{nome}/{cursoId}/{anoIngressao}")
-    public AlunoVO obterDadosAluno(@PathVariable("nome") String nome, @PathVariable("cursoId") String cursoId, @PathVariable("anoIngressao") String anoIngressao){
-        return alunoService.obterDadosAluno(nome, cursoId, anoIngressao);
+    public ResponseEntity<?> obterDadosAluno(@PathVariable("nome") String nome, @PathVariable("cursoId") String cursoId, @PathVariable("anoIngressao") String anoIngressao){
+        try {
+            AlunoVO aluno = alunoService.obterDadosAluno(nome, cursoId, anoIngressao);
+            return new ResponseEntity<>(aluno, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @GetMapping("/{ra}")
-    public AlunoVO obterDadosAluno(@PathVariable("ra") String ra){
-        return alunoService.obterDadosAluno(ra);
+    public ResponseEntity<?> obterDadosAluno(@PathVariable("ra") String ra){
+        try {
+            AlunoVO aluno = alunoService.obterDadosAluno(ra);
+            return new ResponseEntity<>(aluno, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
 
