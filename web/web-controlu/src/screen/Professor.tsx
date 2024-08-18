@@ -40,7 +40,7 @@ export default function Professor(){
         professorNome: professorNome
       };
   
-  
+   
       try {
         await registrarDadosProfessor(dado);
         toast.success("Cadastro realizado com sucesso");

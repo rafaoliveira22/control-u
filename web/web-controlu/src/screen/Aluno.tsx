@@ -23,28 +23,28 @@ export default function Aluno() {
 
 
   useEffect(() => {
-    const fetchDadosAlunos = async () => {
-      try{
-        const dados: AlunoProps[] = await obterDadosDeTodosAlunos();
-        // Convertendo os dados dos alunos para o formato esperado pela tabela
-        const dadosConvertidos = dados.map(aluno => [
-          aluno.alunoRa,
-          aluno.id.alunoNome,
-          config.cursos[aluno.id.cursoId],
-          aluno.id.alunoAnoIngressao.toString()
-        ]);
-        setAlunos(dadosConvertidos)
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message)
-        } else {
-          toast.error('Erro desconhecido')
-        }
-      }
-    }
-    fetchDadosAlunos();
+    fetchDados();
   }, [])
 
+  const fetchDados = async () => {
+    try{
+      const dados: AlunoProps[] = await obterDadosDeTodosAlunos();
+      // Convertendo os dados dos alunos para o formato esperado pela tabela
+      const dadosConvertidos = dados.map(aluno => [
+        aluno.alunoRa,
+        aluno.id.alunoNome,
+        config.cursos[aluno.id.cursoId],
+        aluno.id.alunoAnoIngressao.toString()
+      ]);
+      setAlunos(dadosConvertidos)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('Erro desconhecido')
+      }
+    }
+  }
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -63,6 +63,13 @@ export default function Aluno() {
       try {
         await registrarDadosAluno(aluno);
         toast.success("Cadastro realizado com sucesso");
+
+        setRa("")
+        setNome("")
+        setCursoSelecionado(0)
+        setAnoIngressao("")
+
+        fetchDados()
       } catch (error) {
         if (error instanceof Error) {
           toast.error(error.message);
