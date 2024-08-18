@@ -1,10 +1,7 @@
 package com.controlu.backend.controller;
 
 import com.controlu.backend.service.ProfessorService;
-import com.controlu.backend.vo.CursoVO;
 import com.controlu.backend.vo.ProfessorVO;
-import com.controlu.backend.vo.aluno.AlunoVO;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

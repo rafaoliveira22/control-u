@@ -1,0 +1,1 @@
+CREATE TABLE disciplina (disciplina_id VARCHAR(10) PRIMARY KEY NOT NULL, disciplina_nome varchar(40) NOT NULL);

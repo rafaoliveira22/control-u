@@ -1,15 +1,11 @@
 package com.controlu.backend.service;
 
-import com.controlu.backend.controller.AlunoController;
 import com.controlu.backend.controller.ProfessorController;
-import com.controlu.backend.entity.Aluno;
 import com.controlu.backend.entity.Professor;
-import com.controlu.backend.entity.embeddable.AlunoId;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.ProfessorRepository;
 import com.controlu.backend.vo.ProfessorVO;
-import com.controlu.backend.vo.aluno.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +22,11 @@ public class ProfessorService {
 
     /**
      * MÉTODO PARA OBTER TODOS OS PROFESSORES REGISTRADOS NA BASE DE DADOS
+     * ORDERNADO PELO NOME, ORDEM CRESCENTE (A-Z)
      * @return LISTA COM DADOS DE TOOS OS PROFESSORES
      */
     public List<ProfessorVO> obterTodosProfessores(){
-        var professores = DozerMapper.parseListObjects(repository.findAll(), ProfessorVO.class);
+        var professores = DozerMapper.parseListObjects(repository.findAllByOrderByProfessorNomeAsc(), ProfessorVO.class);
         professores.stream().forEach(professor -> professor.add(linkTo(methodOn(ProfessorController.class).obterDadosProfessor(professor.getProfessorId())).withSelfRel()));
 
         return professores;
