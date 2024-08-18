@@ -42,7 +42,8 @@ export const obterDadosDeTodosAlunos = async () => {
   });
 
   if (!response.ok) {
-    throw new Error('Error');
+    const errorData = await response.json();
+    throw new Error(errorData.message ? errorData.message : "Erro ao obter dados dos alunos! Tente novamente ou contate o suporte.");
   }
 
   return response.json();

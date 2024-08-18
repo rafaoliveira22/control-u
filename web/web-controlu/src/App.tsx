@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { theme } from './assets/theme';
 import Aluno from './screen/Aluno';
 import Main from './screen/Main';
+import Professor from './screen/Professor';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +20,7 @@ const App: React.FC = () => {
             <Route index element={<Dashboard />} />
             <Route path="relatorios" element={<Aluno />} />
             <Route path="aluno" element={<Aluno />} />
-            <Route path="professor" element={<Aluno />} />
+            <Route path="professor" element={<Professor />} />
             <Route path="cartao" element={<Aluno />} />
             <Route path="disciplina" element={<Aluno />} />
             <Route path="sala" element={<Aluno />} />

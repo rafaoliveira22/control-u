@@ -97,12 +97,8 @@ export default function Main() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open} color="default">
-          <Toolbar
-            sx={{
-              pr: '24px',
-            }}
-          >
+        <AppBar  open={open} color="primary">
+          <Toolbar sx={{pr: '24px'}} >
             <IconButton
               edge="start"
               color="inherit"
