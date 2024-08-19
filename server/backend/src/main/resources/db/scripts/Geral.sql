@@ -20,3 +20,7 @@ SELECT * FROM curso;
 -- PROFESSOR
 DESC professor;
 SELECT * FROM professor;
+
+-- DISPOSITIVO
+DESC dispositivo_leitura;
+SELECT * FROM dispositivo_leitura;

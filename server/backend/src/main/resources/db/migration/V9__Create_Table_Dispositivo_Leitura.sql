@@ -1,0 +1,1 @@
+CREATE TABLE dispositivo_leitura (dispositivo_id VARCHAR(10) PRIMARY KEY NOT NULL, dispositivo_status INT NOT NULL);
