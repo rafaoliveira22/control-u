@@ -1,6 +1,7 @@
-type Cursos = {
+type ObjetoComNumeroComoIndice = {
   [key: number]: string; // Permite que números sejam usados como índices
 };
+
 
 const config = {
   apiUrl: 'http://localhost:8080/api',
@@ -9,7 +10,17 @@ const config = {
     2: 'Ciência de Dados',
     3: 'Segurança da Informação',
     4: 'Gestão Comercial',
-  } as Cursos
+  } as ObjetoComNumeroComoIndice,
+  dispositivos: {
+    tipos: {
+      1: 'Catraca',
+      2: 'Totem de Leitura',
+    } as ObjetoComNumeroComoIndice, 
+    status: {
+      1: 'Online',
+      2: 'Offline'
+    } as ObjetoComNumeroComoIndice
+  } 
 };
 
 export default config;

@@ -9,6 +9,7 @@ import Aluno from './screen/cadastro/Aluno';
 import Main from './screen/Main';
 import Professor from './screen/cadastro/Professor';
 import Disciplina from './screen/cadastro/Disiciplina';
+import Dispositivo from './screen/cadastro/Dispositivo';
 
 const App: React.FC = () => {
   return (
@@ -27,7 +28,7 @@ const App: React.FC = () => {
             <Route path="sala" element={<Aluno />} />
             <Route path="curso" element={<Aluno />} />
             <Route path="grade" element={<Aluno />} />
-            <Route path="dispositivo" element={<Aluno />} />
+            <Route path="dispositivo" element={<Dispositivo />} />
             <Route path="usuario" element={<Aluno />} />
             <Route path="nivel_acesso" element={<Aluno />} />
           </Route>
