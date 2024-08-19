@@ -28,13 +28,20 @@ export default function TabelaDadosRegistrados(props: DadosRegistradosProps) {
         </TableRow>
         </TableHead>
         <TableBody>
-          {props.dados.map((dado, i) => (
-            <TableRow key={i}>
-              {dado.map((item, j) =>
-                <TableCell key={j}>{item}</TableCell>
-              )}
+          {props.dados.length > 0 ? (
+            props.dados.map((dado, i) => (
+              <TableRow key={i}>
+                {dado.map((item, j) => (
+                  <TableCell key={j}>{item}</TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell>0</TableCell>
+              <TableCell>Nenhum registro encontrado</TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
       <Link color="primary" href="#" onClick={obterDetalhes} sx={{ mt: 3 }}>

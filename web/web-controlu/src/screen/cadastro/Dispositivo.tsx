@@ -18,13 +18,6 @@ export default function Dispositivo(){
     try{
       const dados: DispositivoProps[] = await obterDadosDeTodosDispositivos();
       let dadosConvertidos: DispositivoProps[] = []
-      if(dados.length <= 0){
-        const dispositivoVazio: DispositivoProps = {
-          dispositivoId: "Nenhum dispositivo registrado",
-          dispositivoStatus: 2
-        };
-        dadosConvertidos = [dispositivoVazio]
-      }
       dadosConvertidos = dados.map(dispositivo => [
         dispositivo.dispositivoId,
         config.dispositivos.status[dispositivo.dispositivoStatus],
@@ -41,6 +34,7 @@ export default function Dispositivo(){
       }
     }
   }
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -59,7 +53,7 @@ export default function Dispositivo(){
         fecthDados()
       } catch (error) {
         if (error instanceof Error) {
-          toast.error(error.message);
+          toast.error("Erro ao cadastrar dispositivo! Tente novamente ou contate o suporte.");
         } else {
           toast.error('Erro desconhecido');
         }
