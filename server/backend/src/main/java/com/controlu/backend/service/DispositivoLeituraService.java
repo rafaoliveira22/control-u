@@ -102,6 +102,7 @@ public class DispositivoLeituraService {
      */
     public DispositivoLeituraVO registrarDadosDispositivo(DispositivoLeituraVO dispositivoLeituraVO){
         dispositivoLeituraVO.setDispositivoId(construirIdDoDispositivo(dispositivoLeituraVO.getDispositivoTipo()));
+        dispositivoLeituraVO.setDispositivoStatus(Defines.STATUS_DISPOSITIVO_OFFLINE);
 
         DispositivoLeitura dispositivo = DozerMapper.parseObject(dispositivoLeituraVO, DispositivoLeitura.class);
         var vo = DozerMapper.parseObject(repository.save(dispositivo), DispositivoLeituraVO.class);

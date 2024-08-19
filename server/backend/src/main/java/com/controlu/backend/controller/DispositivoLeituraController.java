@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/api/dispositivo")
+@RequestMapping("/api/dispositivo")
 public class DispositivoLeituraController {
     @Autowired
     private DispositivoLeituraService service;
