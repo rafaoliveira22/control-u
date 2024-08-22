@@ -20,8 +20,6 @@ export default function Aluno() {
   const [ra, setRa] = useState<string>('')
   const [anoIngressao, setAnoIngressao] = useState('')
   const [alunos, setAlunos] = useState<AlunoProps[]>([]);
-
-
   useEffect(() => {
     fetchDados();
   }, [])
@@ -42,7 +40,7 @@ export default function Aluno() {
       if (error instanceof Error) {
         if(error.message.toLowerCase() === "failed to fetch"){
           error.message = "Erro ao obter dados dos alunos! Tente novamente ou contate o suporte."
-        }
+        } 
         toast.error(error.message)
       } else {
         toast.error('Erro desconhecido')
@@ -63,24 +61,26 @@ export default function Aluno() {
         }
       };
   
-  
-      try {
-        await registrarDadosAluno(aluno);
-        toast.success("Cadastro realizado com sucesso");
+      const promise = registrarDadosAluno(aluno);
+      toast.promise(promise, {
+        loading: "Cadastramdp aluno...",
+        success: () => {
+          setRa("")
+          setNome("")
+          setCursoSelecionado(0)
+          setAnoIngressao("")
+          fetchDados()
+          return "Cadastro realizado com sucesso"
+        },
+        error: (error) => {
+          const messageError = "Erro ao cadastrar aluno! Tente novamente ou contate o suporte.";
+          if(error.message.toLowerCase() !== "registro já existe!"){
+            error.message = messageError
+          } 
 
-        setRa("")
-        setNome("")
-        setCursoSelecionado(0)
-        setAnoIngressao("")
-
-        fetchDados()
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error('Erro desconhecido');
+          return error.message;
         }
-      }
+      })
     } else{
       toast.warning(`O campo ${validacaoDadosForms} não foi informado corretamente`)
     }

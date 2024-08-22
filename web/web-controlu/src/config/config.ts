@@ -20,7 +20,13 @@ const config = {
       1: 'Online',
       2: 'Offline'
     } as ObjetoComNumeroComoIndice
-  } 
+  },
+  cartao : {
+    status: {
+      1: 'Em uso',
+      2: 'Sem uso'
+    } as ObjetoComNumeroComoIndice
+  }
 };
 
 export default config;

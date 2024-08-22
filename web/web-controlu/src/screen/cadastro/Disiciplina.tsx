@@ -42,22 +42,23 @@ export default function Disciplina(){
         disciplinaId: disciplinaId,
         disciplinaNome: disciplinaNome
       };
-  
-   
-      try {
-        await registrarDisciplina(dado);
-        toast.success("Cadastro realizado com sucesso");
-        setDisciplinaId("")
-        setDisciplinaNome("")
+      
+      const promise = registrarDisciplina(dado);
+      toast.promise(promise, {
+        loading: 'Cadastrando disciplina...',
+        success: () => {
+          setDisciplinaId("")
+          setDisciplinaNome("")
+          fecthDados()
+        },
+        error: (error) => {
+          if(error.message.toLowerCase() !== "registro já existe!"){
+            error.message = "Erro ao cadastrar disciplina! Tente novamente ou contate o suporte."
+          } 
 
-        fecthDados()
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error('Erro desconhecido');
+          return error.message
         }
-      }
+      })
     } else{
       toast.warning(`O campo ${validacaoDadosForms} não foi informado corretamente`)
     }

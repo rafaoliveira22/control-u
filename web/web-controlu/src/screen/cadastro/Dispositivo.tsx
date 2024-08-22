@@ -41,23 +41,21 @@ export default function Dispositivo(){
     const validacaoDadosForms = validarDadosFormulario()
     if(!validacaoDadosForms){
       const dado: DispositivoCadastroProps = {
-        dispositivoTipo: dispositivoTipo,
+        dispositivoTipo: dispositivoTipo as number,
       };
-  
-   
-      try {
-        await registrarDispositivo(dado);
-        toast.success("Cadastro realizado com sucesso");
-        setDispositivoTipo(0)
-
-        fecthDados()
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error("Erro ao cadastrar dispositivo! Tente novamente ou contate o suporte.");
-        } else {
-          toast.error('Erro desconhecido');
+      
+      const promise = registrarDispositivo(dado);
+      toast.promise(promise, {
+        loading: 'Cadastrando dispositivo...',
+        success: () => {
+          setDispositivoTipo(0)
+          fecthDados()
+          return 'Cadastro realizado com sucesso'
+        },
+        error: (error) => {
+          return "Erro ao cadastrar dispositivo! Tente novamente ou contate o suporte."
         }
-      }
+      }) 
     } else{
       toast.warning(`O campo ${validacaoDadosForms} não foi informado corretamente`)
     }

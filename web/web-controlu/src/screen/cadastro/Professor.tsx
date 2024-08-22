@@ -43,21 +43,24 @@ export default function Professor(){
         professorNome: professorNome
       };
   
-   
-      try {
-        await registrarDadosProfessor(dado);
-        toast.success("Cadastro realizado com sucesso");
-        setProfessorId("")
-        setProfessorNome("")
+      const promise = registrarDadosProfessor(dado);
+      toast.promise(promise, {
+        loading: 'Cadastrando professor...',
+        success: () => {
+          setProfessorId("")
+          setProfessorNome("")
+          fecthDados()
 
-        fecthDados()
-      } catch (error) {
-        if (error instanceof Error) {
-          toast.error(error.message);
-        } else {
-          toast.error('Erro desconhecido');
+          return "Cadastro realizado com sucesso"
+        },
+        error: (error) => {
+          if(error.message.toLowerCase() !== "registro já existe!"){
+            error.message = "Erro ao cadastrar professor! Tente novamente ou contate o suporte."
+          }
+
+          return error.message
         }
-      }
+      })
     } else{
       toast.warning(`O campo ${validacaoDadosForms} não foi informado corretamente`)
     }

@@ -38,7 +38,6 @@ export default function TabelaDadosRegistrados(props: DadosRegistradosProps) {
             ))
           ) : (
             <TableRow>
-              <TableCell>0</TableCell>
               <TableCell>Nenhum registro encontrado</TableCell>
             </TableRow>
           )}
