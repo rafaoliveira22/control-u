@@ -1,0 +1,1 @@
+ALTER TABLE cartao_leitura ADD COLUMN status INT NOT NULL;

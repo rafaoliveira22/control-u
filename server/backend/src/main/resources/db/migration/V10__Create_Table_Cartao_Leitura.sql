@@ -1,0 +1,1 @@
+CREATE TABLE cartao_leitura (cartao_id VARCHAR(10) PRIMARY KEY NOT NULL);

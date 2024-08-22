@@ -24,3 +24,9 @@ SELECT * FROM professor;
 -- DISPOSITIVO
 DESC dispositivo_leitura;
 SELECT * FROM dispositivo_leitura;
+DELETE FROM dispositivo_leitura WHERE dispositivo_id = "TL2";
+
+-- CARTAO
+DESC cartao_leitura;
+SELECT * FROM cartao_leitura;
+DELETE FROM cartao_leitura;

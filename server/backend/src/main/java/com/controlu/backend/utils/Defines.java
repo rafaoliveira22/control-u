@@ -9,4 +9,10 @@ public class Defines {
     public static final String PREFIXO_ID_TIPO_DISPOSITIVO_TOTEM = "TL";
     public static final Integer STATUS_DISPOSITIVO_ONLINE = 1;
     public static final Integer STATUS_DISPOSITIVO_OFFLINE = 2;
+
+    // CARTÃO DE LEITURA
+    public static final Integer STATUS_CARTAO_EM_USO = 1;
+    public static final Integer STATUS_CARTAO_SEM_USO = 2;
+
+
 }

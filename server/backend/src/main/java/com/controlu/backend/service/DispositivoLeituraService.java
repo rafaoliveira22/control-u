@@ -44,7 +44,10 @@ public class DispositivoLeituraService {
     /**
      * MÉTODO PARA CONSTRUIR O ID DO DISPOSITIVO A SER REGISTRADO
      * 1 - IDENTIFICA-SE O TIPO DO DISPOSITIVO (CATRACA - 1 OU TOTEM - 2) PARA ESTIPULAR O PREFIXO
-     * 2 -
+     * 2 - OBTEM O ULTIMO DISPOSITIVO REGISTRADO NA BASE DE DADOS, DE ACORDOC C/ O PREFIXO
+     * 3 - VERIFICA SE É O 1° REGISTRO, SE FOR O ID SERÁ 001, SE NÃO SOMA-SE 1 NA SEQUÊNCOA ATUAL (5 + 1 -> 6)
+     * 4 - FORMA O NOVO ID, FORMATANDO A SEQUÊNCIA PRA TRÊS CARACTERES, COMPLETANDO COM ZEROS À ESQUERDA (5 -> 005)
+     * 5 - ADICIONA O PREFIXO E COMPLETA A FORMAÇAÕ DO NOVO ID (CAT OU TL + 005 -> CAT005 OU TL005)
      * @param tipoDispositivo
      * @return
      */
@@ -65,7 +68,7 @@ public class DispositivoLeituraService {
         if(ultimoDispositivoRegistrado == null){
             novaSequenciaNumerica = "001";
         } else{
-            novaSequenciaNumerica = String.valueOf(Integer.parseInt(obterSequenciaNumericaDoId(ultimoDispositivoRegistrado.getDispositivoId())) + 1);
+            novaSequenciaNumerica =  String.format("%03d", Integer.parseInt(obterSequenciaNumericaDoId(ultimoDispositivoRegistrado.getDispositivoId())) + 1);
         }
         novoId = prefixo + novaSequenciaNumerica;
         return novoId;
