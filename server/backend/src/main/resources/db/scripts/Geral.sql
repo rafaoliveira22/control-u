@@ -11,7 +11,6 @@ DELETE FROM flyway_schema_history WHERE version = '?';
 -- ALUNO
 DESC aluno;
 SELECT * FROM aluno;
-DELETE FROM aluno WHERE curso_id = 0;
 
 -- CURSO
 DESC curso;
@@ -21,12 +20,11 @@ SELECT * FROM curso;
 DESC professor;
 SELECT * FROM professor;
 
+
 -- DISPOSITIVO
 DESC dispositivo_leitura;
 SELECT * FROM dispositivo_leitura;
-DELETE FROM dispositivo_leitura WHERE dispositivo_id = "TL2";
 
 -- CARTAO
 DESC cartao_leitura;
 SELECT * FROM cartao_leitura;
-DELETE FROM cartao_leitura;

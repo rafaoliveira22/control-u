@@ -1,10 +1,14 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.CursoController;
+import com.controlu.backend.controller.ProfessorController;
+import com.controlu.backend.entity.Curso;
+import com.controlu.backend.entity.Professor;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.CursoRepository;
 import com.controlu.backend.vo.CursoVO;
+import com.controlu.backend.vo.ProfessorVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -41,5 +45,22 @@ public class CursoService {
         cursos.stream().forEach(curso -> curso.add(linkTo(methodOn(CursoController.class).obterCurso(String.valueOf(curso.getCursoId()))).withSelfRel()));
 
         return cursos;
+    }
+
+    /**
+     * MÉTODO PARA REGISTRAR UM NOVO CURSO NA BASE DE DADOS
+     * @param cursoVO OBJETO CARREGADO COM OS DADOS DO CURSO
+     * @return CURSO REGISTRADO
+     */
+    public CursoVO registrarDadosCurso(CursoVO cursoVO){
+        if (repository.existsByCursoNome(cursoVO.getCursoNome())) {
+            throw new IllegalArgumentException("Registro já existe.");
+        }
+
+        Curso curso = DozerMapper.parseObject(cursoVO, Curso.class);
+        var vo = DozerMapper.parseObject(repository.save(curso), CursoVO.class);
+        vo.add(linkTo(methodOn(CursoController.class).obterCurso(String.valueOf(vo.getCursoId()))).withSelfRel());
+
+        return vo;
     }
 }

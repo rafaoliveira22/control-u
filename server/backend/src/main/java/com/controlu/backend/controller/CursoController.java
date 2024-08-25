@@ -6,10 +6,7 @@ import com.controlu.backend.vo.aluno.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,8 +27,22 @@ public class CursoController {
     }
 
     @GetMapping(value = "/{cursoId}")
-    public CursoVO obterCurso(@PathVariable("cursoId") String cursoId) {
-        return service.obterCurso(cursoId);
+    public ResponseEntity<?> obterCurso(@PathVariable("cursoId") String cursoId) {
+        try {
+            return new ResponseEntity<>(service.obterCurso(cursoId), HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> registrarDadosCurso(@RequestBody CursoVO curso){
+        try{
+            CursoVO cursoRegistrado = service.registrarDadosCurso(curso);
+            return new ResponseEntity<>(cursoRegistrado, HttpStatus.CREATED);
+        } catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
 
