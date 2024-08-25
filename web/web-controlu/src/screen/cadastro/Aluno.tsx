@@ -63,11 +63,11 @@ export default function Aluno() {
   
       const promise = registrarDadosAluno(aluno);
       toast.promise(promise, {
-        loading: "Cadastramdp aluno...",
+        loading: "Cadastrando aluno...",
         success: () => {
           setRa("")
           setNome("")
-          setCursoSelecionado(0)
+          setCursoSelecionado("")
           setAnoIngressao("")
           fetchDados()
           return "Cadastro realizado com sucesso"

@@ -49,3 +49,19 @@ export const obterDadosDeTodosDispositivos = async () =>{
 
   return response.json();
 }
+
+export const obterDadosDeTodosDispositivosPorStatus = async (status : number) =>{
+  const response = await fetch(`${config.apiUrl}/dispositivo/status/${status}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message ? errorData.message : "Erro ao obter os dados dos dispositivos registrados! Tente novamente ou contate o suporte.");
+  }
+
+  return response.json();
+}

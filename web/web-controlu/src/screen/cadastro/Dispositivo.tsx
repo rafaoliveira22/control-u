@@ -48,7 +48,7 @@ export default function Dispositivo(){
       toast.promise(promise, {
         loading: 'Cadastrando dispositivo...',
         success: () => {
-          setDispositivoTipo(0)
+          setDispositivoTipo("")
           fecthDados()
           return 'Cadastro realizado com sucesso'
         },

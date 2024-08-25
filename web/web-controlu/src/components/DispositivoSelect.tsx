@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Toaster, toast } from 'sonner';
-import CursoSelect from './CursoSelect';
 import { DispositivoProps, DispositivoSelectProps } from '../interface/DispositivoProps';
-import { obterDadosDeTodosDispositivos } from '../http/HttpClientDispositivo';
+import { obterDadosDeTodosDispositivosPorStatus } from '../http/HttpClientDispositivo';
 
 const DispositivoSelect: React.FC<DispositivoSelectProps> = ({ value, onChange }) => {
   const [dispositivos, setDispositivos] = useState<DispositivoProps[]>([]);
 
   const fetchDados = async () => {
     try {
-      const data = await obterDadosDeTodosDispositivos();
+      const data = await obterDadosDeTodosDispositivosPorStatus(2);
       setDispositivos(data);
     } catch (error) {
       if (error instanceof Error) {
@@ -29,6 +28,7 @@ const DispositivoSelect: React.FC<DispositivoSelectProps> = ({ value, onChange }
       }
     }
   };
+
   useEffect(() => {
     fetchDados();
   }, []);
@@ -54,4 +54,4 @@ const DispositivoSelect: React.FC<DispositivoSelectProps> = ({ value, onChange }
   );
 };
 
-export default CursoSelect;
+export default DispositivoSelect;
