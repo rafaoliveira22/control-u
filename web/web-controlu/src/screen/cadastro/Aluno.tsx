@@ -74,7 +74,7 @@ export default function Aluno() {
         },
         error: (error) => {
           const messageError = "Erro ao cadastrar aluno! Tente novamente ou contate o suporte.";
-          if(error.message.toLowerCase() !== "registro já existe!"){
+          if(error.message.toLowerCase() !== "registro já existe."){
             error.message = messageError
           } 
 

@@ -1,7 +1,7 @@
 import config from "../config/config";
-import { Curso } from "../interface/CursoProps";
+import { CursoProps } from "../interface/CursoProps";
 
-export const buscarTodosCursos = async(): Promise<Curso[]> => {
+export const obterTodosCursos = async(): Promise<CursoProps[]> => {
   const response = await fetch(`${config.apiUrl}/curso`, {
     method: 'GET',
     headers: {
@@ -16,3 +16,20 @@ export const buscarTodosCursos = async(): Promise<Curso[]> => {
 
   return response.json();
 };
+
+export const registrarDadosCurso = async (curso: CursoProps) => {
+  const response = await fetch(`${config.apiUrl}/curso`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(curso),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message ? errorData.message : "Erro ao cadastrar curso! Tente novamente ou contate o suporte.");
+  }
+
+  return response.json();
+}

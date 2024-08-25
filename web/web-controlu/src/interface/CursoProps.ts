@@ -3,7 +3,7 @@ export interface CursoSelectProps {
   onChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
 }
 
-export interface Curso {
+export interface CursoProps {
   cursoId: number;
   cursoNome: string; 
 }

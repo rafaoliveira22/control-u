@@ -10,6 +10,7 @@ const config = {
     2: 'Ciência de Dados',
     3: 'Segurança da Informação',
     4: 'Gestão Comercial',
+    5: 'Desenvolvimento de Jogos',
   } as ObjetoComNumeroComoIndice,
   dispositivos: {
     tipos: {

@@ -2,13 +2,12 @@ import { Grid, Box, TextField, Button, Paper } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { toast, Toaster } from 'sonner';
 import TabelaDadosRegistrados from '../../components/TabelaDadosRegistrados';
-import { DisciplinaProps } from '../../interface/DisciplinaProps';
-import { obterDadosDeTodasDisciplinas, registrarDisciplina } from '../../http/HttpClientDisciplina';
+import { CursoProps } from '../../interface/CursoProps';
+import { obterTodosCursos, registrarDadosCurso } from '../../http/HttpClientCurso';
 
-export default function Disciplina(){
-  const [disciplinaNome, setDisciplinaNome] = useState("")
-  const [disciplinaId, setDisciplinaId] = useState("")
-  const [disciplinas, setDisciplinas] = useState<DisciplinaProps[]>([])
+export default function Curso(){
+  const [cursoNome, setCursoNome] = useState("")
+  const [cursos, setCursos] = useState<CursoProps[]>([])
 
   useEffect(() => {
     fecthDados();
@@ -16,16 +15,16 @@ export default function Disciplina(){
 
   const fecthDados = async () => {
     try{
-      const dados: DisciplinaProps[] = await obterDadosDeTodasDisciplinas();
-      const dadosConvertidos = dados.map(disciplina => [
-        disciplina.disciplinaId,
-        disciplina.disciplinaNome,
+      const dados: CursoProps[] = await obterTodosCursos();
+      const dadosConvertidos = dados.map(curso => [
+        curso.cursoId,
+        curso.cursoNome
       ]);
-      setDisciplinas(dadosConvertidos)
+      setCursos(dadosConvertidos)
     } catch (error) {
       if (error instanceof Error) {
         if(error.message.toLowerCase() === "failed to fetch"){
-          error.message = "Erro ao obter as disciplinas registradas! Tente novamente ou contate o suporte."
+          error.message = "Erro ao obter dados dos cursos! Tente novamente ou contate o suporte."
         }
         toast.error(error.message)
       } else {
@@ -38,23 +37,23 @@ export default function Disciplina(){
 
     const validacaoDadosForms = validarDadosFormulario()
     if(!validacaoDadosForms){
-      const dado: DisciplinaProps = {
-        disciplinaId: disciplinaId,
-        disciplinaNome: disciplinaNome
+      const dado: CursoProps = {
+        cursoNome: cursoNome
       };
-      
-      const promise = registrarDisciplina(dado);
+  
+      const promise = registrarDadosCurso(dado);
       toast.promise(promise, {
-        loading: 'Cadastrando disciplina...',
+        loading: 'Cadastrando curso...',
         success: () => {
-          setDisciplinaId("")
-          setDisciplinaNome("")
+          setCursoNome("")
           fecthDados()
+
+          return "Cadastro realizado com sucesso"
         },
         error: (error) => {
           if(error.message.toLowerCase() !== "registro já existe."){
-            error.message = "Erro ao cadastrar disciplina! Tente novamente ou contate o suporte."
-          } 
+            error.message = "Erro ao cadastrar curso! Tente novamente ou contate o suporte."
+          }
 
           return error.message
         }
@@ -65,11 +64,7 @@ export default function Disciplina(){
   };
 
   const validarDadosFormulario = () => {
-    if(!disciplinaId){
-      return 'ID'
-    }
-
-    if(!disciplinaNome){
+    if(!cursoNome){
       return 'Nome'
     }
 
@@ -85,26 +80,13 @@ export default function Disciplina(){
               margin="normal"
               required
               fullWidth
-              id="disciplinaId"
-              label="Identificador da Disciplina"
-              name="disciplinaId"
-              autoComplete="id"
-              autoFocus
-              onChange={(e) => {setDisciplinaId(e.target.value as string)}}
-              value={disciplinaId}
-            />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="disciplinaNome"
-              label="Nome da Disciplina"
-              type="text"
-              id="disciplinaNome"
+              id="cursoNome"
+              label="Nome do Curso"
+              name="cursoNome"
               autoComplete="nome"
-              onChange={(e) => {setDisciplinaNome(e.target.value as string)}}
-              value={disciplinaNome}
+              autoFocus
+              onChange={(e) => {setCursoNome(e.target.value as string)}}
+              value={cursoNome}
             />
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
               Cadastrar
@@ -114,9 +96,9 @@ export default function Disciplina(){
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <TabelaDadosRegistrados 
-            titulo="Disciplinas Registradas" 
+            titulo="Cursos Registrados" 
             campos={["ID", "Nome"]}
-            dados={disciplinas}
+            dados={cursos}
           />
         </Paper>
       </Grid>

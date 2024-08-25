@@ -11,6 +11,7 @@ import Professor from './screen/cadastro/Professor';
 import Disciplina from './screen/cadastro/Disiciplina';
 import Dispositivo from './screen/cadastro/Dispositivo';
 import CartaLeitura from './screen/cadastro/CartaoLeitura';
+import Curso from './screen/cadastro/Curso';
 
 const App: React.FC = () => {
   return (
@@ -27,7 +28,7 @@ const App: React.FC = () => {
             <Route path="cartao" element={<CartaLeitura />} />
             <Route path="disciplina" element={<Disciplina />} />
             <Route path="sala" element={<Aluno />} />
-            <Route path="curso" element={<Aluno />} />
+            <Route path="curso" element={<Curso />} />
             <Route path="grade" element={<Aluno />} />
             <Route path="dispositivo" element={<Dispositivo />} />
             <Route path="usuario" element={<Aluno />} />

@@ -54,7 +54,7 @@ export default function Professor(){
           return "Cadastro realizado com sucesso"
         },
         error: (error) => {
-          if(error.message.toLowerCase() !== "registro já existe!"){
+          if(error.message.toLowerCase() !== "registro já existe."){
             error.message = "Erro ao cadastrar professor! Tente novamente ou contate o suporte."
           }
 
