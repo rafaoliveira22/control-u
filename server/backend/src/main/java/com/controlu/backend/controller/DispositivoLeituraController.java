@@ -25,6 +25,16 @@ public class DispositivoLeituraController {
         }
     }
 
+    @GetMapping(value = "/status/{status}")
+    public ResponseEntity<?> obterDadosDeTodosDispositivosPorStatus(@PathVariable("status") String status){
+        try {
+            List<DispositivoLeituraVO> dispositivos = service.obterDadosDeTodosDispositivosPorStatus(status);
+            return new ResponseEntity<>(dispositivos, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> obterDadosDispositivo(@PathVariable("id") String id){
         try {
@@ -41,6 +51,7 @@ public class DispositivoLeituraController {
             DispositivoLeituraVO dispositivoRegistrado = service.registrarDadosDispositivo(dispositivo);
             return new ResponseEntity<>(dispositivoRegistrado, HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
     }

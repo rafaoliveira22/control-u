@@ -28,3 +28,8 @@ SELECT * FROM dispositivo_leitura;
 -- CARTAO
 DESC cartao_leitura;
 SELECT * FROM cartao_leitura;
+
+-- SALA
+SELECT * FROM sala;
+DELETE FROM sala;
+DELETE FROM dispositivo_leitura;

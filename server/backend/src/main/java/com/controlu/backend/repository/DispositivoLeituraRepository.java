@@ -5,7 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface DispositivoLeituraRepository extends JpaRepository<DispositivoLeitura, String> {
-    @Query("SELECT d FROM DispositivoLeitura d WHERE d.dispositivoId LIKE :prefixo% ORDER BY d.dispositivoId DESC")
-    DispositivoLeitura findTopByDispositivoIdStartingWithOrderByDispositivoIdDesc(@Param("prefixo") String prefixo);
+    List<DispositivoLeitura> findByDispositivoStatus(Integer dispositivoStatus);
+    DispositivoLeitura findTopByDispositivoIdStartingWithOrderByDispositivoIdDesc(String prefixo);
+
 }

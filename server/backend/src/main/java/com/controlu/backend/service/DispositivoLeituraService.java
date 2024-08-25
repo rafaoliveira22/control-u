@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -76,11 +77,29 @@ public class DispositivoLeituraService {
 
     /**
      * MÉTODO PARA OBTER TODOS OS DISPOSITIVOS DE LEITURA REGISTRADOS NA BASE DE DADOS
+     * BUSCANDO PELO STATUS
+     * @return LISTA COM DADOS DE TODOS OS DISPOSITIVOS
+     */
+    public List<DispositivoLeituraVO> obterDadosDeTodosDispositivosPorStatus(String status){
+        var dispositivos = DozerMapper.parseListObjects(repository.findByDispositivoStatus(Integer.parseInt(status)), DispositivoLeituraVO.class);
+        dispositivos.stream().forEach(dispositivo -> {
+            dispositivo.add(linkTo(methodOn(DispositivoLeituraController.class).obterDadosDispositivo(dispositivo.getDispositivoId())).withSelfRel());
+            dispositivo.setDispositivoTipo(obterTipoDispositivo(dispositivo.getDispositivoId()));
+        });
+
+        return dispositivos;
+    }
+
+    /**
+     * MÉTODO PARA OBTER TODOS OS DISPOSITIVOS DE LEITURA REGISTRADOS NA BASE DE DADOS
      * @return LISTA COM DADOS DE TODOS OS DISPOSITIVOS
      */
     public List<DispositivoLeituraVO> obterDadosDeTodosDispositivos(){
         var dispositivos = DozerMapper.parseListObjects(repository.findAll(), DispositivoLeituraVO.class);
-        dispositivos.stream().forEach(dispositivo -> dispositivo.add(linkTo(methodOn(DispositivoLeituraController.class).obterDadosDispositivo(dispositivo.getDispositivoId())).withSelfRel()));
+        dispositivos.stream().forEach(dispositivo -> {
+                dispositivo.add(linkTo(methodOn(DispositivoLeituraController.class).obterDadosDispositivo(dispositivo.getDispositivoId())).withSelfRel());
+                dispositivo.setDispositivoTipo(obterTipoDispositivo(dispositivo.getDispositivoId()));
+        });
 
         return dispositivos;
     }
@@ -93,6 +112,8 @@ public class DispositivoLeituraService {
     public DispositivoLeituraVO obterDadosDispositivo(String id){
         var dispositivo = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID."));
         var vo = DozerMapper.parseObject(dispositivo, DispositivoLeituraVO.class);
+
+        vo.setDispositivoTipo(obterTipoDispositivo(vo.getDispositivoId()));
         vo.add(linkTo(methodOn(DispositivoLeituraController.class).obterDadosDispositivo(vo.getDispositivoId())).withSelfRel());
 
         return vo;
@@ -112,5 +133,15 @@ public class DispositivoLeituraService {
         vo.add(linkTo(methodOn(DispositivoLeituraController.class).obterDadosDispositivo(vo.getDispositivoId())).withSelfRel());
 
         return vo;
+    }
+
+    private Integer obterTipoDispositivo(String id){
+        if(id.contains("CAT")){
+            return Defines.TIPO_DISPOSITIVO_CATRACA;
+        } else if(id.contains("TL")){
+            return Defines.TIPO_DISPOSITIVO_TOTEM;
+        } else{
+           return 0;
+        }
     }
 }
