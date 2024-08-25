@@ -1,0 +1,1 @@
+CREATE TABLE sala (sala_id VARCHAR(10) PRIMARY KEY NOT NULL, sala_nome VARCHAR(40) NOT NULL, dispositivo_id VARCHAR(10));
