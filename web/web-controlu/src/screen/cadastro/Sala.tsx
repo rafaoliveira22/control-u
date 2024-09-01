@@ -64,7 +64,6 @@ export default function Sala() {
         },
         error: (error) => {
           const messageError = "Erro ao cadastrar sala! Tente novamente ou contate o suporte.";
-          alert(error.message)
           if(error.message.toLowerCase() !== "O DISPOSITIVO escolhido já esta sendo utilizado em outra sala.".toLowerCase()){
             error.message = messageError
           } 
