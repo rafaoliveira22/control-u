@@ -113,9 +113,6 @@ export default function Main() {
 
       case '/dashboard/usuario':
         return 'Cadastro / Usuário do Sistema';
-
-      case '/dashboard/nivel_acesso':
-        return 'Cadastro / Nivel de Acesso do Usuário';
       
       default:
         return 'Dashboard';

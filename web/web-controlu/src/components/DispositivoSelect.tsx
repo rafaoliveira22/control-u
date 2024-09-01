@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Toaster, toast } from 'sonner';
-import { DispositivoProps, DispositivoSelectProps } from '../interface/DispositivoProps';
+import { DispositivoProps } from '../interface/DispositivoProps';
 import { obterDadosDeTodosDispositivosPorStatus } from '../http/HttpClientDispositivo';
+import { SelectProps } from '../interface/SelectProps';
 
-const DispositivoSelect: React.FC<DispositivoSelectProps> = ({ value, onChange }) => {
+const DispositivoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
   const [dispositivos, setDispositivos] = useState<DispositivoProps[]>([]);
 
   const fetchDados = async () => {
@@ -34,7 +35,7 @@ const DispositivoSelect: React.FC<DispositivoSelectProps> = ({ value, onChange }
   }, []);
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
       <InputLabel id="select-label">Dispositivos *</InputLabel>
       <Select

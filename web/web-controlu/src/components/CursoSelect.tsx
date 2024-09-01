@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { obterTodosCursos } from '../http/HttpClientCurso';
 import { Toaster, toast } from 'sonner';
-import { CursoProps, CursoSelectProps } from '../interface/CursoProps';
+import { CursoProps } from '../interface/CursoProps';
+import { SelectProps } from '../interface/SelectProps';
 
-const CursoSelect: React.FC<CursoSelectProps> = ({ value, onChange }) => {
+const CursoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
   const [cursos, setCursos] = useState<CursoProps[]>([]);
 
   useEffect(() => {
-    const fetchCursos = async () => {
+    const fetchDados = async () => {
       try {
         const data = await obterTodosCursos();
         setCursos(data);
@@ -29,16 +30,16 @@ const CursoSelect: React.FC<CursoSelectProps> = ({ value, onChange }) => {
       }
     };
 
-    fetchCursos();
+    fetchDados();
   }, []);
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="curso-select-label">Cursos</InputLabel>
+      <InputLabel id="select-label">Curso *</InputLabel>
       <Select
-        labelId="curso-select-label"
-        id="curso-select"
+        labelId="select-label"
+        id="select"
         value={value}
         label="Curso"
         onChange={onChange}

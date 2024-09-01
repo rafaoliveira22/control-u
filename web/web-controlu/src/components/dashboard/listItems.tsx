@@ -42,6 +42,5 @@ export const secondaryListItems = (
     <ListItem icon={BookmarksIcon} primary="Grade" pathRouter="grade" />
     <ListItem icon={QrCodeScannerIcon} primary="Dispositivo de leitura" pathRouter="dispositivo" />
     <ListItem icon={PersonIcon} primary="Usuario" pathRouter="usuario"/>
-    <ListItem icon={UpgradeIcon} primary="Nível de acesso" pathRouter="nivel_acesso"/>
   </React.Fragment>
 );

@@ -18,7 +18,6 @@ export default function Aluno() {
   const [cursoSelecionado, setCursoSelecionado] = useState<number | string>('')
   const [nome, setNome] = useState<string>('')
   const [ra, setRa] = useState<string>('')
-  const [anoIngressao, setAnoIngressao] = useState('')
   const [alunos, setAlunos] = useState<AlunoProps[]>([]);
   useEffect(() => {
     fetchDados();
@@ -30,9 +29,8 @@ export default function Aluno() {
       // Convertendo os dados dos alunos para o formato esperado pela tabela
       const dadosConvertidos = dados.map(aluno => [
         aluno.alunoRa,
-        aluno.id.alunoNome,
-        config.cursos[aluno.id.cursoId],
-        aluno.id.alunoAnoIngressao.toString()
+        aluno.alunoNome,
+        config.cursos[aluno.cursoId],
       ]);
       setAlunos(dadosConvertidos)
     } catch (error) {
@@ -54,11 +52,8 @@ export default function Aluno() {
     if(!validacaoDadosForms){
       const aluno: AlunoProps = {
         alunoRa: ra,
-        id: {
-          alunoNome: nome,
-          cursoId: Number(cursoSelecionado),
-          alunoAnoIngressao: Number(anoIngressao),
-        }
+        alunoNome: nome,
+        cursoId: Number(cursoSelecionado)
       };
   
       const promise = registrarDadosAluno(aluno);
@@ -68,7 +63,6 @@ export default function Aluno() {
           setRa("")
           setNome("")
           setCursoSelecionado("")
-          setAnoIngressao("")
           fetchDados()
           return "Cadastro realizado com sucesso"
         },
@@ -93,16 +87,6 @@ export default function Aluno() {
 
     if(!ra){
       return 'R.A'
-    }
-
-    if(!anoIngressao){
-      return 'Ano de Ingressão'
-    } else{
-      const anoConvertido = parseInt(anoIngressao, 10);
-      if (isNaN(anoConvertido) && anoConvertido > 1900 && anoConvertido <= new Date().getFullYear()) {
-        return 'Ano de Ingressão'
-      }
-
     }
 
     if(!cursoSelecionado){
@@ -143,19 +127,6 @@ export default function Aluno() {
               value={ra}
             />
             <CursoSelect value={cursoSelecionado} onChange={(e) => setCursoSelecionado(e.target.value as number)} />
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="anoIngressao"
-              label="Ano Ingressão"
-              type="number"
-              id="anoIngressao"
-              autoComplete="ano"
-              onChange={(e) => {setAnoIngressao(e.target.value)}}
-              value={anoIngressao}
-            />
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
       </Grid>
@@ -163,7 +134,7 @@ export default function Aluno() {
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
           <TabelaDadosRegistrados 
             titulo="Alunos Registrados" 
-            campos={["R.A", "Nome", "Curso", "Ano Ingressão"]}
+            campos={["R.A", "Nome", "Curso"]}
             dados={alunos}
           />
         </Paper>

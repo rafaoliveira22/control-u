@@ -47,3 +47,19 @@ export const obterDadosTodosCartoes = async () =>{
 
   return response.json();
 }
+
+export const obterDadosTodosCartoesQueNaoEstaoAssociadosAUmaGrade = async () =>{
+  const response = await fetch(`${config.apiUrl}/cartao/all/not/in/grade`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message ? errorData.message : "Erro ao obter os dados dos cartões de leitura registrados! Tente novamente ou contate o suporte.");
+  }
+
+  return response.json();
+}
