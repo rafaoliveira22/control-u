@@ -69,6 +69,18 @@ public class CartaoLeituraService {
     }
 
     /**
+     * MÉTODO PARA OBTER TODOS OS CARTÕES DE LEITURA REGISTRADOS NA BASE DE DADOS
+     * QUE NÃO ESTÃO ASSOCIADOS HÁ UMA GRADE DE AULA
+     * @return LISTA COM DADOS DE TODOS OS CARTÕES
+     */
+    public List<CartaoLeituraVO> obterDadosTodosCartoesQueNaoEstaoAssociadosAUmaGrade(){
+        var cartoes = DozerMapper.parseListObjects(repository.findCartoesNotInGrade(), CartaoLeituraVO.class);
+        cartoes.stream().forEach(cartao -> cartao.add(linkTo(methodOn(CartaoController.class).obterDadosCartao(cartao.getCartaoId())).withSelfRel()));
+
+        return cartoes;
+    }
+
+    /**
      * MÉTODO PARA OBTER OS DADOS DE UM CARTÃO DE LEITURA ESPECÍFICO
      * @param id IDENTIFICAÇÃO DO CARTÃO DE LEITURA
      * @return DADOS DO CARTÃO BUSCADO

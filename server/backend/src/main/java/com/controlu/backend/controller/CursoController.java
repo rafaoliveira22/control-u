@@ -2,7 +2,6 @@ package com.controlu.backend.controller;
 
 import com.controlu.backend.service.CursoService;
 import com.controlu.backend.vo.CursoVO;
-import com.controlu.backend.vo.aluno.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

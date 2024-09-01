@@ -26,6 +26,16 @@ public class CartaoController {
         }
     }
 
+    @GetMapping(value = "/all/not/in/grade")
+    public ResponseEntity<?> obterDadosTodosCartoesQueNaoEstaoAssociadosAUmaGrade(){
+        try {
+            List<CartaoLeituraVO> cartoes = service.obterDadosTodosCartoesQueNaoEstaoAssociadosAUmaGrade();
+            return new ResponseEntity<>(cartoes, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> obterDadosCartao(@PathVariable("id") String id){
         try {
