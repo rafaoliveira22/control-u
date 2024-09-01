@@ -1,7 +1,7 @@
 package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AlunoService;
-import com.controlu.backend.vo.aluno.AlunoVO;
+import com.controlu.backend.vo.AlunoVO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,16 +22,6 @@ public class AlunoController {
         try {
             List<AlunoVO> alunos = alunoService.obterDadosDeTodosAlunos();
             return new ResponseEntity<>(alunos, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    @GetMapping("/{nome}/{cursoId}/{anoIngressao}")
-    public ResponseEntity<?> obterDadosAluno(@PathVariable("nome") String nome, @PathVariable("cursoId") String cursoId, @PathVariable("anoIngressao") String anoIngressao){
-        try {
-            AlunoVO aluno = alunoService.obterDadosAluno(nome, cursoId, anoIngressao);
-            return new ResponseEntity<>(aluno, HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

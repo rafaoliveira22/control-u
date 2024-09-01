@@ -1,25 +1,24 @@
-package com.controlu.backend.entity;
+package com.controlu.backend.vo;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import org.springframework.hateoas.RepresentationModel;
 
-@Entity
-@Table(name  = "aluno")
-public class Aluno {
-    @Id
-    @Column(name = "aluno_ra")
+public class AlunoVO extends RepresentationModel<AlunoVO> {
+
+
+    @NotEmpty(message = "O RA do aluno não pode ser vazio.")
+    @Size(min = 13, max = 13, message = "O RA do aluno deve conter 13 caracteres.")
     private String alunoRa;
 
-    @Column(name = "aluno_nome")
     private String alunoNome;
 
-    @Column(name = "curso_id")
     private Integer cursoId;
 
+    public AlunoVO(){}
 
-    public Aluno() {
-    }
-
-    public Aluno(String alunoRa, String alunoNome, Integer cursoId) {
+    public AlunoVO(String alunoRa, String alunoNome, Integer cursoId){
         this.alunoRa = alunoRa;
         this.alunoNome = alunoNome;
         this.cursoId = cursoId;
