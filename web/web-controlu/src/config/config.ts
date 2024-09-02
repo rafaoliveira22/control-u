@@ -27,7 +27,11 @@ const config = {
       1: 'Em uso',
       2: 'Sem uso'
     } as ObjetoComNumeroComoIndice
-  }
+  },
+  nivel_acesso: {
+    1: 'ADM',
+    2: 'COMUM'
+  } as ObjetoComNumeroComoIndice
 };
 
 export default config;
