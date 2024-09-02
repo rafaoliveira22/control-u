@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 @Service
 public class TokenService {
@@ -22,8 +23,9 @@ public class TokenService {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
-                    .withIssuer("controlu-backend-api")
+                    .withIssuer("ControlU Backend API")
                     .withSubject(usuario.getUsuarioNome())
+                    .withIssuedAt(new Date())
                     .withExpiresAt(gerarDateExpiracao())
                     .sign(algorithm);
 
