@@ -1,6 +1,11 @@
 server:
   port: 8080
 
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:controlu-secret-key}
+
 spring:
   application:
     name: backend
@@ -16,3 +21,8 @@ spring:
       ddl-auto: none
     show-sql: false
 
+logging:
+  level:
+    org:
+      springframework:
+        security=DEBUG:

@@ -14,10 +14,13 @@ public class Defines {
     public static final Integer STATUS_CARTAO_EM_USO = 1;
     public static final Integer STATUS_CARTAO_SEM_USO = 2;
 
-
     // SALA
     public static final Integer TIPO_SALA_SALA = 1;
     public static final Integer TIPO_SALA_LABORATORIO = 2;
     public static final String PREFIXO_ID_TIPO_SALA = "SL";
     public static final String PREFIXO_ID_TIPO_SALA_LABORATORIO = "LAB";
+
+    // TIPOS DE USUÁRIO (NIVEL DE ACESSO)
+    public static final Integer ROLE_USUARIO_ADM = 1;
+    public static final Integer ROLE_USUARIO_COMUM = 2;
 }
