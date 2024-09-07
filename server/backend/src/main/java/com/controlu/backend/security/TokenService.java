@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.controlu.backend.entity.Usuario;
+import com.controlu.backend.utils.Defines;
 import com.controlu.backend.vo.UsuarioVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class TokenService {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
-                    .withIssuer("ControlU Backend API")
+                    .withIssuer(Defines.ISSUER_JWT)
                     .withSubject(usuario.getUsuarioNome())
                     .withIssuedAt(new Date())
                     .withExpiresAt(gerarDateExpiracao())
@@ -39,7 +40,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("controlu-backend-api")
+                    .withIssuer(Defines.ISSUER_JWT)
                     .build()
                     .verify(token)
                     .getSubject();

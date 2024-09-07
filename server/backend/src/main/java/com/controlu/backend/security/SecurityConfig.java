@@ -28,6 +28,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADM")
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADM")
+                        .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADM")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

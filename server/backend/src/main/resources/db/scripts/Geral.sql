@@ -49,6 +49,7 @@ SELECT * FROM nivel_acesso;
 
 -- USUARIO
 SELECT * FROM usuario;
+-- DELETE FROM usuario;
 -- ALTER TABLE usuario AUTO_INCREMENT = 1;
 
 

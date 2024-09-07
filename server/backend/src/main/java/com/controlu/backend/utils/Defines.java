@@ -23,4 +23,7 @@ public class Defines {
     // TIPOS DE USUÁRIO (NIVEL DE ACESSO)
     public static final Integer ROLE_USUARIO_ADM = 1;
     public static final Integer ROLE_USUARIO_COMUM = 2;
+
+    // JWT
+    public static final String ISSUER_JWT = "ControlU Backend API";
 }
