@@ -1,10 +1,13 @@
 import config from "../config/config";
 import { CursoProps } from "../interface/CursoProps";
+import { obterAuthToken } from "../utils/TokenUtils";
 
+const token = obterAuthToken()
 export const obterTodosCursos = async(): Promise<CursoProps[]> => {
   const response = await fetch(`${config.apiUrl}/curso`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
   });
@@ -21,6 +24,7 @@ export const registrarDadosCurso = async (curso: CursoProps) => {
   const response = await fetch(`${config.apiUrl}/curso`, {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(curso),

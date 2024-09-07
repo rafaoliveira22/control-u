@@ -12,13 +12,16 @@ import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { mainListItems, secondaryListItems } from '../components/dashboard/listItems';
+import { mainListItems, secondaryListItems } from '../components/listItems';
 import Copyright from '../components/Copyright';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { theme } from '../assets/theme';
 import { useLocation, Outlet } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
+import { removerAuthToken } from '../utils/TokenUtils';
+import { useNavigate } from 'react-router-dom';
+
 
 const drawerWidth: number = 240;
 
@@ -74,48 +77,54 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Main() {
   const [open, setOpen] = React.useState(true);
+  const navigate = useNavigate()
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  const handleClickLogout = () => {
+    removerAuthToken()
+    navigate("/");
+  }
+
   const location = useLocation();
   const getTitle = (pathname: string) => {
     switch (pathname) {
-      case '/dashboard':
+      case '/app/dashboard':
         return 'Administrativo / Dashboard';
 
-      case '/dashboard/relatorios':
+      case '/app/relatorios':
           return 'Administrativo / Relatório';
 
-      case '/dashboard/aluno':
+      case '/app/aluno':
         return 'Cadastro / Aluno';
 
-      case '/dashboard/professor':
+      case '/app/professor':
         return 'Cadastro / Professor';
 
-      case '/dashboard/disciplina':
+      case '/app/disciplina':
         return 'Cadastro / Disciplina';
 
-      case '/dashboard/sala':
+      case '/app/sala':
         return 'Cadastro / Sala';
 
-      case '/dashboard/cartao':
+      case '/app/cartao':
         return 'Cadastro / Cartão';
 
-      case '/dashboard/grade':
+      case '/app/grade':
         return 'Cadastro / Grade';
         
-      case '/dashboard/curso':
+      case '/app/curso':
         return 'Cadastro / Curso';
     
-      case '/dashboard/dispositivo':
+      case '/app/dispositivo':
         return 'Cadastro / Dispositivo de Leitura';
 
-      case '/dashboard/usuario':
+      case '/app/usuario':
         return 'Cadastro / Usuário do Sistema';
       
       default:
-        return 'Dashboard';
+        return 'ControlU';
     }
   };
   const titulo = getTitle(location.pathname);
@@ -136,7 +145,7 @@ export default function Main() {
                 ...(open && { display: 'none' }),
               }}
             >
-            <MenuIcon />
+              <MenuIcon />
             </IconButton>
             <Typography
               component="h1"
@@ -148,7 +157,7 @@ export default function Main() {
               {titulo}
             </Typography>
 
-            <IconButton color="inherit"><LogoutIcon /></IconButton>
+            <IconButton color="inherit" onClick={handleClickLogout}><LogoutIcon /></IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open} >

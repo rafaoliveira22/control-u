@@ -1,10 +1,13 @@
 import config from "../config/config";
 import { DisciplinaProps } from "../interface/DisciplinaProps";
+import { obterAuthToken } from "../utils/TokenUtils";
 
+const token = obterAuthToken()
 export const registrarDisciplina = async  (disciplina: DisciplinaProps) => {
   const response = await fetch(`${config.apiUrl}/disciplina`, {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(disciplina)
@@ -22,6 +25,7 @@ export const obterDadosDisciplina = async(id: string) =>{
   const response = await fetch(`${config.apiUrl}/disciplina/${id}`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })
@@ -38,6 +42,7 @@ export const obterDadosDeTodasDisciplinas = async () =>{
   const response = await fetch(`${config.apiUrl}/disciplina`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })

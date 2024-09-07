@@ -1,10 +1,13 @@
 import config from "../config/config";
 import { GradeCadastroProps } from "../interface/GradeProps";
+import { obterAuthToken } from "../utils/TokenUtils";
 
+const token = obterAuthToken()
 export const registrarDadosGrade = async  (grade: GradeCadastroProps) => {
   const response = await fetch(`${config.apiUrl}/grade`, {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(grade)
@@ -22,6 +25,7 @@ export const obterDadosGrade = async(id: string) =>{
   const response = await fetch(`${config.apiUrl}/grade/${id}`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })
@@ -38,6 +42,7 @@ export const obterDadosDeTodasGrades = async () =>{
   const response = await fetch(`${config.apiUrl}/grade`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })

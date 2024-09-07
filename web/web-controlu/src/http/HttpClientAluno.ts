@@ -1,10 +1,14 @@
 import config from "../config/config";
 import { AlunoProps } from "../interface/AlunoProps";
+import { obterAuthToken } from "../utils/TokenUtils";
 
+const token = obterAuthToken()
+console.log(`httpclientaluno, Usuário logado ${token}`)
 export const registrarDadosAluno = async (aluno: AlunoProps) => {
   const response = await fetch(`${config.apiUrl}/aluno`, {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(aluno),
@@ -22,6 +26,7 @@ export const obterDadosAluno = async (id: string) => {
   const response = await fetch(`${config.apiUrl}/aluno/${id}`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   });
@@ -38,6 +43,7 @@ export const obterDadosDeTodosAlunos = async () => {
   const response = await fetch(`${config.apiUrl}/aluno`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   });
@@ -54,6 +60,7 @@ export const atualizarDadosAluno = async (aluno: AlunoProps) => {
   const response = await fetch(`${config.apiUrl}/aluno`, {
     method: 'PUT',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(aluno),
@@ -70,6 +77,7 @@ export const apagarDadosAlunos = async (id: string) => {
   const response = await fetch(`${config.apiUrl}/aluno/${id}`, {
     method: 'DELETE',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   });

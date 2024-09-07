@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignIn from './screen/SignIn';
 import Dashboard from './screen/Dashboard';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +14,7 @@ import Curso from './screen/cadastro/Curso';
 import Sala from './screen/cadastro/Sala';
 import Grade from './screen/cadastro/Grade';
 import Usuario from './screen/cadastro/Usuario';
+import SignIn from './screen/SignIn';
 
 const App: React.FC = () => {
   return (
@@ -23,8 +23,8 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<SignIn />} />
-          <Route path="/dashboard" element={<Main />}>
-            <Route index element={<Dashboard />} />
+          <Route path="/app" element={<Main />}>
+            <Route index path="dashboard" element={<Dashboard />} />
             <Route path="relatorios" element={<Aluno />} />
             <Route path="aluno" element={<Aluno />} />
             <Route path="professor" element={<Professor />} />

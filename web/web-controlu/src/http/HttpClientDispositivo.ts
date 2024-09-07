@@ -1,10 +1,13 @@
 import config from "../config/config";
 import { DispositivoCadastroProps } from "../interface/DispositivoProps";
+import { obterAuthToken } from "../utils/TokenUtils";
 
+const token = obterAuthToken()
 export const registrarDispositivo = async  (dispositivo: DispositivoCadastroProps) => {
   const response = await fetch(`${config.apiUrl}/dispositivo`, {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(dispositivo)
@@ -38,6 +41,7 @@ export const obterDadosDeTodosDispositivos = async () =>{
   const response = await fetch(`${config.apiUrl}/dispositivo`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })
@@ -54,6 +58,7 @@ export const obterDadosDeTodosDispositivosPorStatus = async (status : number) =>
   const response = await fetch(`${config.apiUrl}/dispositivo/status/${status}`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })

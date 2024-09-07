@@ -1,65 +1,109 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { ThemeProvider } from '@mui/material/styles';
-import Copyright from '../components/Copyright';
-import { theme } from '../assets/theme';
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Toaster, toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { UsuarioLoginProps } from '../interface/UsuarioProps';
+import { fazerLogin } from '../http/HttpClientUsuario';
+import { removerAuthToken, salvarAuthToken } from '../utils/TokenUtils';
+const theme = createTheme();
 
 export default function SignIn() {
+  const [usuarioNome, setUsuarioNome] = useState<string>('')
+  const [usuarioSenha, setUsuarioSenha] = useState<string>('')
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    navigate('/dashboard')
+
+    const validacaoDadosForms = validarDadosFormulario()
+    if(!validacaoDadosForms){
+      const usuario: UsuarioLoginProps = {
+        usuarioNome: usuarioNome,
+        usuarioSenha: usuarioSenha
+      }
+
+      const promise = fazerLogin(usuario)
+      toast.promise(promise, {
+        loading: "Entrando...",
+        success: (resolve) => {
+          setUsuarioNome("")
+          setUsuarioSenha("")
+          
+          removerAuthToken()
+          salvarAuthToken(resolve.token)
+          navigate('/app/dashboard')
+
+          return "Login realizado com sucesso!"
+        },
+        error: (error) => {
+          return error.message;
+        }
+      })
+    } else{
+      toast.warning(`O campo ${validacaoDadosForms} não foi informado corretamente`)
+    }
   };
+
+  const validarDadosFormulario = () => {
+    if(!usuarioNome){
+      return 'Nome do usuário'
+    }
+
+    if(!usuarioSenha){
+      return 'Senha'
+    }
+
+    return false;
+  }
 
   return (
     <ThemeProvider theme={theme}>
-    <Container component="main">        
-      <CssBaseline />
-        <Box
-          sx={{
+      <Toaster richColors expand={true} closeButton />
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box sx={{
+            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: 3, 
+            justifyContent: 'center'
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'se' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">Sign in</Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          
+          <Typography component="h1" variant="h5">
+            ControlU Login
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="usuario"
+              label="Usuário"
+              name="usuario"
+              autoComplete="usuario"
               autoFocus
+              onChange={(e) => {setUsuarioNome(e.target.value as string)}}
+              value={usuarioNome}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
+              name="senha"
+              label="Senha"
               type="password"
-              id="password"
+              id="senha"
               autoComplete="current-password"
+              onChange={(e) => {setUsuarioSenha(e.target.value as string)}}
             />
             <Button
               type="submit"
@@ -67,23 +111,22 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Entrar
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Esqueceu a senha?
+                  Forgot password?
                 </Link>
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2">
-                  {"Não tem uma conta? Cadastre-se."}
+                  {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

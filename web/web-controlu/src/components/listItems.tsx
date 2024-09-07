@@ -11,10 +11,9 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import BadgeIcon from '@mui/icons-material/Badge';import ClassIcon from '@mui/icons-material/Class';
 import RoomPreferencesIcon from '@mui/icons-material/RoomPreferences';
 import PersonIcon from '@mui/icons-material/Person';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
 import GradeIcon from '@mui/icons-material/Grade';
 
-import ListItem from '../ListItem';
+import ListItem from './ListItem';
 
 export const mainListItems = (
   <React.Fragment>
@@ -22,8 +21,8 @@ export const mainListItems = (
         Administrativo
     </ListSubheader>
 
-    <ListItem icon={DashboardIcon} primary="Dashboard" pathRouter="/dashboard" />
-    <ListItem icon={AssignmentIcon} primary="Relatórios" pathRouter="relatorios"/>
+    <ListItem icon={DashboardIcon} primary="Dashboard" pathRouter="/app/dashboard" />
+    <ListItem icon={AssignmentIcon} primary="Relatórios" pathRouter="/app/relatorios"/>
   </React.Fragment>
 );
 

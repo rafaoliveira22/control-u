@@ -9,3 +9,8 @@ export interface UsuarioCadastroProps {
   usuarioSenha: string,
   nivelAcessoId: number
 }
+
+export interface UsuarioLoginProps {
+  usuarioNome: string,
+  usuarioSenha: string,
+}

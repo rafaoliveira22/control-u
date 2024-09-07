@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import Deposits from '../components/dashboard/Deposits';
-import Orders from '../components/dashboard/Orders';
+import Deposits from '../components/Deposits';
+import Orders from '../components/Orders';
 
 
 export default function Dashboard() {

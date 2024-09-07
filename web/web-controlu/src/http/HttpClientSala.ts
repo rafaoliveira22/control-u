@@ -1,10 +1,13 @@
 import config from "../config/config";
 import { SalaProps } from "../interface/SalaProps";
+import { obterAuthToken } from "../utils/TokenUtils";
 
+const token = obterAuthToken()
 export const registrarDadosSala = async  (sala: SalaProps) => {
   const response = await fetch(`${config.apiUrl}/sala`, {
     method: 'POST',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(sala)
@@ -22,6 +25,7 @@ export const obterSala = async(id: string) =>{
   const response = await fetch(`${config.apiUrl}/sala/${id}`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })
@@ -38,6 +42,7 @@ export const obterTodasSalas = async () =>{
   const response = await fetch(`${config.apiUrl}/sala`, {
     method: 'GET',
     headers: {
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json',
     }
   })
