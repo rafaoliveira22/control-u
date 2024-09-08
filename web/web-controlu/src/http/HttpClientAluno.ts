@@ -3,7 +3,6 @@ import { AlunoProps } from "../interface/AlunoProps";
 import { obterAuthToken } from "../utils/TokenUtils";
 
 const token = obterAuthToken()
-console.log(`httpclientaluno, Usuário logado ${token}`)
 export const registrarDadosAluno = async (aluno: AlunoProps) => {
   const response = await fetch(`${config.apiUrl}/aluno`, {
     method: 'POST',

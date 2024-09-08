@@ -30,7 +30,8 @@ const config = {
   },
   nivel_acesso: {
     1: 'ADM',
-    2: 'COMUM'
+    2: 'COMUM',
+    3: 'OPERADOR',
   } as ObjetoComNumeroComoIndice
 };
 
