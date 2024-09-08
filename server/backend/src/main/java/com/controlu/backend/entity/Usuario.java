@@ -72,7 +72,9 @@ public class Usuario implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(Objects.equals(this.nivelAcessoId, Defines.ROLE_USUARIO_ADM)){
-            return List.of(new SimpleGrantedAuthority("ROLE_ADM"), new SimpleGrantedAuthority("ROLE_COMUM"));
+            return List.of(new SimpleGrantedAuthority("ROLE_ADM"), new SimpleGrantedAuthority("ROLE_OPERADOR"), new SimpleGrantedAuthority("ROLE_COMUM"));
+        } if(Objects.equals(this.nivelAcessoId, Defines.ROLE_USUARIO_OPERADOR)){
+            return List.of(new SimpleGrantedAuthority("ROLE_OPERADOR"), new SimpleGrantedAuthority("ROLE_COMUM"));
         } else{
             return List.of(new SimpleGrantedAuthority("ROLE_COMUM"));
         }

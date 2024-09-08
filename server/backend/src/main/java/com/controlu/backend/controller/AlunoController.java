@@ -2,6 +2,7 @@ package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AlunoService;
 import com.controlu.backend.vo.AlunoVO;
+import com.controlu.backend.vo.AlunoVerificadorRaExistenteVO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,5 +57,15 @@ public class AlunoController {
     @DeleteMapping("/{ra}")
     public void apagarDadosAlunos(@PathVariable("ra") String ra){
         alunoService.apagarDadosAlunos(ra);
+    }
+
+    @GetMapping("/verificarSeEstaRegistrado/{ra}")
+    public ResponseEntity<?> verificarSeEstaRegistrado(@PathVariable("ra") String ra){
+        try {
+            AlunoVerificadorRaExistenteVO alunoVerificadorRaExistenteVO = new AlunoVerificadorRaExistenteVO(alunoService.verificarSeEstaRegistrado(ra));
+            return new ResponseEntity<>(alunoVerificadorRaExistenteVO, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

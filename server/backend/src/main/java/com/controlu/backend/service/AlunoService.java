@@ -85,4 +85,13 @@ public class AlunoService {
         var aluno = repository.findById(ra).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse RA."));
         repository.delete(aluno);
     }
+
+    /**
+     * MÉTODO PARA VERIFICAR SE O RA INDICADO ESTA REGISTRADO NA BASE DE DADOS
+     * @param ra REGISTRO DO ALUNO
+     * @return TRUE -> ESTA REGISTRADO, FALSE -> NÃO ESTA REGISTRADO
+     */
+    public boolean verificarSeEstaRegistrado(String ra){
+        return repository.existsById(ra);
+    }
 }

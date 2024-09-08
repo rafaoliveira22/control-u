@@ -30,6 +30,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/**").hasRole("ADM")
                         .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADM")
                         .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADM")
+                        .requestMatchers(HttpMethod.POST, "/api/aluno/**").hasRole("OPERADOR")
+                        .requestMatchers(HttpMethod.GET, "/api/aluno/**").hasRole("OPERADOR")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
