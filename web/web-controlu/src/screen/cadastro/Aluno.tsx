@@ -34,7 +34,7 @@ export default function Aluno() {
     } catch (error) {
       
       if (error instanceof Error) {
-        if(error.message.toLowerCase() === "failed to fetch"){
+        if(error.message.toLowerCase() === "failed to fetch" || error.message.toLowerCase().includes("json")){
           error.message = "Erro ao obter dados dos alunos! Tente novamente ou contate o suporte."
         } 
         toast.error(error.message)
