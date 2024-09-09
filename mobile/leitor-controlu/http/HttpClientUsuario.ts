@@ -1,8 +1,6 @@
 import Config from "../config/Config"
-import { UsuarioLoginProps } from "../interface/UsuarioProps"
-import { obterAuthToken } from "../utils/TokenUtils"
+import { UsuarioLoginProps } from "../props/UsuarioProps"
 
-const token = obterAuthToken()
 export const fazerLogin = async  (usuario: UsuarioLoginProps) => {
   const response = await fetch(`${Config.apiUrl}/auth/login`, {
     method: 'POST',
@@ -11,7 +9,6 @@ export const fazerLogin = async  (usuario: UsuarioLoginProps) => {
     },
     body: JSON.stringify(usuario)
   })
-
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message);

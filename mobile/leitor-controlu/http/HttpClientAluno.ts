@@ -1,7 +1,10 @@
 import Config from "../config/Config"
 import { obterAuthToken } from "../utils/TokenUtils"
 
-const token = obterAuthToken()
+let token: string | null = null;
+obterAuthToken().then(tokenPromise => {
+  token = tokenPromise
+});
 export const verificarSeEstaRegistrado = async(ra: string) => {
   const response = await fetch(`${Config.apiUrl}/aluno/verificarSeEstaRegistrado/${ra}`, {
     method: 'GET',

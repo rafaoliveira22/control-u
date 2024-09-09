@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Modal } from 'react-native';
 import { fazerLogin } from '../http/HttpClientUsuario';
-import { obterAuthToken, removerAuthToken } from '../utils/TokenUtils';
+import { obterAuthToken, removerAuthToken, salvarAuthToken } from '../utils/TokenUtils';
 import { LoginScreenProps } from '../props/ScreenProps';
+import ModalAlertLoading from '../components/ModalAlertLoading';
 
 export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
   const [usuarioNome, setUsuarioNome] = useState<string>('')
@@ -12,8 +13,9 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
   const handleLogin = async () => {
     if(!usuarioNome || !usuarioSenha){
       setLoading(false)
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
+      Alert.alert('Aviso', 'Por favor, preencha todos os campos.');
     } else{
+      setLoading(true)
       const usuario = {
         usuarioNome: usuarioNome,
         usuarioSenha: usuarioSenha
@@ -21,20 +23,22 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
 
       try{
         const response = await fazerLogin(usuario)
+
         await removerAuthToken()
-        await obterAuthToken()
-        
+        await salvarAuthToken(response.token)
+     
         setUsuarioNome('')
         setUsuarioSenha('')
 
         navigation.navigate('LeitorCarteirinha')
       } catch(e){
         if(e instanceof Error) {
-          if(e.message.toLowerCase().includes('network')){
-            e.message = 'Erro de conexão! Tente novamente ou contaate o suporte.'
+          if(e.message !== "Usuário inexistente ou senha inválida"){
+             Alert.alert('Erro', 'Erro ao realizar login! Tente novamente ou contate o suporte.')
+          } else{
+            Alert.alert('Erro', e.message)
           }
-          Alert.alert('Erro', e.message)
-        } else Alert.alert('Erro', 'Erro ao realizar login! Tente novamente ou contaate o suporte.')
+        } else Alert.alert('Erro', 'Erro ao realizar login! Tente novamente ou contate o suporte.')
       } finally{
         setLoading(false)
       }
@@ -64,19 +68,7 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
 
       {/* Modal com loader */}
       {loading && (
-        <Modal
-          transparent={true}
-          animationType="none"
-          visible={loading}
-          onRequestClose={() => {}}
-        >
-          <View style={styles.modalBackground}>
-            <View style={styles.activityIndicatorWrapper}>
-              <ActivityIndicator size="large" color="#0000ff" />
-              <Text style={styles.loadingText}>Entrando...</Text>
-            </View>
-          </View>
-        </Modal>
+        <ModalAlertLoading loading={loading} texto='Entrando...' />
       )}
     </View>
   )
