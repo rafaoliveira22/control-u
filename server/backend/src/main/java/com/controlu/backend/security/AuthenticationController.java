@@ -21,6 +21,17 @@ public class AuthenticationController {
 
     @Autowired
     private TokenService tokenService;
+
+    /**
+     * O UsernamePasswordAuthenticationToken representa um token de autenticação baseado em um nome de usuário e senha,
+     * sendo assim, esses dados são encapsulados no token para que possam ser utilizados na autenticação.
+     *
+     * O token é passado para o authenticationManager.authenticate(usuarioSenha), que verificará as credenciais.
+     * Se as credenciais forem válidas (usuário existe e a senha está correta), o processo de autenticação é bem-sucedido.
+     *
+     * @param data
+     * @return
+     */
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
         var usuarioSenha = new UsernamePasswordAuthenticationToken(data.usuarioNome(), data.usuarioSenha());
