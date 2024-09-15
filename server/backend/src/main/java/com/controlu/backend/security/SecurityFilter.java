@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -29,10 +30,14 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recuperarToken(request);
         if(token != null){
             var subject = tokenService.validarToken(token);
-            UserDetails usuario = usuarioRepository.findByUsuarioNome(subject);
+            Optional<UserDetails> usuario = usuarioRepository.findByUsuarioNome(subject);
+            if(usuario.isPresent()){
+                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.get().getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else{
+                throw new NullPointerException("Erro: não foi possível acessar as permissões do usuário porque o usuário é nulo");
+            }
 
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }

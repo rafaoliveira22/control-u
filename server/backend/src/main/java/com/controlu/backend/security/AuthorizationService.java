@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthorizationService implements UserDetailsService {
     @Autowired
@@ -14,10 +16,10 @@ public class AuthorizationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails userDetails = repository.findByUsuarioNome(username);
-        if (userDetails == null) {
+        Optional<UserDetails> userDetails = repository.findByUsuarioNome(username);
+        if (userDetails.isEmpty()) {
             throw new UsernameNotFoundException("Usuário inexistente ou senha inválida");
         }
-        return userDetails;
+        return userDetails.get();
     }
 }
