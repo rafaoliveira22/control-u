@@ -81,6 +81,7 @@ public class AulaService {
         Optional<Aula> aulaValidacao = repository.findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNotNull(aulaVO.getGradeId());
         if(aulaValidacao.isPresent()){
             if(aulaValidacao.get().getSalaId().equals(aulaVO.getSalaId())){
+                aulaVO.setAulaId(aulaValidacao.get().getAulaId());
                 aulaVO.setAulaFechamento(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
             }
         } else{

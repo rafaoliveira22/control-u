@@ -94,6 +94,7 @@ public class AcessoService {
 
         Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaToday(acessoVO.getAlunoId());
         if(acessoValidacao.isPresent()){
+            acessoVO.setAcessoId(acessoValidacao.get().getAcessoId());
             acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
         } else{
             acessoVO.setAcessoEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
