@@ -52,4 +52,22 @@ SELECT * FROM usuario;
 -- DELETE FROM usuario;
 -- ALTER TABLE usuario AUTO_INCREMENT = 1;
 
+-- ACESSO
+SELECT * FROM acesso;
+SELECT * FROM acesso ORDER BY acesso_entrada DESC;
+
+-- DELETE FROM acesso;
+-- ALTER TABLE acesso AUTO_INCREMENT = 1;
+
+-- FUSO HORARIO
+SELECT @@global.time_zone, @@session.time_zone;
+SET GLOBAL time_zone = '-03:00';
+SET time_zone = '-03:00';
+
+
+DESC dispositivo_leitura;
+DESC sala;
+DESC cartao_leitura;
+
+
 

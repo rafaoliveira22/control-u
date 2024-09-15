@@ -7,12 +7,16 @@ import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AcessoRepository;
 import com.controlu.backend.repository.DispositivoLeituraRepository;
 import com.controlu.backend.repository.SalaRepository;
+import com.controlu.backend.utils.DateUtils;
 import com.controlu.backend.vo.AcessoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -30,6 +34,9 @@ public class AcessoService {
 
     @Autowired
     private AlunoService alunoService;
+
+    @Autowired
+    private DateUtils dateUtils;
 
 
     /**
@@ -51,7 +58,7 @@ public class AcessoService {
      * @return LISTA COM DADOS DOS ACESSOS
      */
     public List<AcessoVO> obterDadosTodosAcessos(){
-        var acessos = DozerMapper.parseListObjects(repository.findAll(), AcessoVO.class);
+        var acessos = DozerMapper.parseListObjects(repository.findAllByOrderByAcessoEntradaDesc(), AcessoVO.class);
         acessos.stream().forEach(acesso -> acesso.add(linkTo(methodOn(AcessoController.class).obterDadosAcesso(String.valueOf(acesso.getAcessoId()))).withSelfRel()));
 
         return acessos;
@@ -59,10 +66,15 @@ public class AcessoService {
 
     /**
      * MÉTODO PARA REGISTRAR UM NOVO ACESSO NA BASE DE DADOS
-     * 1. VALIDA SE O DISPOSITIVO DE LEITURA PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
-     * 2. VALIDA SE O DISPOSITIVO DE LEITURA ESTA ASSOCIADO A ALGUMA SALA (ESPAÇO), SENÃO ESTIVER,
+     *
+     * 1. VALIDA SE HÁ UM ACESSO EM ABERTO
+     *    - Para um aluno ter um acesso em aberto, o aluno precisa ter em acesso_entrada a data de hoje,
+     *    caso tenha o registro, fazer atualização do horario de saída, senão, registrar um novo acesso
+     *
+     * 2. VALIDA SE O DISPOSITIVO DE LEITURA PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
+     * 3. VALIDA SE O DISPOSITIVO DE LEITURA ESTA ASSOCIADO A ALGUMA SALA (ESPAÇO), SENÃO ESTIVER,
      * NÃO TEM COMO ELE TER LIDO UM ACESSO
-     * 3. VALIDA SE O ALUNO PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
+     * 4. VALIDA SE O ALUNO PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
      *
      * @param acessoVO OBJETO CARREGADO COM OS DADOS DO ACESSO
      * @return ACESSO REGISTRADO
@@ -79,38 +91,16 @@ public class AcessoService {
         if(!(alunoService.verificarSeEstaRegistrado(acessoVO.getAlunoId()))){
             throw new ResourceNotFoundException("O aluno " + acessoVO.getAlunoId() + " não tem autorização para realizar um acesso.");
         }
-        acessoVO.setAcessoEntrada(LocalDateTime.now());
+
+        Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaToday(acessoVO.getAlunoId());
+        if(acessoValidacao.isPresent()){
+            acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+        } else{
+            acessoVO.setAcessoEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+            acessoVO.setAcessoSaida(null);
+        }
 
         Acesso acesso = DozerMapper.parseObject(acessoVO, Acesso.class);
-        var vo = DozerMapper.parseObject(repository.save(acesso), AcessoVO.class);
-        vo.add(linkTo(methodOn(AcessoController.class).obterDadosAcesso(String.valueOf(vo.getAcessoId()))).withSelfRel());
-
-        return vo;
-    }
-
-    /**
-     * MÉTODO PARA ATUALIZAR UM REGISTRO DE ACESSO
-     * @param acessoVO OBJETO CARREGADO COM OS NOVOS DADOS DO ACESSO
-     * @return ACESSO ATUALIZADO
-     */
-    public AcessoVO atualizarDadosAcesso(AcessoVO acessoVO){
-        var acesso = repository.findById(acessoVO.getAcessoId()).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID."));
-
-        if(!(acesso.getAcessoEntrada().isEqual(acessoVO.getAcessoEntrada())) || !(acesso.getAlunoId().equals(acessoVO.getAlunoId())) || (acesso.getDispositivoId().equals(acessoVO.getDispositivoId()))){
-            throw new IllegalArgumentException("No acesso, só é possível atualizar o horário de saída.");
-        }
-
-        LocalDateTime acessoSaida = LocalDateTime.now();
-        if(acessoSaida.isAfter(acesso.getAcessoEntrada())){
-            throw new IllegalArgumentException("O horario de saída " + acessoSaida + " não pode ser maior que o horário de entrada");
-        }
-
-        if(acessoSaida.isAfter(LocalDateTime.now())){
-            throw new IllegalArgumentException("O horario de saída " + acessoSaida + " não pode ser maior que o horário atual");
-        }
-
-        acesso.setAcessoSaida(acessoSaida);
-
         var vo = DozerMapper.parseObject(repository.save(acesso), AcessoVO.class);
         vo.add(linkTo(methodOn(AcessoController.class).obterDadosAcesso(String.valueOf(vo.getAcessoId()))).withSelfRel());
 

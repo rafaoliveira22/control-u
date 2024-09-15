@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "acesso")
@@ -14,10 +15,10 @@ public class Acesso {
     private Integer acessoId;
 
     @Column(name = "acesso_entrada")
-    private LocalDateTime acessoEntrada;
+    private OffsetDateTime acessoEntrada;
 
     @Column(name = "acesso_saida")
-    private LocalDateTime acessoSaida;
+    private OffsetDateTime  acessoSaida;
 
     @Column(name = "dispositivo_id")
     private String dispositivoId ;
@@ -27,7 +28,7 @@ public class Acesso {
 
     public Acesso(){}
 
-    public Acesso(Integer acessoId, LocalDateTime acessoEntrada, LocalDateTime acessoSaida, String dispositivoId, String alunoId) {
+    public Acesso(Integer acessoId, OffsetDateTime acessoEntrada, OffsetDateTime acessoSaida, String dispositivoId, String alunoId) {
         this.acessoId = acessoId;
         this.acessoEntrada = acessoEntrada;
         this.acessoSaida = acessoSaida;
@@ -43,19 +44,19 @@ public class Acesso {
         this.acessoId = acessoId;
     }
 
-    public LocalDateTime getAcessoEntrada() {
+    public OffsetDateTime getAcessoEntrada() {
         return acessoEntrada;
     }
 
-    public void setAcessoEntrada(LocalDateTime acessoEntrada) {
+    public void setAcessoEntrada(OffsetDateTime acessoEntrada) {
         this.acessoEntrada = acessoEntrada;
     }
 
-    public LocalDateTime getAcessoSaida() {
+    public OffsetDateTime getAcessoSaida() {
         return acessoSaida;
     }
 
-    public void setAcessoSaida(LocalDateTime acessoSaida) {
+    public void setAcessoSaida(OffsetDateTime acessoSaida) {
         this.acessoSaida = acessoSaida;
     }
 
@@ -73,5 +74,16 @@ public class Acesso {
 
     public void setAlunoId(String alunoId) {
         this.alunoId = alunoId;
+    }
+
+    @Override
+    public String toString() {
+        return "Acesso{" +
+                "acessoId=" + acessoId +
+                ", acessoEntrada=" + acessoEntrada +
+                ", acessoSaida=" + acessoSaida +
+                ", dispositivoId='" + dispositivoId + '\'' +
+                ", alunoId='" + alunoId + '\'' +
+                '}';
     }
 }

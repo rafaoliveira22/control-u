@@ -32,10 +32,4 @@ public class AcessoController {
         AcessoVO acessoRegistrado = service.registrarDadosAcesso(acesso);
         return new ResponseEntity<>(acessoRegistrado, HttpStatus.CREATED);
     }
-
-    @PutMapping
-    public ResponseEntity<?> atualizarDadosAcesso(@RequestBody AcessoVO acesso){
-        AcessoVO acessoAtualizado = service.atualizarDadosAcesso(acesso);
-        return new ResponseEntity<>(acessoAtualizado, HttpStatus.OK);
-    }
 }
