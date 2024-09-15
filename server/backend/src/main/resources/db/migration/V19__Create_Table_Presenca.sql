@@ -1,7 +1,7 @@
 CREATE TABLE presenca (
-    aula_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    aula_abertura DATETIME NOT NULL,
-    aula_fechamento DATETIME,
-    grade_id INT NOT NULL,
-    sala_id VARCHAR(10) NOT NULL
+    presenca_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    presenca_entrada DATETIME NOT NULL,
+    presenca_saida DATETIME,
+    aluno_id VARCHAR(13) NOT NULL,
+    aula_id INT NOT NULL
 );

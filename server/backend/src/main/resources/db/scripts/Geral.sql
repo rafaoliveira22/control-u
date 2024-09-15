@@ -6,7 +6,7 @@ SET SQL_SAFE_UPDATES = 0;
 
 -- FLYWAY
 SELECT * FROM db_controlu.flyway_schema_history;
--- DELETE FROM flyway_schema_history WHERE version = '?';
+-- DELETE FROM flyway_schema_history WHERE version = '';
 
 -- ALUNO
 DESC aluno;
@@ -33,7 +33,6 @@ SELECT * FROM cartao_leitura;
 
 -- SALA
 SELECT * FROM sala;
-SELECT * FROM sala;
 
 
 -- GRADE
@@ -54,8 +53,8 @@ SELECT * FROM usuario;
 
 -- ACESSO
 SELECT * FROM acesso;
+SELECT * FROM acesso WHERE aluno_id = '2830482211024' AND DATE(acesso_entrada) = CURDATE();
 SELECT * FROM acesso ORDER BY acesso_entrada DESC;
-
 -- DELETE FROM acesso;
 -- ALTER TABLE acesso AUTO_INCREMENT = 1;
 
@@ -64,10 +63,11 @@ SELECT @@global.time_zone, @@session.time_zone;
 SET GLOBAL time_zone = '-03:00';
 SET time_zone = '-03:00';
 
+-- AULA
+SELECT * FROM aula;
+-- DELETE FROM aula;
+-- ALTER TABLE aula AUTO_INCREMENT = 1;
 
-DESC dispositivo_leitura;
-DESC sala;
-DESC cartao_leitura;
-
-
-
+-- PRESENCA
+DESC presenca;
+SELECT * FROM presenca;
