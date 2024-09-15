@@ -13,9 +13,12 @@ public interface AulaRepository extends JpaRepository<Aula, Integer> {
     List<Aula> findAllByOrderByAulaAberturaDesc();
     Optional<Aula> findBySalaId(String salaId);
 
-    @Query("SELECT a FROM Aula a WHERE a.gradeId = :gradeId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NOT NULL")
-    Optional<Aula> findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNotNull(Integer gradeId);
+    @Query("SELECT a FROM Aula a WHERE a.gradeId = :gradeId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
+    Optional<Aula> findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNull(Integer gradeId);
 
     @Query("SELECT a FROM Aula a WHERE a.aulaId = :aulaId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
     Optional<Aula> findAulaByAulaIdAndAulaAberturaTodayAndAulaFechamentoNull(Integer aulaId);
+
+    @Query("SELECT a FROM Aula a WHERE a.salaId = :salaId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
+    Optional<Aula> findAulaBySalaIdAndAulaAberturaTodayAndAulaFechamentoNull(String salaId);
 }

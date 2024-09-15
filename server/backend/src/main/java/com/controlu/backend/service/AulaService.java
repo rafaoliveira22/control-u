@@ -2,12 +2,15 @@ package com.controlu.backend.service;
 
 import com.controlu.backend.controller.AulaController;
 import com.controlu.backend.entity.Aula;
+import com.controlu.backend.entity.Grade;
 import com.controlu.backend.entity.Sala;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AulaRepository;
+import com.controlu.backend.repository.GradeRepository;
 import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
+import com.controlu.backend.vo.AulaLeituraVO;
 import com.controlu.backend.vo.AulaVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,9 @@ public class AulaService {
 
     @Autowired
     private SalaRepository salaRepository;
+
+    @Autowired
+    private GradeRepository gradeRepository;
 
     @Autowired
     private DateUtils dateUtils;
@@ -65,24 +71,38 @@ public class AulaService {
      *    - Pra uma aula estar aberta, precisa ter em aula_abertura a data de hoje, aula_fechamento ser null.
      *    - Caso ja tenha uma aula aberta com a grade informada, verificar se a sala da nova requisição de abertura é diferente
      *      da aberta, se for igual, considerar fechamento de aula, se for diferente, considerar uma "segunda parte da aula" em
-     *      um espaço diferente, ou seja, um novo registro de aula.
+     *      um espaço diferente, ou seja, um novo registro de aula, mas, não pode abrir aula em outro espaço com uma aula aberta em outra sala,
+     *      que não foi fechada.
      *
-     * @param aulaVO OBJETO CARREGADO COM OS DADOS DA AULA
+     * @param aulaLeituraVO OBJETO CARREGADO COM OS DADOS NCESSÁRIOS PARA ABERTURA DA AULA
      * @return AULA REGISTRADA
      */
-    public AulaVO registrarDadosAula(AulaVO aulaVO){
+    public AulaVO registrarDadosAula(AulaLeituraVO aulaLeituraVO){
+        AulaVO aulaVO = DozerMapper.parseObject(aulaLeituraVO, AulaVO.class);
+
         Optional<Sala> salaAula = salaRepository.findByDispositivoId(aulaVO.getDispositivoId());
         if(salaAula.isPresent()){
             aulaVO.setSalaId(salaAula.get().getSalaId());
         } else {
-            throw new IllegalArgumentException("O dispositivo de leitura não está associado há uma sala.");
+            throw new IllegalArgumentException("O dispositivo de leitura " + aulaVO.getDispositivoId()+ " não está associado há uma sala.");
         }
 
-        Optional<Aula> aulaValidacao = repository.findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNotNull(aulaVO.getGradeId());
+
+        Optional<Grade> grade = gradeRepository.findByCartaoId(aulaVO.getCartaoId());
+        if(grade.isPresent()){
+            aulaVO.setGradeId(grade.get().getGradeId());
+        } else{
+            throw new IllegalArgumentException("O cartão lido, " + aulaVO.getCartaoId()+ ", não está associado há uma grade de aula.");
+        }
+
+        Optional<Aula> aulaValidacao = repository.findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNull(aulaVO.getGradeId());
         if(aulaValidacao.isPresent()){
             if(aulaValidacao.get().getSalaId().equals(aulaVO.getSalaId())){
                 aulaVO.setAulaId(aulaValidacao.get().getAulaId());
+                aulaVO.setAulaAbertura(aulaValidacao.get().getAulaAbertura());
                 aulaVO.setAulaFechamento(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+            } else{
+                throw new IllegalArgumentException("A aula " + grade.get().getDisciplinaId() + " não pode ser aberta em uma nova sala pois essa aula ainda está aberta na sala " + aulaValidacao.get().getSalaId());
             }
         } else{
             aulaVO.setAulaAbertura(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
