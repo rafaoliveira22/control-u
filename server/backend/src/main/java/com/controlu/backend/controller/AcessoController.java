@@ -1,6 +1,7 @@
 package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AcessoService;
+import com.controlu.backend.vo.AcessoLeituraVO;
 import com.controlu.backend.vo.AcessoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class AcessoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarDadosAcesso(@RequestBody AcessoVO acesso){
+    public ResponseEntity<?> registrarDadosAcesso(@RequestBody AcessoLeituraVO acesso){
         AcessoVO acessoRegistrado = service.registrarDadosAcesso(acesso);
         return new ResponseEntity<>(acessoRegistrado, HttpStatus.CREATED);
     }

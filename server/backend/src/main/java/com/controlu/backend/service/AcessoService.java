@@ -8,6 +8,7 @@ import com.controlu.backend.repository.AcessoRepository;
 import com.controlu.backend.repository.DispositivoLeituraRepository;
 import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
+import com.controlu.backend.vo.AcessoLeituraVO;
 import com.controlu.backend.vo.AcessoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,10 +77,12 @@ public class AcessoService {
      * NÃO TEM COMO ELE TER LIDO UM ACESSO
      * 4. VALIDA SE O ALUNO PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
      *
-     * @param acessoVO OBJETO CARREGADO COM OS DADOS DO ACESSO
+     * @param acessoLeituraVO OBJETO CARREGADO COM OS DADOS DO ACESSO
      * @return ACESSO REGISTRADO
      */
-    public AcessoVO registrarDadosAcesso(AcessoVO acessoVO){
+    public AcessoVO registrarDadosAcesso(AcessoLeituraVO acessoLeituraVO){
+        AcessoVO acessoVO = DozerMapper.parseObject(acessoLeituraVO, AcessoVO.class);
+
         if(!(dispositivoLeituraRepository.existsById(acessoVO.getDispositivoId()))){
             throw new ResourceNotFoundException("O dispositivo " + acessoVO.getDispositivoId() + " é inválido.");
         }
@@ -95,6 +98,7 @@ public class AcessoService {
         Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaToday(acessoVO.getAlunoId());
         if(acessoValidacao.isPresent()){
             acessoVO.setAcessoId(acessoValidacao.get().getAcessoId());
+            acessoVO.setAcessoEntrada(acessoValidacao.get().getAcessoEntrada());
             acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
         } else{
             acessoVO.setAcessoEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());

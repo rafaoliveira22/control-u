@@ -2,6 +2,7 @@ package com.controlu.backend.controller;
 
 import com.controlu.backend.service.PresencaService;
 import com.controlu.backend.vo.AulaVO;
+import com.controlu.backend.vo.PresencaLeituraVO;
 import com.controlu.backend.vo.PresencaVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class PresencaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarDadosPresenca(@RequestBody PresencaVO presenca){
+    public ResponseEntity<?> registrarDadosPresenca(@RequestBody PresencaLeituraVO presenca){
         PresencaVO presencaRegistrada = service.registrarDadosPresenca(presenca);
         return new ResponseEntity<>(presencaRegistrada, HttpStatus.CREATED);
     }

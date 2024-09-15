@@ -2,6 +2,7 @@ package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AulaService;
 import com.controlu.backend.vo.AcessoVO;
+import com.controlu.backend.vo.AulaLeituraVO;
 import com.controlu.backend.vo.AulaVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class AulaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarDadosAula(@RequestBody AulaVO aula){
+    public ResponseEntity<?> registrarDadosAula(@RequestBody AulaLeituraVO aula){
         AulaVO aulaRegistrada = service.registrarDadosAula(aula);
         return new ResponseEntity<>(aulaRegistrada, HttpStatus.CREATED);
     }
