@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Modal } from 'react-native';
 import { fazerLogin } from '../http/HttpClientUsuario';
 import { obterAuthToken, removerAuthToken, salvarAuthToken } from '../utils/TokenUtils';
@@ -24,13 +24,14 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
       try{
         const response = await fazerLogin(usuario)
 
-        await removerAuthToken()
+        await removerAuthToken();
         await salvarAuthToken(response.token)
+        console.log(`Salvando token... ${response.token}`)
      
         setUsuarioNome('')
         setUsuarioSenha('')
 
-        navigation.navigate('LeitorCarteirinha')
+        navigation.navigate('Menu')
       } catch(e){
         if(e instanceof Error) {
           if(e.message !== "Usuário inexistente ou senha inválida"){

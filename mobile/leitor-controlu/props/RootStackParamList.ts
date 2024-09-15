@@ -3,5 +3,7 @@
  */
 type RootStackParamList = {
   Login: undefined;
-  LeitorCarteirinha: undefined;
+  LeitorCarteirinhaAcesso: undefined;
+  LeitorAula: undefined;
+  Menu: undefined
 };

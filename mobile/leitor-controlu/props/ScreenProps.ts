@@ -7,6 +7,14 @@ export type LoginScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
 };
 
-export type LeitorCarteirinhaScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'LeitorCarteirinha'>;
+export type LeitorCarteirinhaAcessoScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'LeitorCarteirinhaAcesso'>;
+};
+
+export type LeitorAulaScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'LeitorAula'>;
+};
+
+export type MenuScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'Menu'>;
 };
