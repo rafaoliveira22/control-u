@@ -50,4 +50,13 @@ public class Sala {
     public void setDispositivoId(String dispositivoId) {
         this.dispositivoId = dispositivoId;
     }
+
+    @Override
+    public String toString() {
+        return "Sala{" +
+                "salaId='" + salaId + '\'' +
+                ", salaNome='" + salaNome + '\'' +
+                ", dispositivoId='" + dispositivoId + '\'' +
+                '}';
+    }
 }

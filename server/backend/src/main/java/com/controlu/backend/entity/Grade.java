@@ -71,4 +71,15 @@ public class Grade {
     public void setCartaoId(String cartaoId) {
         this.cartaoId = cartaoId;
     }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "gradeId=" + gradeId +
+                ", cursoId=" + cursoId +
+                ", disciplinaId='" + disciplinaId + '\'' +
+                ", professorId='" + professorId + '\'' +
+                ", cartaoId='" + cartaoId + '\'' +
+                '}';
+    }
 }

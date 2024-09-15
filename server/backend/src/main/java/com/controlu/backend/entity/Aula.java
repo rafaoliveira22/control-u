@@ -73,4 +73,15 @@ public class Aula {
     public void setSalaId(String salaId) {
         this.salaId = salaId;
     }
+
+    @Override
+    public String toString() {
+        return "Aula{" +
+                "aulaId=" + aulaId +
+                ", aulaAbertura=" + aulaAbertura +
+                ", aulaFechamento=" + aulaFechamento +
+                ", gradeId=" + gradeId +
+                ", salaId='" + salaId + '\'' +
+                '}';
+    }
 }
