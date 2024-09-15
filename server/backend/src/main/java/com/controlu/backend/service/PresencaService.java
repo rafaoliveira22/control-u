@@ -1,6 +1,5 @@
 package com.controlu.backend.service;
 
-import com.controlu.backend.controller.AulaController;
 import com.controlu.backend.controller.PresencaController;
 import com.controlu.backend.entity.Aula;
 import com.controlu.backend.entity.Presenca;
@@ -12,13 +11,11 @@ import com.controlu.backend.repository.AulaRepository;
 import com.controlu.backend.repository.PresencaRepository;
 import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
-import com.controlu.backend.vo.AulaVO;
 import com.controlu.backend.vo.PresencaLeituraVO;
 import com.controlu.backend.vo.PresencaVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,7 +103,7 @@ public class PresencaService {
                     presencaVO.setAulaId(aulaAbertaValidacao.get().getAulaId());
 
                     // BUSCA A PRESENÇA EM ABERTO DO ALUNO, POR MEIO DO ID DA AULA E O R.A DO ALUNO
-                    Optional<Presenca> presencaAtual = repository.findByAulaIdAnAlunoIdAndPresencaSaidaNull(presencaVO.getAulaId(), presencaVO.getAlunoId());
+                    Optional<Presenca> presencaAtual = repository.findByAulaIdAndAlunoIdAndPresencaSaidaNull(presencaVO.getAulaId(), presencaVO.getAlunoId());
                     if(presencaAtual.isPresent()){
                         // SE ESTIVER PRESENÇA EM ABERTO, ATUALIZAR HORÁRIO DE SAÍDA
                         presencaVO.setPresencaId(presencaAtual.get().getPresencaId());

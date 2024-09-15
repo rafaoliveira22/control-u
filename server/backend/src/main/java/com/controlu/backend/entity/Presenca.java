@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
 
-@Table
-@Entity(name = "presenca")
+@Entity
+@Table(name = "presenca")
 public class Presenca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

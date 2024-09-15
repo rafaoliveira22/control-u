@@ -14,5 +14,5 @@ public interface PresencaRepository extends JpaRepository<Presenca, Integer> {
     List<Presenca> findByAulaIdAndAlunoId(Integer aulaId, String alunoId);
 
     @Query("SELECT p FROM Presenca p WHERE p.aulaId = :aulaId AND p.alunoId = :alunoId AND p.presencaSaida IS NULL")
-    Optional<Presenca> findByAulaIdAnAlunoIdAndPresencaSaidaNull(Integer aulaId, String alunoId);
+    Optional<Presenca> findByAulaIdAndAlunoIdAndPresencaSaidaNull(Integer aulaId, String alunoId);
 }
