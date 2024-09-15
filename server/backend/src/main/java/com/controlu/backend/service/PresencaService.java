@@ -7,6 +7,7 @@ import com.controlu.backend.entity.Presenca;
 import com.controlu.backend.entity.Sala;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
+import com.controlu.backend.repository.AcessoRepository;
 import com.controlu.backend.repository.AulaRepository;
 import com.controlu.backend.repository.PresencaRepository;
 import com.controlu.backend.repository.SalaRepository;
@@ -34,6 +35,9 @@ public class PresencaService {
 
     @Autowired
     private AulaRepository aulaRepository;
+
+    @Autowired
+    private AcessoRepository acessoRepository;
 
     @Autowired
     private AlunoService alunoService;
@@ -69,6 +73,8 @@ public class PresencaService {
     /**
      * MÉTODO PARA REALIZAR UM NOVO REGISTRO DE PRESENÇA NA BASE DE DADOS
      * 1. VALIDAR SE O ALUNO TEM AUTORIZAÇÃO PRA ACESSAR A AULA (OU SEJA, SE ESTA NA BASE)
+     * 2. VALIDDAR SE O ALUNO ACESSOU A FACULDADE, SENÃO, NÃO TEM COMO O ALUNO REGISTRAR PRESENÇA NA AULA,
+     *    SE O MESMO NÃO ENTROU NA FACULDADE NO DIA
      * 2. VALIDAR SE A AULA ESTA ABERTA
      *    - inicialmente, as informações que temos é o R.A do aluno, por ele ter lido no totem da sala
      *    e o dispositivo que fez a leitura
@@ -86,38 +92,44 @@ public class PresencaService {
             throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não tem autorização para realizar um acesso à essa aula.");
         }
 
-        // BUSCA DA SALA QUE ESTA O DISPOSITIVO QUE FEZ A LEITURA DA CARTEIRINHA
-        Optional<Sala> salaAula = salaRepository.findByDispositivoId(presencaVO.getDispositivoId());
-        if(salaAula.isPresent()){
-            // BUSCA A AULA POR MEIO DO ID SALA
-            Optional<Aula> aulaValidacao = aulaRepository.findBySalaId(salaAula.get().getSalaId());
-            if(aulaValidacao.isPresent()){
-                // BUSCA A AULA EM ABERTO
-                Optional<Aula> aulaAbertaValidacao = aulaRepository.findAulaByAulaIdAndAulaAberturaTodayAndAulaFechamentoNull(aulaValidacao.get().getAulaId());
-                if(aulaAbertaValidacao.isPresent()){
-                    // SE AULA ESTIVER EM ABERTO, PERMITE REGISTRAR PRESENÇA DO ALUNO
-                    presencaVO.setAulaId(aulaAbertaValidacao.get().getAulaId());
 
-                    // BUSCA A PRESENÇA EM ABERTO DO ALUNNO, POR MEIO DO ID DA AULA E O R.A DO ALUNO
-                    Optional<Presenca> presencaAtual = repository.findByAulaIdAndAlunoId(presencaVO.getAulaId(), presencaVO.getAlunoId());
-                    if(presencaAtual.isPresent()){
-                        // SE ESTIVER PRESENÇA EM ABERTO, ATUALIZAR HORÁRIO DE SAÍDA, PORQUE
-                        // TEORICAMENTE, É A SEGUNDA VEZ QUE A CARTEIRINHA ESTA SENDO LIDA, ENTÃO O ALUNO ESTA SAINDO DA AULA
-                        presencaVO.setPresencaId(presencaAtual.get().getPresencaId());
-                        presencaVO.setPresencaSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+        if(acessoRepository.findAcessoByAlunoIdAndAcessoEntradaToday(presencaVO.getAlunoId()).isPresent()){
+            // BUSCA DA SALA QUE ESTA O DISPOSITIVO QUE FEZ A LEITURA DA CARTEIRINHA
+            Optional<Sala> salaAula = salaRepository.findByDispositivoId(presencaVO.getDispositivoId());
+            if(salaAula.isPresent()){
+                // BUSCA A AULA POR MEIO DO ID SALA
+                Optional<Aula> aulaValidacao = aulaRepository.findBySalaId(salaAula.get().getSalaId());
+                if(aulaValidacao.isPresent()){
+                    // BUSCA A AULA EM ABERTO
+                    Optional<Aula> aulaAbertaValidacao = aulaRepository.findAulaByAulaIdAndAulaAberturaTodayAndAulaFechamentoNull(aulaValidacao.get().getAulaId());
+                    if(aulaAbertaValidacao.isPresent()){
+                        // SE AULA ESTIVER EM ABERTO, PERMITE REGISTRAR PRESENÇA DO ALUNO
+                        presencaVO.setAulaId(aulaAbertaValidacao.get().getAulaId());
+
+                        // BUSCA A PRESENÇA EM ABERTO DO ALUNNO, POR MEIO DO ID DA AULA E O R.A DO ALUNO
+                        Optional<Presenca> presencaAtual = repository.findByAulaIdAndAlunoId(presencaVO.getAulaId(), presencaVO.getAlunoId());
+                        if(presencaAtual.isPresent()){
+                            // SE ESTIVER PRESENÇA EM ABERTO, ATUALIZAR HORÁRIO DE SAÍDA, PORQUE
+                            // TEORICAMENTE, É A SEGUNDA VEZ QUE A CARTEIRINHA ESTA SENDO LIDA, ENTÃO O ALUNO ESTA SAINDO DA AULA
+                            presencaVO.setPresencaId(presencaAtual.get().getPresencaId());
+                            presencaVO.setPresencaSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+                        } else{
+                            // SENÃO, O ALUNO ACABOU DE CHEGAR NA AULA, POIS É A 1° LEITURA DA CARTEIRINHA
+                            // ENTÃO, REGISTRAR O HORÁRIO DE ENTRADA
+                            presencaVO.setPresencaEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+                            presencaVO.setPresencaSaida(null);
+                        }
                     } else{
-                        // SENÃO, O ALUNO ACABOU DE CHEGAR NA AULA, POIS É A 1° LEITURA DA CARTEIRINHA
-                        // ENTÃO, REGISTRAR O HORÁRIO DE ENTRADA
-                        presencaVO.setPresencaEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
-                        presencaVO.setPresencaSaida(null);
+                        throw new IllegalArgumentException("A aula " + aulaValidacao.get().getAulaId() + " está fechada! Não é possível mais registrar presença.");
                     }
-                } else{
-                    throw new IllegalArgumentException("A aula " + aulaValidacao.get().getAulaId() + " está fechada! Não é possível mais registrar presença.");
                 }
+            } else {
+                throw new IllegalArgumentException("O dispositivo de leitura não está associado há uma sala.");
             }
-        } else {
-            throw new IllegalArgumentException("O dispositivo de leitura não está associado há uma sala.");
+        } else{
+            throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não acessou a faculdade hoje, sendo assim, não pode registrar presença na aula.");
         }
+
 
         Presenca presenca = DozerMapper.parseObject(presencaVO, Presenca.class);
         var vo = DozerMapper.parseObject(repository.save(presenca), PresencaVO.class);
