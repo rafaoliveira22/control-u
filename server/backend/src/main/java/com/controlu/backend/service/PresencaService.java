@@ -92,7 +92,7 @@ public class PresencaService {
             throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não tem autorização para realizar um acesso à essa aula.");
         }
 
-        if(acessoRepository.findAcessoByAlunoIdAndAcessoEntradaToday(presencaVO.getAlunoId()).isPresent()){
+        if(acessoRepository.findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(presencaVO.getAlunoId()).isPresent()){
             // BUSCA DA SALA QUE ESTA O DISPOSITIVO QUE FEZ A LEITURA DA CARTEIRINHA
             Optional<Sala> salaAula = salaRepository.findByDispositivoId(presencaVO.getDispositivoId());
             if(salaAula.isPresent()){
@@ -103,7 +103,7 @@ public class PresencaService {
                     presencaVO.setAulaId(aulaAbertaValidacao.get().getAulaId());
 
                     // BUSCA A PRESENÇA EM ABERTO DO ALUNO, POR MEIO DO ID DA AULA E O R.A DO ALUNO
-                    Optional<Presenca> presencaAtual = repository.findByAulaIdAndAlunoIdAndPresencaSaidaNull(presencaVO.getAulaId(), presencaVO.getAlunoId());
+                    Optional<Presenca> presencaAtual = repository.findByAulaIdAndAlunoIdAndPresencaEntradaTodayAndPresencaSaidaNull(presencaVO.getAulaId(), presencaVO.getAlunoId());
                     if(presencaAtual.isPresent()){
                         // SE ESTIVER PRESENÇA EM ABERTO, ATUALIZAR HORÁRIO DE SAÍDA
                         presencaVO.setPresencaId(presencaAtual.get().getPresencaId());
@@ -122,7 +122,7 @@ public class PresencaService {
                 throw new IllegalArgumentException("O dispositivo de leitura " + presencaVO.getDispositivoId()+ " não está associado há uma sala.");
             }
         } else{
-            throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não acessou a faculdade hoje, sendo assim, não pode registrar presença na aula.");
+            throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não está na faculdade, sendo assim, não pode registrar presença na aula.");
         }
 
 

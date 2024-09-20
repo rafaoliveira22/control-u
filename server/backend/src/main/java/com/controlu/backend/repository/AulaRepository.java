@@ -21,4 +21,7 @@ public interface AulaRepository extends JpaRepository<Aula, Integer> {
 
     @Query("SELECT a FROM Aula a WHERE a.salaId = :salaId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
     Optional<Aula> findAulaBySalaIdAndAulaAberturaTodayAndAulaFechamentoNull(String salaId);
+
+    @Query("SELECT COUNT(a) FROM Aula a WHERE DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
+    Integer countAulasAcontecendo();
 }

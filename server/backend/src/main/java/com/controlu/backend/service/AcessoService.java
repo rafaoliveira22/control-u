@@ -71,6 +71,8 @@ public class AcessoService {
      * 1. VALIDA SE HÁ UM ACESSO EM ABERTO
      *    - Para um aluno ter um acesso em aberto, o aluno precisa ter em acesso_entrada a data de hoje,
      *    caso tenha o registro, fazer atualização do horario de saída, senão, registrar um novo acesso
+     *    - Um registro de acesso só registrar o acesso entrada 1x, e saída 1x, pra cada reentrada da faculdade,
+     *    um registro de acesso e criado.
      *
      * 2. VALIDA SE O DISPOSITIVO DE LEITURA PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
      * 3. VALIDA SE O DISPOSITIVO DE LEITURA ESTA ASSOCIADO A ALGUMA SALA (ESPAÇO), SENÃO ESTIVER,
@@ -95,7 +97,7 @@ public class AcessoService {
             throw new ResourceNotFoundException("O aluno " + acessoVO.getAlunoId() + " não tem autorização para realizar um acesso.");
         }
 
-        Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaToday(acessoVO.getAlunoId());
+        Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(acessoVO.getAlunoId());
         if(acessoValidacao.isPresent()){
             acessoVO.setAcessoId(acessoValidacao.get().getAcessoId());
             acessoVO.setAcessoEntrada(acessoValidacao.get().getAcessoEntrada());

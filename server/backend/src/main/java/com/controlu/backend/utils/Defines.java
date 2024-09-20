@@ -27,4 +27,12 @@ public class Defines {
 
     // JWT
     public static final String ISSUER_JWT = "ControlU Backend API";
+
+    // DASHBOARD
+    // TIPOS REGISTROS RECENTES
+    public static final String TIPO_REGISTRO_RECENTE_ACESSO = "ACESSO";
+    public static final String TIPO_REGISTRO_RECENTE_AULA = "AULA";
+    public static final String TIPO_REGISTRO_RECENTE_PRESENCA = "PRESENCA";
+
+
 }

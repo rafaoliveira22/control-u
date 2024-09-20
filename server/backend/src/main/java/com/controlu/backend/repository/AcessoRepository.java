@@ -11,8 +11,11 @@ import java.util.Optional;
 @Repository
 public interface AcessoRepository extends JpaRepository<Acesso, Integer> {
 
-    @Query("SELECT a FROM Acesso a WHERE a.alunoId = :alunoId AND DATE(a.acessoEntrada) = CURRENT_DATE")
-    Optional<Acesso> findAcessoByAlunoIdAndAcessoEntradaToday(String alunoId);
+    @Query("SELECT a FROM Acesso a WHERE a.alunoId = :alunoId AND DATE(a.acessoEntrada) = CURRENT_DATE AND a.acessoSaida IS NULL")
+    Optional<Acesso> findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(String alunoId);
 
     List<Acesso> findAllByOrderByAcessoEntradaDesc();
+
+    @Query("SELECT COUNT(a) FROM Acesso a WHERE DATE(a.acessoEntrada) = CURRENT_DATE AND a.acessoSaida IS NULL")
+    Integer countAcessosDataAtualAndAcessoSaidaNull();
 }
