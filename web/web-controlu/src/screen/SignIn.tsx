@@ -37,8 +37,9 @@ export default function SignIn() {
           setUsuarioNome("")
           setUsuarioSenha("")
           
-          removerAuthToken()
           salvarAuthToken(resolve.token)
+          console.log(`Salvando token... ${resolve.token}`)
+
           navigate('/app/dashboard')
 
           return "Login realizado com sucesso!"
