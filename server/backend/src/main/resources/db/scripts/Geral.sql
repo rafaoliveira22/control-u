@@ -71,3 +71,70 @@ SELECT * FROM aula;
 -- PRESENCA
 DESC presenca;
 SELECT * FROM presenca;
+
+-- DASHBOARD
+SELECT COUNT(*) FROM presenca WHERE DATE(presenca_entrada) = CURDATE() AND presenca_saida IS NULL;
+SELECT COUNT(*) FROM acesso WHERE DATE(acesso_entrada) = CURDATE();
+SELECT COUNT(*) FROM aluno;
+SELECT COUNT(*) FROM grade;
+
+
+SELECT TIME(acesso_entrada) FROM acesso; 
+
+-- TESTE
+-- TIPO -> ACESSO, AULA OU PRESENÇA
+-- DATA_FORMATADA -> ENTRADA (INICIO DO REGISTRO) (QUANDO ACONTECEU)
+-- HORARIO -> HORARIO DA DATA_FORMATADA
+-- REFERENCIA -> O QUE INTERAGIU, 
+-- ACESSSO -> ALUNO, 
+-- AULA ->  AULA_ID + SALA_ID (AULA_ID_SALA_ID), 
+-- PRESENCA -> AULA_ID
+
+
+-- PEGAR ENTRADA E SAIDA, IDENTTIFICAR PELO TIPO
+
+(SELECT 'ACESSO' AS tipo, DATE_FORMAT(acesso_entrada, '%d/%m/%Y') AS data_formatada, TIME(acesso_entrada) AS horario, aluno_id AS referencia, dispositivo_id AS descricao
+ FROM acesso
+ WHERE acesso_entrada IS NOT NULL)
+
+UNION ALL
+
+(SELECT 'AULA' AS tipo, DATE_FORMAT(aula_abertura, '%d/%m/%Y') AS data_formatada, TIME(aula_abertura) AS horario, CONCAT(aula_id, "_", sala_id) AS referencia, grade_id AS descricao
+ FROM aula
+ WHERE aula_abertura IS NOT NULL)
+
+UNION ALL
+
+(SELECT 'PRESENCA' AS tipo, DATE_FORMAT(presenca_entrada, '%d/%m/%Y') AS data_formatada, TIME(presenca_entrada) AS horario, aluno_id AS referencia, aula_id AS descricao
+ FROM presenca
+ WHERE presenca_entrada IS NOT NULL)
+
+ORDER BY data_formatada DESC, horario DESC
+LIMIT 10;
+
+
+-- DEMONSTRAÇÃO AULA LAB. ENG. SOFW.
+SELECT * FROM acesso WHERE DATE(acesso_entrada) = CURDATE();
+SELECT * FROM aula WHERE DATE(aula_abertura) = CURDATE();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
