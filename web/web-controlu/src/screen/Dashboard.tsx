@@ -8,6 +8,13 @@ import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 
 export default function Dashboard() {
   const [loading, setLoading] = useState<boolean>(true);
+  const [quantidadeAlunosEmAula, setQuantidadeAlunosEmAula] = useState<number>(0);
+  const [quantidadeAlunosForaDeAula, setQuantidadeAlunosForaDeAula] = useState<number>(0);
+  const [quantidadeAlunosNaFaculdade, setQuantidadeAlunosNaFaculdade] = useState<number>(0);
+  const [quantidadeAlunosForaDaFaculdade, setQuantidadeAlunosForaDaFaculdade] = useState<number>(0);
+  const [quantidadeAulasAcontecendo, setQuantidadeAulasAcontecendo] = useState<number>(0);
+  const [quantidadeAulasNaoAcontecendo, setQuantidadeAulasNaoAcontecendo] = useState<number>(0);
+  const [registrosRecentes, setRegistrosRecentes] = useState<DashboardRegistrosRecentesProps>();
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -15,12 +22,12 @@ export default function Dashboard() {
         const dados = await obterDadosDashboard();
         console.log(dados);
 
-        setQuantidadeAlunosEmAula(dados.dashboardAlunosAulaVO.quantidade);
-        setQuantidadeAlunosForaDeAula(dados.dashboardAlunosAulaVO.quantidadeOposto);
-        setQuantidadeAlunosNaFaculdade(dados.dashboardAlunosAcessoVO.quantidade);
-        setQuantidadeAlunosForaDaFaculdade(dados.dashboardAlunosAcessoVO.quantidadeOposto);
-        setQuantidadeAulasAcontecendo(dados.dashboardAulaVO.quantidade);
-        setQuantidadeAulasNaoAcontecendo(dados.dashboardAulaVO.quantidadeOposto);
+        setQuantidadeAlunosEmAula(dados.dashboardAlunosAulaVO.quantidadeAlunosEmAula);
+        setQuantidadeAlunosForaDeAula(dados.dashboardAlunosAulaVO.quantidadeAlunosForaDeAula);
+        setQuantidadeAlunosNaFaculdade(dados.dashboardAlunosAcessoVO.quantidadeAlunosNaFaculdade);
+        setQuantidadeAlunosForaDaFaculdade(dados.dashboardAlunosAcessoVO.quantidadeAlunosForaDaFaculdade);
+        setQuantidadeAulasAcontecendo(dados.dashboardAulaVO.quantidadeAulasAcontecendo);
+        setQuantidadeAulasNaoAcontecendo(dados.dashboardAulaVO.quantidadeAulasNaoAcontecendo);
         setRegistrosRecentes(dados.dashboardRegistrosRecentesVOList);
       } catch (error) {
         if (error instanceof Error) {
@@ -29,19 +36,13 @@ export default function Dashboard() {
           toast.error('Erro desconhecido');
         }
       } finally {
+        console.log(registrosRecentes)
         setLoading(false);
       }
     };
     fetchDados();
   }, []);
 
-  const [quantidadeAlunosEmAula, setQuantidadeAlunosEmAula] = useState<number>(0);
-  const [quantidadeAlunosForaDeAula, setQuantidadeAlunosForaDeAula] = useState<number>(0);
-  const [quantidadeAlunosNaFaculdade, setQuantidadeAlunosNaFaculdade] = useState<number>(0);
-  const [quantidadeAlunosForaDaFaculdade, setQuantidadeAlunosForaDaFaculdade] = useState<number>(0);
-  const [quantidadeAulasAcontecendo, setQuantidadeAulasAcontecendo] = useState<number>(0);
-  const [quantidadeAulasNaoAcontecendo, setQuantidadeAulasNaoAcontecendo] = useState<number>(0);
-  const [registrosRecentes, setRegistrosRecentes] = useState<DashboardRegistrosRecentesProps>({ dados: [] });
 
   return (
     <>
@@ -89,9 +90,9 @@ export default function Dashboard() {
             />
           </Grid>
 
-          {registrosRecentes.dados && registrosRecentes.dados.length > 0 ? (
+          {registrosRecentes ? (
             <Grid item xs={12}>
-              <RegistrosRecentesDashboard dados={registrosRecentes.dados} />
+              <RegistrosRecentesDashboard dados={registrosRecentes} />
             </Grid>
           ) : null}
         </Grid>
