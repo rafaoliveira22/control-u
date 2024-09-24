@@ -62,8 +62,8 @@ export default function Dashboard() {
           </Typography>
         </Box>
       ) : (
-        <Grid container spacing={3} ml={4}>
-          <Grid item xs={12} sm={4}>
+        <Grid container spacing={4} ml={4}>
+          <Grid item xs={12} sm={3}>
             <CardDashboard
               titulo='Alunos'
               subtitulo='aula'
@@ -72,7 +72,7 @@ export default function Dashboard() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <CardDashboard
               titulo='Alunos'
               subtitulo='acesso'
@@ -81,7 +81,7 @@ export default function Dashboard() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <CardDashboard
               titulo='Aulas'
               subtitulo='acontecendo'
