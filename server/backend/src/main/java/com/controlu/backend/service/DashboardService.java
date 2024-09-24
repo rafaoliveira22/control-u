@@ -73,7 +73,7 @@ public class DashboardService {
                     // O ALUNO X (ENTROU NA/SAIU DA) FACULDADE PELO DISPOSITIVO Y
                     if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_ACESSO_ENTRADA)){
                         acao = "entrou na";
-                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_ABERTURA)) {
+                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_ACESSO_SAIDA)) {
                         acao = "saiu da";
                     }
                     dadoDashboard.setDescricao(String.format("O aluno %s %s faculdade pelo dispositovo %s", rr.getReferencia(), acao, rr.getDescricao()));
@@ -89,9 +89,9 @@ public class DashboardService {
                     dadoDashboard.setDescricao(String.format("A aula %s, da grade %s, foi %s na sala %s", aulaIdSalaId[0], rr.getDescricao(), acao, aulaIdSalaId[1]));
                 }  else if(rr.getTipo().contains("PRESENCA")){
                     // O ALUNO X REGISTROU (PRESENÇA NA/SAIDA DA) AULA Y
-                    if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_FECHAMENTO)){
+                    if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_PRESENCA_ENTRADA)){
                         acao = "presença na";
-                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_ABERTURA)) {
+                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_PRESENCA_SAIDA)) {
                         acao = "saída da";
                     }
                     dadoDashboard.setDescricao(String.format("O aluno %s registrou %s aula %s", rr.getReferencia(), acao, rr.getDescricao()));
