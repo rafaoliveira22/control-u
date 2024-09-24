@@ -6,20 +6,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import { Grid, Paper } from '@mui/material';
+import { DashboardRegistrosRecentesProps } from '../interface/DashBoardProps';
 
-function createData(id: number,date: string,hour: string,description: string) {
-  return { id, date, hour, description };
-}
-
-const rows = [
-  createData(0,'09/08/2024','19:02:03','Aula de redes aberta'),
-  createData(1,'09/08/2024','19:01:58','Entrada do aluno 283000000007 na aula de inglês'),
-  createData(2,'09/08/2024','19:01:45','Aula de inglês aberta'),
-  createData(3,'09/08/2024','18:48:02','Entrada do aluno 283000000001'),
-  createData(4,'09/08/2024','18:43:19','Entrada do aluno 283000000000'),
-];
-
-export default function RegistrosRecentesDashboard() {
+export const RegistrosRecentesDashboard: React.FC<DashboardRegistrosRecentesProps> = ({ dados }) => {
   return (
     <Grid item xs={12}>
       <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -34,11 +23,11 @@ export default function RegistrosRecentesDashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.date}</TableCell>
-                  <TableCell>{row.hour}</TableCell>
-                  <TableCell>{row.description}</TableCell>
+              {dados.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.data}</TableCell>
+                  <TableCell>{row.horario}</TableCell>
+                  <TableCell>{row.descricao}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -47,4 +36,4 @@ export default function RegistrosRecentesDashboard() {
       </Paper>
     </Grid>
   );
-}
+};

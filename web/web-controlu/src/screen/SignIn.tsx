@@ -12,7 +12,7 @@ import { Toaster, toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { UsuarioLoginProps } from '../interface/UsuarioProps';
 import { fazerLogin } from '../http/HttpClientUsuario';
-import { removerAuthToken, salvarAuthToken } from '../utils/TokenUtils';
+import { salvarAuthToken } from '../utils/TokenUtils';
 const theme = createTheme();
 
 export default function SignIn() {
