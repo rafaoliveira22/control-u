@@ -9,40 +9,32 @@ import java.time.LocalTime;
 
 
 public class DashboardRegistrosRecentesVO extends RepresentationModel<DashboardRegistrosRecentesVO> {
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-    private LocalDate data;
+    private String data;
 
-    @JsonFormat(pattern = "HH:mm:ss")
-    private LocalTime horario;
+    private String horario;
     private String descricao;
 
     public DashboardRegistrosRecentesVO(){}
 
-    public DashboardRegistrosRecentesVO(String descricao) {
-        this.data = LocalDate.now();
-        this.horario = LocalTime.now();
-        this.descricao = descricao;
-    }
-
-    public DashboardRegistrosRecentesVO(LocalDate data, LocalTime horario, String descricao) {
+    public DashboardRegistrosRecentesVO(String data, String horario, String descricao) {
         this.data = data;
         this.horario = horario;
         this.descricao = descricao;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
     }
 
-    public LocalTime getHorario() {
+    public String getHorario() {
         return horario;
     }
 
-    public void setHorario(LocalTime horario) {
+    public void setHorario(String horario) {
         this.horario = horario;
     }
 

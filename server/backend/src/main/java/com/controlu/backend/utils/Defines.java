@@ -30,9 +30,12 @@ public class Defines {
 
     // DASHBOARD
     // TIPOS REGISTROS RECENTES
-    public static final String TIPO_REGISTRO_RECENTE_ACESSO = "ACESSO";
-    public static final String TIPO_REGISTRO_RECENTE_AULA = "AULA";
-    public static final String TIPO_REGISTRO_RECENTE_PRESENCA = "PRESENCA";
+    public static final String TIPO_REGISTRO_RECENTE_ACESSO_ENTRADA = "ACESSO_ENTRADA";
+    public static final String TIPO_REGISTRO_RECENTE_ACESSO_SAIDA = "ACESSO_SAIDA";
+    public static final String TIPO_REGISTRO_RECENTE_AULA_ABERTURA = "AULA_ABERTURA";
+    public static final String TIPO_REGISTRO_RECENTE_AULA_FECHAMENTO = "AULA_FECHAMENTO";
+    public static final String TIPO_REGISTRO_RECENTE_PRESENCA_ENTRADA = "PRESENCA_ENTRADA";
+    public static final String TIPO_REGISTRO_RECENTE_PRESENCA_SAIDA = "PRESENCA_SAIDA";
 
 
 }

@@ -29,6 +29,10 @@ public class DashboardService {
     @Autowired
     private RegistrosRecentesRepository registrosRecentesRepository;
 
+    public DashboardVO obterDadosDashboard(){
+        return new DashboardVO(obterDadosAlunosAcesso(), obterDadosRegistrosRecentes(), obterDadosAula(), obterDadosAlunosAula());
+    }
+
 
     public DashboardAlunosAulaVO obterDadosAlunosAula(){
         DashboardAlunosAulaVO dashboardAlunosAulaVO = new DashboardAlunosAulaVO();
@@ -47,34 +51,53 @@ public class DashboardService {
         return dashboardAlunosAcessoVO;
     }
 
-    public DashboardAula obterDadosAula(){
-        DashboardAula dashboardAula = new DashboardAula();
+    public DashboardAulaVO obterDadosAula(){
+        DashboardAulaVO dashboardAula = new DashboardAulaVO();
         dashboardAula.setQuantidadeAulasAcontecendo(aulaRepository.countAulasAcontecendo());
         dashboardAula.setQuantidadeAulasNaoAcontecendo((int) gradeRepository.count() - dashboardAula.getQuantidadeAulasAcontecendo());
 
         return dashboardAula;
     }
 
-    public List<DashboardRegistrosRecentesVO> obterRegistrosRecentes(){
+    public List<DashboardRegistrosRecentesVO> obterDadosRegistrosRecentes(){
         List<DashboardRegistrosRecentesVO> dashboardRegistrosRecentesVOList = new ArrayList<>();
 
         List<RegistrosRecentesVO> registrosRecentesVO = registrosRecentesRepository.findRegistrosRecentes();
         if(registrosRecentesVO.isEmpty()){
-            dashboardRegistrosRecentesVOList.add(new DashboardRegistrosRecentesVO("Nenhum registro disponível"));
+            dashboardRegistrosRecentesVOList.add(new DashboardRegistrosRecentesVO("0", "0", "Nenhum registro disponível"));
         } else{
             for(RegistrosRecentesVO rr : registrosRecentesVO){
+                String acao = "indefinido";
                 DashboardRegistrosRecentesVO dadoDashboard = new DashboardRegistrosRecentesVO();
-                if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_ACESSO)){
-                    // O ALUNO X ENTROU NA FACULDADE PELO DISPOSITIVO Y
-                    dadoDashboard.setDescricao(String.format("O aluno %s entrou na faculdade pelo dispositovo %s", rr.getReferencia(), rr.getDescricao()));
-                } else if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA)){
-                    // A AULA X, DA GRADE Y, FOI ABERTA NA SALA Z
+                if(rr.getTipo().contains("ACESSO")){
+                    // O ALUNO X (ENTROU NA/SAIU DA) FACULDADE PELO DISPOSITIVO Y
+                    if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_ACESSO_ENTRADA)){
+                        acao = "entrou na";
+                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_ABERTURA)) {
+                        acao = "saiu da";
+                    }
+                    dadoDashboard.setDescricao(String.format("O aluno %s %s faculdade pelo dispositovo %s", rr.getReferencia(), acao, rr.getDescricao()));
+                } else if(rr.getTipo().contains("AULA")){
+                    // A AULA X, DA GRADE Y, FOI (ABERTA/FECHADA) NA SALA Z
                     String[] aulaIdSalaId = rr.getReferencia().split("_");
-                    dadoDashboard.setDescricao(String.format("A aula %s, da grade %s, foi aberta na sala %s", aulaIdSalaId[0], rr.getDescricao(), aulaIdSalaId[1]));
-                } else if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_PRESENCA)){
-                    // O ALUNO X REGISTROU PRESENÇA NA AULA Y
-                    dadoDashboard.setDescricao(String.format("O aluno %s registrou presença na aula %s", rr.getReferencia(), rr.getDescricao()));
+
+                    if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_FECHAMENTO)){
+                        acao = "fechada";
+                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_ABERTURA)) {
+                        acao = "aberta";
+                    }
+                    dadoDashboard.setDescricao(String.format("A aula %s, da grade %s, foi %s na sala %s", aulaIdSalaId[0], rr.getDescricao(), acao, aulaIdSalaId[1]));
+                }  else if(rr.getTipo().contains("PRESENCA")){
+                    // O ALUNO X REGISTROU (PRESENÇA NA/SAIDA DA) AULA Y
+                    if(rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_FECHAMENTO)){
+                        acao = "presença na";
+                    } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_AULA_ABERTURA)) {
+                        acao = "saída da";
+                    }
+                    dadoDashboard.setDescricao(String.format("O aluno %s registrou %s aula %s", rr.getReferencia(), acao, rr.getDescricao()));
                 }
+                dadoDashboard.setData(rr.getDataFormatada());
+                dadoDashboard.setHorario(rr.getHorario());
                 dashboardRegistrosRecentesVOList.add(dadoDashboard);
             }
         }

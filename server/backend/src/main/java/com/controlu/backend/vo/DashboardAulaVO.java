@@ -2,13 +2,13 @@ package com.controlu.backend.vo;
 
 import org.springframework.hateoas.RepresentationModel;
 
-public class DashboardAula extends RepresentationModel<DashboardAula> {
+public class DashboardAulaVO extends RepresentationModel<DashboardAulaVO> {
     private Integer quantidadeAulasAcontecendo;
     private Integer quantidadeAulasNaoAcontecendo;
 
-    public DashboardAula(){}
+    public DashboardAulaVO(){}
 
-    public DashboardAula(Integer quantidadeAulasAcontecendo, Integer quantidadeAulasNaoAcontecendo){
+    public DashboardAulaVO(Integer quantidadeAulasAcontecendo, Integer quantidadeAulasNaoAcontecendo){
         this.quantidadeAulasAcontecendo = quantidadeAulasAcontecendo;
         this.quantidadeAulasNaoAcontecendo = quantidadeAulasNaoAcontecendo;
     }

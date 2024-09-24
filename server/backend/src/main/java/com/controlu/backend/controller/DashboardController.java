@@ -14,6 +14,12 @@ public class DashboardController {
     @Autowired
     private DashboardService service;
 
+
+    @GetMapping
+    public ResponseEntity<?> obterDadosDashboard(){
+        return new ResponseEntity<>(service.obterDadosDashboard(), HttpStatus.OK);
+    }
+
     @GetMapping("/aluno/aula")
     public ResponseEntity<?> obterDadosAlunosAula(){
         return new ResponseEntity<>(service.obterDadosAlunosAula(), HttpStatus.OK);
@@ -30,8 +36,8 @@ public class DashboardController {
     }
 
     @GetMapping("/recentes")
-    public ResponseEntity<?> obterRegistrosRecentes(){
-        return new ResponseEntity<>(service.obterRegistrosRecentes(), HttpStatus.OK);
+    public ResponseEntity<?> obterDadosRegistrosRecentes(){
+        return new ResponseEntity<>(service.obterDadosRegistrosRecentes(), HttpStatus.OK);
     }
 
 }
