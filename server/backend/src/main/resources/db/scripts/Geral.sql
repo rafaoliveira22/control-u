@@ -139,6 +139,10 @@ SELECT * FROM acesso WHERE DATE(acesso_entrada) = CURDATE();
 SELECT * FROM aula WHERE DATE(aula_abertura) = CURDATE();
 SELECT * FROM presenca WHERE DATE(presenca_entrada) = CURDATE();
 
+-- TESTES RELATORIOS
+DESC presenca;
+SELECT * FROM presenca ORDER BY presenca_entrada DESC, aluno_id;
+
 
 
 

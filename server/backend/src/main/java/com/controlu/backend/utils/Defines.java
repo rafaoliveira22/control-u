@@ -38,4 +38,14 @@ public class Defines {
     public static final String TIPO_REGISTRO_RECENTE_PRESENCA_SAIDA = "PRESENCA_SAIDA";
 
 
+    // RELATÓRIO
+    //TIPO
+    public static final String TIPO_RELATORIO_ACESSO = "ACESSO";
+    public static final String TIPO_RELATORIO_AULA = "AULA";
+    public static final String TIPO_RELATORIO_PRESENCA = "PRESENÇA";
+
+    // TITULO
+    public static final String TITULO_RELAORIO_ACESSO = "Relatório de Acesso";
+    public static final String TITULO_RELAORIO_AULA = "Relatório de Aula";
+    public static final String TITULO_RELAORIO_PRESENCA = "Relatório de Presença";
 }
