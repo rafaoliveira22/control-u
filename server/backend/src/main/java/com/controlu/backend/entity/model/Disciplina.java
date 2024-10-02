@@ -1,4 +1,4 @@
-package com.controlu.backend.entity;
+package com.controlu.backend.entity.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

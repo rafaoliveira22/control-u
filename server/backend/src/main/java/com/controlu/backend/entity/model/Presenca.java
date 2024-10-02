@@ -1,4 +1,4 @@
-package com.controlu.backend.entity;
+package com.controlu.backend.entity.model;
 
 import jakarta.persistence.*;
 
@@ -72,5 +72,16 @@ public class Presenca {
 
     public void setAulaId(Integer aulaId) {
         this.aulaId = aulaId;
+    }
+
+    @Override
+    public String toString() {
+        return "Presenca{" +
+                "presencaId=" + presencaId +
+                ", presencaEntrada=" + presencaEntrada +
+                ", presencaSaida=" + presencaSaida +
+                ", alunoId='" + alunoId + '\'' +
+                ", aulaId=" + aulaId +
+                '}';
     }
 }
