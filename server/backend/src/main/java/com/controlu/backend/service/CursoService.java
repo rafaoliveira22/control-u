@@ -1,14 +1,11 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.CursoController;
-import com.controlu.backend.controller.ProfessorController;
-import com.controlu.backend.entity.Curso;
-import com.controlu.backend.entity.Professor;
+import com.controlu.backend.entity.model.Curso;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.CursoRepository;
 import com.controlu.backend.vo.CursoVO;
-import com.controlu.backend.vo.ProfessorVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;

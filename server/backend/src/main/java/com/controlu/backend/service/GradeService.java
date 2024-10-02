@@ -1,8 +1,8 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.GradeController;
-import com.controlu.backend.entity.CartaoLeitura;
-import com.controlu.backend.entity.Grade;
+import com.controlu.backend.entity.model.CartaoLeitura;
+import com.controlu.backend.entity.model.Grade;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.CartaoLeituraRepository;

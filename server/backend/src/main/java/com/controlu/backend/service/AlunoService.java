@@ -1,7 +1,7 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.AlunoController;
-import com.controlu.backend.entity.Aluno;
+import com.controlu.backend.entity.model.Aluno;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AlunoRepository;

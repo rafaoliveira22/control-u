@@ -1,7 +1,7 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.DispositivoLeituraController;
-import com.controlu.backend.entity.DispositivoLeitura;
+import com.controlu.backend.entity.model.DispositivoLeitura;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.DispositivoLeituraRepository;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

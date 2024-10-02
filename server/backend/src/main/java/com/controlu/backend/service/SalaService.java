@@ -1,8 +1,8 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.SalaController;
-import com.controlu.backend.entity.DispositivoLeitura;
-import com.controlu.backend.entity.Sala;
+import com.controlu.backend.entity.model.DispositivoLeitura;
+import com.controlu.backend.entity.model.Sala;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.DispositivoLeituraRepository;

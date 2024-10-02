@@ -1,6 +1,6 @@
 package com.controlu.backend.security;
 
-import com.controlu.backend.entity.Usuario;
+import com.controlu.backend.entity.model.Usuario;
 import com.controlu.backend.security.dto.AuthenticationDTO;
 import com.controlu.backend.security.dto.LoginResponseDTO;
 import jakarta.validation.Valid;

@@ -1,14 +1,13 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.UsuarioController;
-import com.controlu.backend.entity.Usuario;
+import com.controlu.backend.entity.model.Usuario;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.UsuarioRepository;
 import com.controlu.backend.vo.UsuarioVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

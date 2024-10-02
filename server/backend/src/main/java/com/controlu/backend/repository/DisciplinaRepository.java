@@ -1,6 +1,6 @@
 package com.controlu.backend.repository;
 
-import com.controlu.backend.entity.Disciplina;
+import com.controlu.backend.entity.model.Disciplina;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.CartaoController;
-import com.controlu.backend.entity.CartaoLeitura;
+import com.controlu.backend.entity.model.CartaoLeitura;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.CartaoLeituraRepository;

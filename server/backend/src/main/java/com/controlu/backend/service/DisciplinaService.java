@@ -1,7 +1,7 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.DisciplinaController;
-import com.controlu.backend.entity.Disciplina;
+import com.controlu.backend.entity.model.Disciplina;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.DisciplinaRepository;

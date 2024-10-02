@@ -1,6 +1,6 @@
 package com.controlu.backend.repository;
 
-import com.controlu.backend.entity.Sala;
+import com.controlu.backend.entity.model.Sala;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

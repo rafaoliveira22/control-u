@@ -1,6 +1,6 @@
 package com.controlu.backend.repository;
 
-import com.controlu.backend.entity.Grade;
+import com.controlu.backend.entity.model.Grade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

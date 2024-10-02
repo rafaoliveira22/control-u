@@ -1,9 +1,9 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.PresencaController;
-import com.controlu.backend.entity.Aula;
-import com.controlu.backend.entity.Presenca;
-import com.controlu.backend.entity.Sala;
+import com.controlu.backend.entity.model.Aula;
+import com.controlu.backend.entity.model.Presenca;
+import com.controlu.backend.entity.model.Sala;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AcessoRepository;

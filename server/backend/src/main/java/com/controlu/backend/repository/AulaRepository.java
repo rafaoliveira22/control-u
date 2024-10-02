@@ -1,6 +1,6 @@
 package com.controlu.backend.repository;
 
-import com.controlu.backend.entity.Aula;
+import com.controlu.backend.entity.model.Aula;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
