@@ -7,12 +7,6 @@ public class FiltroRelatorioPresencaVO extends FiltroRelatorioVO{
 
     public FiltroRelatorioPresencaVO(){}
 
-    public FiltroRelatorioPresencaVO(Integer presencaId, Integer aulaId, String gradeId) {
-        this.presencaId = presencaId;
-        this.aulaId = aulaId;
-        this.gradeId = gradeId;
-    }
-
     public FiltroRelatorioPresencaVO(String dataInicial, String dataFinal, String tipo, String alunoId, Integer presencaId, Integer aulaId, String gradeId) {
         super(dataInicial, dataFinal, tipo, alunoId);
         this.presencaId = presencaId;
@@ -42,5 +36,14 @@ public class FiltroRelatorioPresencaVO extends FiltroRelatorioVO{
 
     public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
+    }
+
+    @Override
+    public String toString() {
+        return "FiltroRelatorioPresencaVO{" +
+                "presencaId=" + presencaId +
+                ", aulaId=" + aulaId +
+                ", gradeId='" + gradeId + '\'' +
+                '}';
     }
 }

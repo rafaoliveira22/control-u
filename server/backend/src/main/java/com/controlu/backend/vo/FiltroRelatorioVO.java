@@ -1,5 +1,11 @@
 package com.controlu.backend.vo;
 
+import com.controlu.backend.utils.Defines;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import java.time.LocalDate;
+
 /**
  * Os filtros controlam as informações que aparecem no relatório
  * *
@@ -37,6 +43,22 @@ package com.controlu.backend.vo;
  *   - dataFinal
  * *
  */
+
+
+/**
+ * Deserialização Polimórfica
+ *
+ */
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = FiltroRelatorioPresencaVO.class, name = Defines.TIPO_RELATORIO_PRESENCA),
+        @JsonSubTypes.Type(value = FiltroRelatorioAcessoVO.class, name = Defines.TIPO_RELATORIO_ACESSO),
+        @JsonSubTypes.Type(value = FiltroRelatorioAulaVO.class, name = Defines.TIPO_RELATORIO_AULA)
+})
 public class FiltroRelatorioVO {
     private String dataInicial;
     private String dataFinal;
@@ -82,5 +104,15 @@ public class FiltroRelatorioVO {
 
     public void setAlunoId(String alunoId) {
         this.alunoId = alunoId;
+    }
+
+    @Override
+    public String toString() {
+        return "FiltroRelatorioVO{" +
+                "dataInicial='" + dataInicial + '\'' +
+                ", dataFinal='" + dataFinal + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", alunoId='" + alunoId + '\'' +
+                '}';
     }
 }

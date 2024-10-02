@@ -21,4 +21,10 @@ public class DateUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato);
         return data.format(formatter);
     }
+
+    public String formatarOffsetDateTimeParaString(OffsetDateTime data, String formato) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(formato); //"dd/MM/yyyy HH:mm:ss"
+        return data.format(formatter);
+    }
+
 }
