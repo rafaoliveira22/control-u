@@ -73,16 +73,21 @@ public class RelatorioService {
         adicionarParagrafoTabela("Saída");
 
         List<Presenca> dadosRelatorio = presencaRepository.buscarPorFiltros(filtro.getAlunoId(), filtro.getAulaId(), dataInicialFinalRelatorioVO.getDataInicial(), dataInicialFinalRelatorioVO.getDataFinal());
-        for(Presenca p : dadosRelatorio){
-            adicionarParagrafoTabela(String.valueOf(p.getPresencaId()));
-            adicionarParagrafoTabela(String.valueOf(p.getAulaId()));
-            adicionarParagrafoTabela(p.getAlunoId());
-            adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(p.getPresencaEntrada(), "dd/MM/yyyy HH:mm:ss"));
-            adicionarParagrafoTabela(p.getPresencaSaida() != null ? dateUtils.formatarOffsetDateTimeParaString(p.getPresencaSaida(), "dd/MM/yyyy HH:mm:ss") : "Presença não registrada");
+        if(dadosRelatorio.isEmpty()){
+            pdfRelatorio.getDocument().add(new Paragraph("Nenhum registro disponível."));
+        } else{
+            for(Presenca p : dadosRelatorio){
+                adicionarParagrafoTabela(String.valueOf(p.getPresencaId()));
+                adicionarParagrafoTabela(String.valueOf(p.getAulaId()));
+                adicionarParagrafoTabela(p.getAlunoId());
+                adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(p.getPresencaEntrada(), "dd/MM/yyyy HH:mm:ss"));
+                adicionarParagrafoTabela(p.getPresencaSaida() != null ? dateUtils.formatarOffsetDateTimeParaString(p.getPresencaSaida(), "dd/MM/yyyy HH:mm:ss") : "Presença não registrada");
+            }
+            pdfRelatorio.adicionarTabelaNoDocumento(table);
         }
-        pdfRelatorio.adicionarTabelaNoDocumento(table);
-        pdfRelatorio.fecharDocumento();
 
+        pdfRelatorio.adicionarDataHorarioGeracaoRelatorio(dateUtils.formatarOffsetDateTimeParaString(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos(), "dd/MM/yyyy HH:mm:ss"));
+        pdfRelatorio.fecharDocumento();
         return new ByteArrayResource(pdfRelatorio.obterDadosPdf());
     }
 

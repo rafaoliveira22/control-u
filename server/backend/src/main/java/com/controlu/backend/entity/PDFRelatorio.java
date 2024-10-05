@@ -1,13 +1,19 @@
 package com.controlu.backend.entity;
 
+import com.controlu.backend.utils.DateUtils;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 
 public class PDFRelatorio {
     private ByteArrayOutputStream outputStream;
@@ -77,5 +83,9 @@ public class PDFRelatorio {
 
     public byte[] obterDadosPdf(){
         return outputStream.toByteArray();
+    }
+
+    public void adicionarDataHorarioGeracaoRelatorio(String data){
+        document.add(new Paragraph("Relatório gerado em: " + data).setFontSize(8));
     }
 }
