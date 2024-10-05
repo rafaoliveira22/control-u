@@ -1,20 +1,14 @@
 import config from "../config/config";
 import { DispositivoCadastroProps } from "../interface/DispositivoProps";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const registrarDispositivo = async  (dispositivo: DispositivoCadastroProps) => {
-  const response = await fetch(`${config.apiUrl}/dispositivo`, {
+  const response = await fetchComToken(`${config.apiUrl}/dispositivo`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify(dispositivo)
   })
 
-  if (!response.ok) {
-    const errorData = await response.json();
+  if (!response.ok) {    const errorData = await response.json();
     throw new Error(errorData.message ? errorData.message : "Erro ao cadastrar dispositivo! Tente novamente ou contate o suporte.");
   }
 
@@ -22,11 +16,8 @@ export const registrarDispositivo = async  (dispositivo: DispositivoCadastroProp
 }
 
 export const obterDadosDispositivo = async(id: string) =>{
-  const response = await fetch(`${config.apiUrl}/dispositivo/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/dispositivo/${id}`, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {
@@ -38,12 +29,8 @@ export const obterDadosDispositivo = async(id: string) =>{
 }
 
 export const obterDadosDeTodosDispositivos = async () =>{
-  const response = await fetch(`${config.apiUrl}/dispositivo`, {
+  const response = await fetchComToken(`${config.apiUrl}/dispositivo`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {
@@ -55,12 +42,8 @@ export const obterDadosDeTodosDispositivos = async () =>{
 }
 
 export const obterDadosDeTodosDispositivosPorStatus = async (status : number) =>{
-  const response = await fetch(`${config.apiUrl}/dispositivo/status/${status}`, {
+  const response = await fetchComToken(`${config.apiUrl}/dispositivo/status/${status}`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {

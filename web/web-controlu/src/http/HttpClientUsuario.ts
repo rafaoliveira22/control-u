@@ -1,8 +1,7 @@
 import config from "../config/config";
 import { UsuarioCadastroProps, UsuarioLoginProps } from "../interface/UsuarioProps";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const fazerLogin = async  (usuario: UsuarioLoginProps) => {
   const response = await fetch(`${config.apiUrl}/auth/login`, {
     method: 'POST',
@@ -21,12 +20,8 @@ export const fazerLogin = async  (usuario: UsuarioLoginProps) => {
 }
 
 export const registrarDadosUsuario = async  (usuario: UsuarioCadastroProps) => {
-  const response = await fetch(`${config.apiUrl}/usuario`, {
+  const response = await fetchComToken(`${config.apiUrl}/usuario`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify(usuario)
   })
 
@@ -40,12 +35,8 @@ export const registrarDadosUsuario = async  (usuario: UsuarioCadastroProps) => {
 
 
 export const obterDadosUsuario = async(id: string) =>{
-  const response = await fetch(`${config.apiUrl}/usuario/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/usuario/${id}`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {
@@ -57,12 +48,8 @@ export const obterDadosUsuario = async(id: string) =>{
 }
 
 export const obterDadosTodosUsuarios = async () =>{
-  const response = await fetch(`${config.apiUrl}/usuario`, {
+  const response = await fetchComToken(`${config.apiUrl}/usuario`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {

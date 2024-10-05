@@ -32,7 +32,12 @@ const config = {
     1: 'ADM',
     2: 'COMUM',
     3: 'OPERADOR',
-  } as ObjetoComNumeroComoIndice
+  } as ObjetoComNumeroComoIndice,
+  tipo_relatorio: {
+    'PRESENÇA': 'PRESENÇA',
+    'ACESSO': 'ACESSO',
+    'AULA': 'AULA'
+  }
 };
 
 export default config;

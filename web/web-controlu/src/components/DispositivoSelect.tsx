@@ -5,7 +5,7 @@ import { DispositivoProps } from '../interface/DispositivoProps';
 import { obterDadosDeTodosDispositivosPorStatus } from '../http/HttpClientDispositivo';
 import { SelectProps } from '../interface/SelectProps';
 
-const DispositivoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const DispositivoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [dispositivos, setDispositivos] = useState<DispositivoProps[]>([]);
 
   const fetchDados = async () => {

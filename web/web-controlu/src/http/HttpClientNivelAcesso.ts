@@ -1,14 +1,9 @@
 import config from "../config/config";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const obterDadosNivelDeAcesso = async(id: string) =>{
-  const response = await fetch(`${config.apiUrl}/nivelacesso/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/nivelacesso/${id}`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {
@@ -20,12 +15,8 @@ export const obterDadosNivelDeAcesso = async(id: string) =>{
 }
 
 export const obterDadosTodosNiveisDeAcesso = async () =>{
-  const response = await fetch(`${config.apiUrl}/nivelacesso`, {
+  const response = await fetchComToken(`${config.apiUrl}/nivelacesso`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {

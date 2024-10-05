@@ -1,15 +1,10 @@
 import config from "../config/config";
 import { GradeCadastroProps } from "../interface/GradeProps";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const registrarDadosGrade = async  (grade: GradeCadastroProps) => {
-  const response = await fetch(`${config.apiUrl}/grade`, {
+  const response = await fetchComToken(`${config.apiUrl}/grade`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify(grade)
   })
 
@@ -22,12 +17,8 @@ export const registrarDadosGrade = async  (grade: GradeCadastroProps) => {
 }
 
 export const obterDadosGrade = async(id: string) =>{
-  const response = await fetch(`${config.apiUrl}/grade/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/grade/${id}`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {
@@ -39,12 +30,8 @@ export const obterDadosGrade = async(id: string) =>{
 }
 
 export const obterDadosDeTodasGrades = async () =>{
-  const response = await fetch(`${config.apiUrl}/grade`, {
+  const response = await fetchComToken(`${config.apiUrl}/grade`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {

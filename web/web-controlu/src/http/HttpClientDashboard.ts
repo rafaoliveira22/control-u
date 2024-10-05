@@ -1,15 +1,9 @@
 import config from "../config/config";
-import { obterAuthToken } from "../utils/TokenUtils";
-
-const token = obterAuthToken()
+import { fetchComToken } from "./HttpClientGeral";
 
 export const obterDadosDashboard = async () => {
-  const response = await fetch(`${config.apiUrl}/dashboard`, {
+  const response = await fetchComToken(`${config.apiUrl}/dashboard`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   });
 
   if (!response.ok) {

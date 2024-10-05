@@ -1,15 +1,10 @@
 import config from "../config/config";
 import { DisciplinaProps } from "../interface/DisciplinaProps";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const registrarDisciplina = async  (disciplina: DisciplinaProps) => {
-  const response = await fetch(`${config.apiUrl}/disciplina`, {
+  const response = await fetchComToken(`${config.apiUrl}/disciplina`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
     body: JSON.stringify(disciplina)
   })
 
@@ -22,12 +17,8 @@ export const registrarDisciplina = async  (disciplina: DisciplinaProps) => {
 }
 
 export const obterDadosDisciplina = async(id: string) =>{
-  const response = await fetch(`${config.apiUrl}/disciplina/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/disciplina/${id}`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {
@@ -39,12 +30,8 @@ export const obterDadosDisciplina = async(id: string) =>{
 }
 
 export const obterDadosDeTodasDisciplinas = async () =>{
-  const response = await fetch(`${config.apiUrl}/disciplina`, {
+  const response = await fetchComToken(`${config.apiUrl}/disciplina`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   })
 
   if (!response.ok) {

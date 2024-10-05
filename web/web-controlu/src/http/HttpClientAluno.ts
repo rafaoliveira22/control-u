@@ -1,15 +1,10 @@
 import config from "../config/config";
 import { AlunoProps } from "../interface/AlunoProps";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const registrarDadosAluno = async (aluno: AlunoProps) => {
-  const response = await fetch(`${config.apiUrl}/aluno`, {
+  const response = await fetchComToken(`${config.apiUrl}/aluno`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(aluno),
   });
 
@@ -22,12 +17,8 @@ export const registrarDadosAluno = async (aluno: AlunoProps) => {
 }
 
 export const obterDadosAluno = async (id: string) => {
-  const response = await fetch(`${config.apiUrl}/aluno/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/aluno/${id}`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   });
 
   if (!response.ok) {
@@ -39,12 +30,8 @@ export const obterDadosAluno = async (id: string) => {
 };
 
 export const obterDadosDeTodosAlunos = async () => {
-  const response = await fetch(`${config.apiUrl}/aluno`, {
+  const response = await fetchComToken(`${config.apiUrl}/aluno`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   });
 
   if (!response.ok) {
@@ -56,12 +43,8 @@ export const obterDadosDeTodosAlunos = async () => {
 };
 
 export const atualizarDadosAluno = async (aluno: AlunoProps) => {
-  const response = await fetch(`${config.apiUrl}/aluno`, {
+  const response = await fetchComToken(`${config.apiUrl}/aluno`, {
     method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(aluno),
   });
 
@@ -73,12 +56,8 @@ export const atualizarDadosAluno = async (aluno: AlunoProps) => {
 };
 
 export const apagarDadosAlunos = async (id: string) => {
-  const response = await fetch(`${config.apiUrl}/aluno/${id}`, {
+  const response = await fetchComToken(`${config.apiUrl}/aluno/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    }
   });
 
   if (!response.ok) {

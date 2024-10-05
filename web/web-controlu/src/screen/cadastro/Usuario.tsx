@@ -121,7 +121,7 @@ export default function Usuario() {
               onChange={(e) => {setSenha(e.target.value as string)}}
               value={senha}
             />
-            <NivelAcessoSelect value={nivelAcessoSelecionado} onChange={(e) => setNivelAcessoSelecionado(e.target.value as number)} />
+            <NivelAcessoSelect value={nivelAcessoSelecionado} onChange={(e) => setNivelAcessoSelecionado(e.target.value as number)} isRelatorio={false}/>
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
       </Grid>

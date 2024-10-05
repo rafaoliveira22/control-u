@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CardDashboard } from '../components/CardDashboard';
-import { obterDadosDashboard } from '../http/HttpDashboard';
+import { obterDadosDashboard } from '../http/HttpClientDashboard';
 import { toast, Toaster } from 'sonner';
 import { DashboardRegistrosRecentesProps } from '../interface/DashBoardProps';
 import { RegistrosRecentesDashboard } from '../components/RegistrosRecentesDashboard';
@@ -20,7 +20,6 @@ export default function Dashboard() {
     const fetchDados = async () => {
       try {
         const dados = await obterDadosDashboard();
-        console.log(dados);
 
         setQuantidadeAlunosEmAula(dados.dashboardAlunosAulaVO.quantidadeAlunosEmAula);
         setQuantidadeAlunosForaDeAula(dados.dashboardAlunosAulaVO.quantidadeAlunosForaDeAula);
@@ -36,7 +35,6 @@ export default function Dashboard() {
           toast.error('Erro desconhecido');
         }
       } finally {
-        console.log(registrosRecentes)
         setLoading(false);
       }
     };

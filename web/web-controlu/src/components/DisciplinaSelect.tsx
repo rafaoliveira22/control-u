@@ -5,7 +5,7 @@ import { SelectProps } from '../interface/SelectProps';
 import { DisciplinaProps } from '../interface/DisciplinaProps';
 import { obterDadosDeTodasDisciplinas } from '../http/HttpClientDisciplina';
 
-const DisciplinaSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const DisciplinaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [disciplinas, setDisciplinas] = useState<DisciplinaProps[]>([]);
 
   const fetchDados = async () => {

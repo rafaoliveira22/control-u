@@ -124,7 +124,7 @@ export default function Aluno() {
               onChange={(e) => {setRa(e.target.value as string)}}
               value={ra}
             />
-            <CursoSelect value={cursoSelecionado} onChange={(e) => setCursoSelecionado(e.target.value as number)} />
+            <CursoSelect value={cursoSelecionado} onChange={(e) => setCursoSelecionado(e.target.value as number)} isRelatorio={false} />
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
       </Grid>

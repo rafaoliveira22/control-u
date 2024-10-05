@@ -5,7 +5,7 @@ import { Toaster, toast } from 'sonner';
 import { CursoProps } from '../interface/CursoProps';
 import { SelectProps } from '../interface/SelectProps';
 
-const CursoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const CursoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [cursos, setCursos] = useState<CursoProps[]>([]);
 
   useEffect(() => {

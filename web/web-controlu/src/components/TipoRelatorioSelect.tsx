@@ -4,7 +4,7 @@ import { SelectProps } from '../interface/SelectProps';
 import { TipoRelatorio } from '../interface/RelatorioProps';
 import { Toaster } from 'sonner';
 
-const TipoRelatorioSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const TipoRelatorioSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [tiposRelatorio, setTipoRelatorio] = useState<TipoRelatorio[]>([
     {tipo: 'ACESSO'},
     {tipo: 'AULA'},
@@ -12,7 +12,7 @@ const TipoRelatorioSelect: React.FC<SelectProps> = ({ value, onChange }) => {
   ]);
 
   return (
-    <FormControl fullWidth sx={{ mb: 2 }}>
+    <FormControl fullWidth>
       <Toaster richColors  expand={true} />
       <InputLabel id="select-label">Tipo Relatório *</InputLabel>
       <Select

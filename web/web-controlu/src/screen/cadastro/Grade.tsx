@@ -109,10 +109,10 @@ export default function Grade() {
       <Grid item xs={12}>
         <Toaster richColors expand={true} closeButton />
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <CursoSelect value={cursoSelecionado} onChange={(e) => setCursoSelecionado(e.target.value as number)} />
-            <DisciplinaSelect value={disciplinaSelecionada} onChange={(e) => setDisciplinaSelecionada(e.target.value as string)} />
-            <ProfessorSelect value={professorSelecionado} onChange={(e) => setProfessorSelecionado(e.target.value as string)} />
-            <CartaoSelect value={cartaoSelecionado} onChange={(e) => setCartaoSelecionado(e.target.value as string)} />
+            <CursoSelect value={cursoSelecionado} onChange={(e) => setCursoSelecionado(e.target.value as number)} isRelatorio={false} />
+            <DisciplinaSelect value={disciplinaSelecionada} onChange={(e) => setDisciplinaSelecionada(e.target.value as string)} isRelatorio={false} />
+            <ProfessorSelect value={professorSelecionado} onChange={(e) => setProfessorSelecionado(e.target.value as string)} isRelatorio={false} />
+            <CartaoSelect value={cartaoSelecionado} onChange={(e) => setCartaoSelecionado(e.target.value as string)} isRelatorio={false} />
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
       </Grid>

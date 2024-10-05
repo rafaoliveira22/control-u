@@ -1,15 +1,10 @@
 import config from "../config/config";
 import { CursoProps } from "../interface/CursoProps";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 export const obterTodosCursos = async(): Promise<CursoProps[]> => {
-  const response = await fetch(`${config.apiUrl}/curso`, {
+  const response = await fetchComToken(`${config.apiUrl}/curso`, {
     method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
   });
 
   if (!response.ok) {
@@ -21,12 +16,8 @@ export const obterTodosCursos = async(): Promise<CursoProps[]> => {
 };
 
 export const registrarDadosCurso = async (curso: CursoProps) => {
-  const response = await fetch(`${config.apiUrl}/curso`, {
+  const response = await fetchComToken(`${config.apiUrl}/curso`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(curso),
   });
 

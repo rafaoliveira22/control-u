@@ -106,7 +106,7 @@ export default function Sala() {
               value={salaNome}
             />
 
-            <DispositivoSelect value={dispositivoSelecionado} onChange={(e) => setDispositivoSelecionado(e.target.value as string)} />
+            <DispositivoSelect value={dispositivoSelecionado} onChange={(e) => setDispositivoSelecionado(e.target.value as string)} isRelatorio={false}/>
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
       </Grid>

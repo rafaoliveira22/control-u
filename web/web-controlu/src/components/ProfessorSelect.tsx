@@ -5,14 +5,19 @@ import { SelectProps } from '../interface/SelectProps';
 import { ProfessorProps } from '../interface/ProfessorProps';
 import { obterTodosProfessores } from '../http/HttpClientProfessor';
 
-const ProfessorSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const ProfessorSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [professores, setProfessores] = useState<ProfessorProps[]>([]);
 
   useEffect(() => {
     const fetchDados = async () => {
       try {
         const data = await obterTodosProfessores();
-        setProfessores(data);
+        if(isRelatorio){
+          const dadosSelect = [{professorId: '0', professorNome: 'Todos'}, ...data]
+          setProfessores(dadosSelect);
+        } else{
+          setProfessores(data);
+        }
       } catch (error) {
         if (error instanceof Error) {
           if(error.message.toLowerCase() === "failed to fetch"){
@@ -36,7 +41,7 @@ const ProfessorSelect: React.FC<SelectProps> = ({ value, onChange }) => {
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="professor-select-label">Professor *</InputLabel>
+      <InputLabel id="professor-select-label">Professor</InputLabel>
       <Select
         labelId="professor-select-label"
         id="professor-select"
@@ -46,7 +51,7 @@ const ProfessorSelect: React.FC<SelectProps> = ({ value, onChange }) => {
       >
         {professores.map((professor) => (
           <MenuItem key={professor.professorId} value={professor.professorId}>
-            {professor.professorNome} 
+            {`${professor.professorId} - ${professor.professorNome}`} 
           </MenuItem>
         ))}
       </Select>

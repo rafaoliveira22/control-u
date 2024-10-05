@@ -5,7 +5,7 @@ import { SelectProps } from '../interface/SelectProps';
 import { CartaoProps } from '../interface/CartaoProps';
 import { obterDadosTodosCartoesQueNaoEstaoAssociadosAUmaGrade } from '../http/HttpClientCartao';
 
-const CartaoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const CartaoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [cartoes, setCartoes] = useState<CartaoProps[]>([]);
 
   useEffect(() => {

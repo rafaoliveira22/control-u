@@ -1,25 +1,12 @@
 import config from "../config/config";
-import { obterAuthToken } from "../utils/TokenUtils";
+import { FiltroRelatorioAcesso, FiltroRelatorioAula, FiltroRelatorioPresenca } from "../interface/RelatorioProps";
+import { fetchComToken } from "./HttpClientGeral";
 
-const token = obterAuthToken()
 
-interface FiltroRelatorioVO {
-  dataInicial: string;
-  dataFinal: string;
-  alunoId?: string;
-  aulaId?: number;
-}
-
-export const gerarRelatorio = async (filtroRelatorio: FiltroRelatorioVO) => {
-  console.log(filtroRelatorio)
-
-  const response = await fetch(`${config.apiUrl}/relatorio`, {
+export const gerarRelatorio = async (filtroRelatorio: (FiltroRelatorioPresenca | FiltroRelatorioAcesso | FiltroRelatorioAula | null)) => {
+  const response = await fetchComToken(`${config.apiUrl}/relatorio`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(filtroRelatorio)
+    body: JSON.stringify(filtroRelatorio),
   });
 
   if (!response.ok) {
