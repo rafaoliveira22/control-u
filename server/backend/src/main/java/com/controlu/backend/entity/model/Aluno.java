@@ -15,6 +15,10 @@ public class Aluno {
     @Column(name = "curso_id")
     private Integer cursoId;
 
+    @Lob
+    @Column(name = "aluno_face")
+    private byte[] alunoFace;
+
 
     public Aluno() {
     }
@@ -23,6 +27,13 @@ public class Aluno {
         this.alunoRa = alunoRa;
         this.alunoNome = alunoNome;
         this.cursoId = cursoId;
+    }
+
+    public Aluno(String alunoRa, String alunoNome, Integer cursoId, byte[] alunoFace) {
+        this.alunoRa = alunoRa;
+        this.alunoNome = alunoNome;
+        this.cursoId = cursoId;
+        this.alunoFace = alunoFace;
     }
 
     public String getAlunoRa() {
@@ -47,5 +58,13 @@ public class Aluno {
 
     public void setCursoId(Integer cursoId) {
         this.cursoId = cursoId;
+    }
+
+    public byte[] getAlunoFace() {
+        return alunoFace;
+    }
+
+    public void setAlunoFace(byte[] alunoFace) {
+        this.alunoFace = alunoFace;
     }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE aluno ADD COLUMN aluno_face LONGBLOB NOT NULL;

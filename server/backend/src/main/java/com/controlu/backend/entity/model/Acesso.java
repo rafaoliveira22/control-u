@@ -26,6 +26,10 @@ public class Acesso {
     @Column(name = "aluno_id")
     private String alunoId ;
 
+    @Lob
+    @Column(name = "acesso_face_momento_entrada")
+    private byte[] acessoFaceMomentoEntrada;
+
     public Acesso(){}
 
     public Acesso(Integer acessoId, OffsetDateTime acessoEntrada, OffsetDateTime acessoSaida, String dispositivoId, String alunoId) {
@@ -34,6 +38,15 @@ public class Acesso {
         this.acessoSaida = acessoSaida;
         this.dispositivoId = dispositivoId;
         this.alunoId = alunoId;
+    }
+
+    public Acesso(Integer acessoId, OffsetDateTime acessoEntrada, OffsetDateTime acessoSaida, String dispositivoId, String alunoId, byte[] acessoFaceMomentoEntrada) {
+        this.acessoId = acessoId;
+        this.acessoEntrada = acessoEntrada;
+        this.acessoSaida = acessoSaida;
+        this.dispositivoId = dispositivoId;
+        this.alunoId = alunoId;
+        this.acessoFaceMomentoEntrada = acessoFaceMomentoEntrada;
     }
 
     public Integer getAcessoId() {
@@ -74,6 +87,14 @@ public class Acesso {
 
     public void setAlunoId(String alunoId) {
         this.alunoId = alunoId;
+    }
+
+    public byte[] getAcessoFaceMomentoEntrada() {
+        return acessoFaceMomentoEntrada;
+    }
+
+    public void setAcessoFaceMomentoEntrada(byte[] acessoFaceMomentoEntrada) {
+        this.acessoFaceMomentoEntrada = acessoFaceMomentoEntrada;
     }
 
     @Override
