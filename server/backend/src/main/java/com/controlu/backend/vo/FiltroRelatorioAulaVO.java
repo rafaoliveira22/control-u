@@ -6,17 +6,18 @@ public class FiltroRelatorioAulaVO extends FiltroRelatorioVO {
     private String salaId;
     private String professorId;
 
+
     public FiltroRelatorioAulaVO(){}
 
-    public FiltroRelatorioAulaVO(Integer aulaId, Integer gradeId, String salaId, String professorId) {
+    public FiltroRelatorioAulaVO(Integer aulaId, Integer gradeId, String salaId, String professorId, String alunoId) {
         this.aulaId = aulaId;
         this.gradeId = gradeId;
         this.salaId = salaId;
         this.professorId = professorId;
     }
 
-    public FiltroRelatorioAulaVO(String dataInicial, String dataFinal, String tipo, String alunoId, Integer aulaId, Integer gradeId, String salaId, String professorId) {
-        super(dataInicial, dataFinal, tipo, alunoId);
+    public FiltroRelatorioAulaVO(String dataInicial, String dataFinal, String tipo, Integer aulaId, Integer gradeId, String salaId, String professorId) {
+        super(dataInicial, dataFinal, tipo);
         this.aulaId = aulaId;
         this.gradeId = gradeId;
         this.salaId = salaId;

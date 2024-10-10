@@ -2,19 +2,23 @@ package com.controlu.backend.vo;
 
 public class FiltroRelatorioAcessoVO extends FiltroRelatorioVO{
     private Integer acessoId;
-    private String salaId;
+    private String dispositivoId;
+
+    private String alunoId;
 
     public FiltroRelatorioAcessoVO(){}
 
-    public FiltroRelatorioAcessoVO(Integer acessoId, String salaId) {
+    public FiltroRelatorioAcessoVO(Integer acessoId, String salaId, String alunoId) {
         this.acessoId = acessoId;
-        this.salaId = salaId;
+        this.dispositivoId = salaId;
+        this.alunoId = alunoId;
     }
 
-    public FiltroRelatorioAcessoVO(String dataInicial, String dataFinal, String tipo, String alunoId, Integer acessoId, String salaId) {
-        super(dataInicial, dataFinal, tipo, alunoId);
+    public FiltroRelatorioAcessoVO(String dataInicial, String dataFinal, String tipo, Integer acessoId, String salaId, String alunoId) {
+        super(dataInicial, dataFinal, tipo);
         this.acessoId = acessoId;
-        this.salaId = salaId;
+        this.dispositivoId = salaId;
+        this.alunoId = alunoId;
     }
 
     public Integer getAcessoId() {
@@ -25,11 +29,21 @@ public class FiltroRelatorioAcessoVO extends FiltroRelatorioVO{
         this.acessoId = acessoId;
     }
 
-    public String getSalaId() {
-        return salaId;
+    public String getDispositivoId() {
+        return dispositivoId;
     }
 
-    public void setSalaId(String salaId) {
-        this.salaId = salaId;
+    public String getAlunoId() {
+        return alunoId;
+    }
+
+    public void setAlunoId(String alunoId) {
+        this.alunoId = alunoId;
+    }
+
+    public void setDispositivoId(String dispositivoId) {
+        this.dispositivoId = dispositivoId;
+
+
     }
 }

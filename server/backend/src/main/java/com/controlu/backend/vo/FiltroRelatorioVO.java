@@ -4,8 +4,6 @@ import com.controlu.backend.utils.Defines;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import java.time.LocalDate;
-
 /**
  * Os filtros controlam as informações que aparecem no relatório
  * *
@@ -16,14 +14,14 @@ import java.time.LocalDate;
  * - Caso tenha dataInicial e não tenha dataFinal, serão considerados os registros a partir da dataInicial e menores
  * que a data atual, ou seja, a data atual será considerada a dataFinal.
  * - Caso tenha dataInicial e tenha dataFinal, serão considerados os registros a partir da dataInicial até a dataFinal,
- * lembrando que a dataFinal nunca pode ser maior que a dataAtual, e consequentemenet, a dataInical não pode ser menor que a dataFinal
+ * lembrando que a dataFinal nunca pode ser maior que a dataAtual, e consequentemente, a dataInical não pode ser menor que a dataFinal
  * *
  * TIPO
  * O tipo do relatório é se ele é
  * - ACESSO
  *   - acessoId
  *   - alunoId
- *   - salaId
+ *   - dispositivoId
  *   - dataInicial
  *   - dataFinal
  * - PRESENÇA
@@ -35,7 +33,6 @@ import java.time.LocalDate;
  *   - dataFinal
  * - AULA
  *   - aulaId
- *   - alunoId
  *   - gradeId
  *   - professorId
  *   - salaId
@@ -63,15 +60,14 @@ public class FiltroRelatorioVO {
     private String dataInicial;
     private String dataFinal;
     private String tipo;
-    private String alunoId;
+
 
     public FiltroRelatorioVO(){}
 
-    public FiltroRelatorioVO(String dataInicial, String dataFinal, String tipo, String alunoId) {
+    public FiltroRelatorioVO(String dataInicial, String dataFinal, String tipo) {
         this.dataInicial = dataInicial;
         this.dataFinal = dataFinal;
         this.tipo = tipo;
-        this.alunoId = alunoId;
     }
 
     public String getDataInicial() {
@@ -98,13 +94,6 @@ public class FiltroRelatorioVO {
         this.tipo = tipo;
     }
 
-    public String getAlunoId() {
-        return alunoId;
-    }
-
-    public void setAlunoId(String alunoId) {
-        this.alunoId = alunoId;
-    }
 
     @Override
     public String toString() {
@@ -112,7 +101,6 @@ public class FiltroRelatorioVO {
                 "dataInicial='" + dataInicial + '\'' +
                 ", dataFinal='" + dataFinal + '\'' +
                 ", tipo='" + tipo + '\'' +
-                ", alunoId='" + alunoId + '\'' +
                 '}';
     }
 }
