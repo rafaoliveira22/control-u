@@ -20,6 +20,8 @@ public class AcessoVO extends RepresentationModel<AcessoVO> {
 
     private String alunoId;
 
+    private byte[] acessoFaceMomentoEntrada;
+
     public AcessoVO(){}
 
 
@@ -29,6 +31,15 @@ public class AcessoVO extends RepresentationModel<AcessoVO> {
         this.acessoSaida = acessoSaida;
         this.dispositivoId = dispositivoId;
         this.alunoId = alunoId;
+    }
+
+    public AcessoVO(Integer acessoId, OffsetDateTime acessoEntrada, OffsetDateTime acessoSaida, String dispositivoId, String alunoId, byte[] acessoFaceMomentoEntrada) {
+        this.acessoId = acessoId;
+        this.acessoEntrada = acessoEntrada;
+        this.acessoSaida = acessoSaida;
+        this.dispositivoId = dispositivoId;
+        this.alunoId = alunoId;
+        this.acessoFaceMomentoEntrada = acessoFaceMomentoEntrada;
     }
 
     public Integer getAcessoId() {
@@ -69,6 +80,14 @@ public class AcessoVO extends RepresentationModel<AcessoVO> {
 
     public void setAlunoId(String alunoId) {
         this.alunoId = alunoId;
+    }
+
+    public byte[] getAcessoFaceMomentoEntrada() {
+        return acessoFaceMomentoEntrada;
+    }
+
+    public void setAcessoFaceMomentoEntrada(byte[] acessoFaceMomentoEntrada) {
+        this.acessoFaceMomentoEntrada = acessoFaceMomentoEntrada;
     }
 
     @Override

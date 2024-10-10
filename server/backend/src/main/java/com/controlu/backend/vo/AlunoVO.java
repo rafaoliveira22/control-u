@@ -16,12 +16,21 @@ public class AlunoVO extends RepresentationModel<AlunoVO> {
 
     private Integer cursoId;
 
+    private byte[] alunoFace;
+
     public AlunoVO(){}
 
     public AlunoVO(String alunoRa, String alunoNome, Integer cursoId){
         this.alunoRa = alunoRa;
         this.alunoNome = alunoNome;
         this.cursoId = cursoId;
+    }
+
+    public AlunoVO(String alunoRa, String alunoNome, Integer cursoId, byte[] alunoFace) {
+        this.alunoRa = alunoRa;
+        this.alunoNome = alunoNome;
+        this.cursoId = cursoId;
+        this.alunoFace = alunoFace;
     }
 
     public String getAlunoRa() {
@@ -46,5 +55,13 @@ public class AlunoVO extends RepresentationModel<AlunoVO> {
 
     public void setCursoId(Integer cursoId) {
         this.cursoId = cursoId;
+    }
+
+    public byte[] getAlunoFace() {
+        return alunoFace;
+    }
+
+    public void setAlunoFace(byte[] alunoFace) {
+        this.alunoFace = alunoFace;
     }
 }
