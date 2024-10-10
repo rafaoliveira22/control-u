@@ -40,12 +40,12 @@ const SalaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => 
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Sala</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Sala (Ambiente)' : 'Sala (Ambiente) *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"
         value={value}
-        label="Sala"
+        label={isRelatorio ? 'Sala (Ambiente)' : 'Sala (Ambiente) *'}
         onChange={onChange}
       >
         {salas.map((sala) => (

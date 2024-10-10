@@ -42,7 +42,7 @@ const AlunoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =>
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Aluno</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Aluno' : 'Aluno *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"

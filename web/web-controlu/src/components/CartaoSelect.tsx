@@ -36,7 +36,7 @@ const CartaoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =
   return (
     <FormControl fullWidth>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Cartão *</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Cartão de Leitura' : 'Cartão Leitura *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"

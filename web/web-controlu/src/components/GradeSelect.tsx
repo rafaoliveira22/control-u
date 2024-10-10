@@ -40,12 +40,12 @@ const GradeSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =>
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Grade</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Grade' : 'Grade *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"
         value={value}
-        label="Aluno"
+        label="Grade"
         onChange={onChange}
       >
         {grades.map((grade) => (

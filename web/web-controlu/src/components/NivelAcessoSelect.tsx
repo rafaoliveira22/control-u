@@ -5,7 +5,7 @@ import { SelectProps } from '../interface/SelectProps';
 import { NivelAcessoProps } from '../interface/NivelAcessoProps';
 import { obterDadosTodosNiveisDeAcesso } from '../http/HttpClientNivelAcesso';
 
-const NivelAcessoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
+const NivelAcessoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
   const [niveisDeAcesso, setNiveisDeAcesso] = useState<NivelAcessoProps[]>([]);
 
   useEffect(() => {
@@ -36,12 +36,12 @@ const NivelAcessoSelect: React.FC<SelectProps> = ({ value, onChange }) => {
   return (
     <FormControl fullWidth>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Nível De Acesso *</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Nível de Acesso' : 'Nível de Acesso *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"
         value={value}
-        label="Nível De Acesso"
+        label={isRelatorio ? 'Nível de Acesso' : 'Nível de Acesso *'}
         onChange={onChange}
       >
         {niveisDeAcesso.map((nivelAcesso) => (

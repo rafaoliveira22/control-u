@@ -37,7 +37,7 @@ const DisciplinaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio 
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Disciplina *</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Disciplina' : 'Disciplina *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"

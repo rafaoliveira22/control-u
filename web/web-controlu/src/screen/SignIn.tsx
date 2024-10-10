@@ -45,7 +45,10 @@ export default function SignIn() {
           return "Login realizado com sucesso!"
         },
         error: (error) => {
-          return error.message;
+          if(error.message === 'Failed to fetch'){
+            error.message  = 'Erro ao fazer login! Tente novamente ou contate o suporte.'
+          }
+          return error.message
         }
       })
     } else{

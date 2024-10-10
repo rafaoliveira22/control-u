@@ -15,14 +15,13 @@ export interface FiltroRelatorioAcesso{
   dataFinal: string | null;
   alunoId?: string | null;
   acessoId?: number | null;
-  salaId?: string | null;
+  dispositivoId?: string | null;
 }
 
 export interface FiltroRelatorioAula{
   tipo: string
   dataInicial: string | null;
   dataFinal: string | null;
-  alunoId?: string | null;
 
   aulaId?: number | null;
   gradeId?: string | null;

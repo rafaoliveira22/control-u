@@ -40,12 +40,12 @@ const AcessoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Acesso</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Acesso ID' : 'Acesso ID *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"
         value={value}
-        label="Sala"
+        label="Acesso"
         onChange={onChange}
       >
         {acessos.map((acesso) => (

@@ -41,12 +41,12 @@ const ProfessorSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="professor-select-label">Professor</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Professor' : 'Professor *'}</InputLabel>
       <Select
         labelId="professor-select-label"
         id="professor-select"
         value={value}
-        label="Professor"
+        label={isRelatorio ? 'Professor' : 'Professor *'}
         onChange={onChange}
       >
         {professores.map((professor) => (

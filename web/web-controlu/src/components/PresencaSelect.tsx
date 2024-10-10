@@ -40,12 +40,12 @@ const PresencaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio })
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Presença</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Presença ID' : 'Presença ID *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"
         value={value}
-        label="Presença"
+        label={isRelatorio ? 'Presença ID' : 'Presença ID *'}
         onChange={onChange}
       >
         {presencas.map((presenca) => (

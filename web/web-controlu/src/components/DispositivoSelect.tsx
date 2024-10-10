@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Toaster, toast } from 'sonner';
 import { DispositivoProps } from '../interface/DispositivoProps';
-import { obterDadosDeTodosDispositivosPorStatus } from '../http/HttpClientDispositivo';
+import { obterDadosDeTodosDispositivos, obterDadosDeTodosDispositivosPorStatus } from '../http/HttpClientDispositivo';
 import { SelectProps } from '../interface/SelectProps';
 
 const DispositivoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
@@ -10,8 +10,15 @@ const DispositivoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio
 
   const fetchDados = async () => {
     try {
-      const data = await obterDadosDeTodosDispositivosPorStatus(2);
-      setDispositivos(data);
+      
+      if(isRelatorio){
+        const data = await obterDadosDeTodosDispositivos()
+        const dadosSelect = [{dispositivoId: 'Todos', dispositivoStatus: ''}, ...data]
+        setDispositivos(dadosSelect);
+      } else{
+        const data = await obterDadosDeTodosDispositivosPorStatus(2);
+        setDispositivos(data)
+      }
     } catch (error) {
       if (error instanceof Error) {
         if(error.message.toLowerCase() === "failed to fetch"){
@@ -37,7 +44,7 @@ const DispositivoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Dispositivos *</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Dispositivo de Leitura' : 'Dispositivo de Leitura *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"

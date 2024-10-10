@@ -40,7 +40,7 @@ const AulaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => 
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <Toaster richColors  expand={true} />
-      <InputLabel id="select-label">Aula</InputLabel>
+      <InputLabel id="select-label">{isRelatorio ? 'Aula ID' : 'Aula ID *'}</InputLabel>
       <Select
         labelId="select-label"
         id="select"
