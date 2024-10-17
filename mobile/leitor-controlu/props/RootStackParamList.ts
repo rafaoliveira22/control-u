@@ -6,4 +6,5 @@ type RootStackParamList = {
   LeitorCarteirinhaAcesso: undefined;
   LeitorAula: undefined;
   Menu: undefined
+  LeitorReconhecimentoFacial: { alunoId : string }
 };

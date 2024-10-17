@@ -9,6 +9,7 @@ import { registrarDadosAula } from '../http/HttClientAula';
 import { registrarDadosPresenca } from '../http/HttpClientPresenca';
 import { AcessoProps } from '../props/AcessoProps';
 import { registrarDadosAcesso } from '../http/HttpClientAcesso';
+import { verificarSeEstaRegistrado } from '../http/HttpClientAluno';
 
 export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProps> = ({ navigation }) => {
   const [temPermissao, setTemPermissao] = useState<boolean | null>(null);
@@ -29,14 +30,14 @@ export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProp
     setLoading(true)
     setEscaneado(true);
     try {
-        const acesso : AcessoProps = {
-          dispositivoId: Config.dispositivoIdAcesso,
-          alunoId: dadoEscaneadoTrim
+        const response = await verificarSeEstaRegistrado(dadoEscaneadoTrim);
+        console.log(response)
+        if(response.estaRegistrado){
+          navigation.navigate('LeitorReconhecimentoFacial', { alunoId: dadoEscaneadoTrim } )
+        } else{
+          Alert.alert('Acesso não autorizado', `O aluno ${dadoEscaneadoTrim} não está na registrado na base de dados.`, [{ text: 'OK', onPress: () => setEscaneado(false) }]);
         }
-  
-        const response = await registrarDadosAcesso(acesso);
-        Alert.alert('OK', `Acesso do aluno ${response.alunoId} atualizado com sucesso`, [{ text: 'OK', onPress: () => setEscaneado(false) }])
-    } catch (e) {
+      } catch (e) {
       if(e instanceof Error){
         if(e.message.toLowerCase().includes("json") || e.message.toLowerCase().includes("sql")){
           Alert.alert('Erro', 'Erro inesperado! Tente novamente ou contate o suporte.', [{ text: 'OK', onPress: () => setEscaneado(false) }]);
@@ -70,6 +71,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
   },
 });

@@ -6,6 +6,7 @@ import { Login } from './screen/Login';
 import { LeitorCarteirinhaAcesso } from './screen/LeitorCarteirinhaAcesso';
 import { LeitorAula } from './screen/LeitorAula';
 import { Menu } from './screen/Menu';
+import { LeitorReconhecimentoFacial } from './screen/LeitorReconhecimentoFacial';
 
 export default function App() {
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -16,6 +17,7 @@ export default function App() {
         <Stack.Screen name="Menu" component={Menu} options={{ title: ''}}/>
         <Stack.Screen name="LeitorCarteirinhaAcesso" component={LeitorCarteirinhaAcesso} options={{ title: ''}}/>
         <Stack.Screen name="LeitorAula" component={LeitorAula} options={{ title: ''}}/>
+        <Stack.Screen name="LeitorReconhecimentoFacial" component={LeitorReconhecimentoFacial} options={{ title: ''}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

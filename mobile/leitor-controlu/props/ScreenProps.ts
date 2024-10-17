@@ -9,6 +9,7 @@ export type LoginScreenProps = {
 
 export type LeitorCarteirinhaAcessoScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'LeitorCarteirinhaAcesso'>;
+  alunoId?: string
 };
 
 export type LeitorAulaScreenProps = {
@@ -17,4 +18,13 @@ export type LeitorAulaScreenProps = {
 
 export type MenuScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Menu'>;
+};
+
+export type LeitorReconhecimentoFacialScreenProps = {
+  navigation: NativeStackNavigationProp<RootStackParamList, 'LeitorReconhecimentoFacial'>;
+  route: {
+    params: {
+      alunoId: string;
+    };
+  };
 };
