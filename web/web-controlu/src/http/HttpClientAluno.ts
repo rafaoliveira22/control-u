@@ -3,6 +3,7 @@ import { AlunoProps } from "../interface/AlunoProps";
 import { fetchComToken } from "./HttpClientGeral";
 
 export const registrarDadosAluno = async (aluno: AlunoProps) => {
+  console.log(aluno)
   const response = await fetchComToken(`${config.apiUrl}/aluno`, {
     method: 'POST',
     body: JSON.stringify(aluno),

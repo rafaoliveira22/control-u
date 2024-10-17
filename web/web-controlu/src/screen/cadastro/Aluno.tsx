@@ -6,24 +6,43 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
 import { Toaster, toast } from 'sonner';
-import { AlunoProps } from '../../interface/AlunoProps';
+import { AlunoCadastroProps, AlunoConsultaProps } from '../../interface/AlunoProps';
 import { registrarDadosAluno, obterDadosDeTodosAlunos } from '../../http/HttpClientAluno';
 import CursoSelect from '../../components/CursoSelect';
 import TabelaDadosRegistrados from '../../components/TabelaDadosRegistrados';
 import config from '../../config/config';
+import { InputLabel, Input } from '@mui/material';
 
 export default function Aluno() {
   const [cursoSelecionado, setCursoSelecionado] = useState<number | string>('')
   const [nome, setNome] = useState<string>('')
   const [ra, setRa] = useState<string>('')
-  const [alunos, setAlunos] = useState<AlunoProps[]>([]);
+  const [alunos, setAlunos] = useState<AlunoCadastroProps[]>([]);
+
+  const [alunoFace, setAlunoFace] = useState(''); // Armazenará a imagem em Base64
+
   useEffect(() => {
     fetchDados();
   }, [])
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    const reader = new FileReader();
+    
+    reader.onloadend = () => {
+      if (reader.result) {
+        setAlunoFace(reader.result.toString().split(',')[1]);
+      }
+    };
+  
+    if (file) {
+      reader.readAsDataURL(file); 
+    }
+  };
 
   const fetchDados = async () => {
     try{
-      const dados: AlunoProps[] = await obterDadosDeTodosAlunos();
+      const dados: AlunoConsultaProps[] = await obterDadosDeTodosAlunos();
       // Convertendo os dados dos alunos para o formato esperado pela tabela
       const dadosConvertidos = dados.map(aluno => [
         aluno.alunoRa,
@@ -48,10 +67,11 @@ export default function Aluno() {
 
     const validacaoDadosForms = validarDadosFormulario()
     if(!validacaoDadosForms){
-      const aluno: AlunoProps = {
+      const aluno: AlunoCadastroProps = {
         alunoRa: ra,
         alunoNome: nome,
-        cursoId: Number(cursoSelecionado)
+        cursoId: Number(cursoSelecionado),
+        face: alunoFace
       };
   
       const promise = registrarDadosAluno(aluno);
@@ -91,6 +111,10 @@ export default function Aluno() {
       return 'Curso'
     }
 
+    if(!alunoFace){
+      return 'Face (Rosto)'
+    }
+
     return false;
   }
 
@@ -124,7 +148,16 @@ export default function Aluno() {
               onChange={(e) => {setRa(e.target.value as string)}}
               value={ra}
             />
+
             <CursoSelect value={cursoSelecionado} onChange={(e) => setCursoSelecionado(e.target.value as number)} isRelatorio={false} />
+            <InputLabel htmlFor="file-upload">Escolha o arquivo da face (rosto) do aluno</InputLabel>
+            <Input
+                id="file-upload"
+                accept="image/*"
+                type="file"
+                onChange={handleFileChange}
+                fullWidth
+            />
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
       </Grid>

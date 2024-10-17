@@ -21,6 +21,8 @@ import { useLocation, Outlet } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { removerAuthToken } from '../utils/TokenUtils';
 import { useNavigate } from 'react-router-dom';
+import { CardMedia } from '@mui/material';
+import logo from '../assets/img/logo-sem-slogan-2.png'
 
 
 const drawerWidth: number = 240;
@@ -133,7 +135,7 @@ export default function Main() {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar  open={open} color="primary">
+        <AppBar  open={open}  sx={{ backgroundColor: '#115571' }}>
           <Toolbar sx={{pr: '24px'}} >
             <IconButton
               edge="start"
@@ -147,6 +149,12 @@ export default function Main() {
             >
               <MenuIcon />
             </IconButton>
+            <CardMedia
+              component="img"
+              sx={{ height: 50, width: 'auto', marginRight: 2 }}
+              image={logo} 
+              alt="Logo ControlU"
+            />
             <Typography
               component="h1"
               variant="h6"

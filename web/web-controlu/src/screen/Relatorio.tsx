@@ -31,10 +31,10 @@ export default function Relatorio() {
   const [alunoSelecionado, setAlunoSelecionado] = useState<string | string>('')
   
   const [acessoIdSelecionado, setAcessoIdSelecionado] = useState<number | string>('')
-  const [aulaIdSelecionado, setAulaIdSelecionado] = useState<number | string>('')
+  const [aulaIdSelecionado, setAulaIdSelecionado] = useState<string | string>('')
   const [presencaIdSelecionado, setPresencaIdSelecionado] = useState<number | string>('')
   
-  const [gradeIdSelecionado, setGradeIdSelecionado] = useState<number | string>('')
+  const [gradeIdSelecionado, setGradeIdSelecionado] = useState<string | string>('')
   const [salaIdSelecionado, setSalaIdSelecionado] = useState<string | string>('')
   const [professorIdSelecionado, setProfessorIdSelecionado] = useState<string | string>('')
   const [dispositivoIdSelecionado, setDispositivoIdSelecionado] = useState<string | string>('')
@@ -66,8 +66,8 @@ export default function Relatorio() {
           dataInicial: dataInicial === '' || dataInicial === null ? null : dataInicial,
           dataFinal: dataFinal === '' || dataFinal === null ? null : dataFinal,
           alunoId: alunoSelecionado === '' || alunoSelecionado === null || alunoSelecionado == '0' ? null : alunoSelecionado,
-          aulaId: aulaIdSelecionado === '' || aulaIdSelecionado === null || aulaIdSelecionado == 0 ? null : aulaIdSelecionado,
-          gradeId: gradeIdSelecionado === '' || gradeIdSelecionado === null || gradeIdSelecionado == 0 ? null : gradeIdSelecionado,
+          aulaId: aulaIdSelecionado === '' || aulaIdSelecionado === null || aulaIdSelecionado == '0' ? null : aulaIdSelecionado,
+          gradeId: gradeIdSelecionado === '' || gradeIdSelecionado === null || gradeIdSelecionado == '0' ? null : gradeIdSelecionado,
           salaId: salaIdSelecionado === '' || salaIdSelecionado === null || salaIdSelecionado == '0' ? null : salaIdSelecionado,
           professorId: professorIdSelecionado === '' || professorIdSelecionado === null || professorIdSelecionado == '0' ? null : professorIdSelecionado
         } as FiltroRelatorioAula;
@@ -79,8 +79,8 @@ export default function Relatorio() {
           dataFinal: dataFinal === '' || dataFinal === null ? null : dataFinal,
           alunoId: alunoSelecionado === '' || alunoSelecionado === null || alunoSelecionado === '0' ? null : alunoSelecionado,
           presencaId: presencaIdSelecionado === '' || presencaIdSelecionado === null || presencaIdSelecionado == 0 ? null : presencaIdSelecionado,
-          aulaId: aulaIdSelecionado === '' || aulaIdSelecionado === null || aulaIdSelecionado == 0 ? null : aulaIdSelecionado,
-          gradeId: gradeIdSelecionado === '' || gradeIdSelecionado === null || gradeIdSelecionado == 0 ? null : gradeIdSelecionado,
+          aulaId: aulaIdSelecionado === '' || aulaIdSelecionado === null || aulaIdSelecionado == '0' ? null : aulaIdSelecionado,
+          gradeId: gradeIdSelecionado === '' || gradeIdSelecionado === null || gradeIdSelecionado == '0' ? null : gradeIdSelecionado,
         } as FiltroRelatorioPresenca;
       } else{
         toast.error("Tipo de relatório inválido! Selecione ACESSO, AULA ou PRESENÇA.")
@@ -133,7 +133,7 @@ export default function Relatorio() {
             <AcessoSelect value={acessoIdSelecionado} onChange={(e) => setAcessoIdSelecionado(e.target.value as number)} isRelatorio={true} /> 
             : null}
           {tipoRelatorioSelecionado === config.tipo_relatorio.AULA || tipoRelatorioSelecionado === config.tipo_relatorio.PRESENÇA ? 
-            <AulaSelect value={aulaIdSelecionado} onChange={(e) => setAulaIdSelecionado(e.target.value as number)} isRelatorio={true} /> 
+            <AulaSelect value={aulaIdSelecionado} onChange={(e) => setAulaIdSelecionado(e.target.value as string)} isRelatorio={true} /> 
             : null}
 
           {tipoRelatorioSelecionado === config.tipo_relatorio.PRESENÇA ? 
@@ -144,8 +144,8 @@ export default function Relatorio() {
             <AlunoSelect value={alunoSelecionado} onChange={(e) => setAlunoSelecionado(e.target.value as string)} isRelatorio={true} />
           : null}
           
-          {/* {tipoRelatorioSelecionado === config.tipo_relatorio.PRESENÇA ||*/} {tipoRelatorioSelecionado === config.tipo_relatorio.AULA ? 
-            <GradeSelect value={gradeIdSelecionado} onChange={(e) => setGradeIdSelecionado(e.target.value as number)} isRelatorio={true} />
+          {tipoRelatorioSelecionado === config.tipo_relatorio.PRESENÇA || tipoRelatorioSelecionado === config.tipo_relatorio.AULA ? 
+            <GradeSelect value={gradeIdSelecionado} onChange={(e) => setGradeIdSelecionado(e.target.value as string)} isRelatorio={true} />
             :null}
 
           {tipoRelatorioSelecionado === config.tipo_relatorio.AULA ?

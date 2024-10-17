@@ -13,7 +13,7 @@ const GradeSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =>
       try {
         const data = await obterDadosDeTodasGrades();
         if(isRelatorio){
-          const dadosSelect = [{gradeId: 0, cursoId: 0, disciplinaId: 'Todos', professorId: '', cartaoId: ''}, ...data]
+          const dadosSelect = [{gradeId: '0', cursoId: 0, disciplinaId: 'Todos', professorId: '', cartaoId: ''}, ...data]
           setGrades(dadosSelect);
         } else{
           setGrades(data)
@@ -25,7 +25,7 @@ const GradeSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =>
           }
           toast.error(error.message);
           const erroPersonalizado: GradeProps = {
-            gradeId: 0, cursoId: 0, disciplinaId: 'Erro ao obter as grades disponíveis.', professorId: '', cartaoId: ''
+            gradeId: '0', cursoId: 0, disciplinaId: 'Erro ao obter as grades disponíveis.', professorId: '', cartaoId: ''
           };
           setGrades([erroPersonalizado]);
         } else {

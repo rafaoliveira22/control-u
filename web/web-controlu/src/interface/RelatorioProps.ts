@@ -5,7 +5,7 @@ export interface FiltroRelatorioPresenca{
   alunoId?: string | null;
 
   presencaId?: number | null;
-  aulaId?: number | null;
+  aulaId?: string | null;
   gradeId?: string | null;
 }
 
@@ -23,7 +23,7 @@ export interface FiltroRelatorioAula{
   dataInicial: string | null;
   dataFinal: string | null;
 
-  aulaId?: number | null;
+  aulaId?: string | null;
   gradeId?: string | null;
   salaId?: string | null;
   professorId?: string | null;

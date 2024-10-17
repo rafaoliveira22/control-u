@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { Toaster, toast } from 'sonner';
 import { SelectProps } from '../interface/SelectProps';
-import { AlunoProps } from '../interface/AlunoProps';
+import { AlunoConsultaProps } from '../interface/AlunoProps';
 import { obterDadosDeTodosAlunos } from '../http/HttpClientAluno';
 
 const AlunoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => {
-  const [alunos, setAlunos] = useState<AlunoProps[]>([]);
+  const [alunos, setAlunos] = useState<AlunoConsultaProps[]>([]);
 
   useEffect(() => {
     const fetchDados = async () => {
@@ -24,7 +24,7 @@ const AlunoSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) =>
             error.message = "Erro ao carregar os alunos disponíveis! Tente novamente ou contate o suporte."
           }
           toast.error(error.message);
-          const alunoError: AlunoProps = {
+          const alunoError: AlunoConsultaProps = {
             alunoRa: "0",
             alunoNome: "Erro ao carregar os alunos disponíveis",
             cursoId: 0

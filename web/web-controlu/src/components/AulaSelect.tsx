@@ -13,19 +13,20 @@ const AulaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => 
       try {
         const data = await obterDadosTodasAulas();
         if(isRelatorio){
-          const dadosSelect = [{aulaId: 0, aulaAbertura: 'Todos', aulaFechamento: '', gradeId: 0, salaId: ''}, ...data]
+          const dadosSelect = [{aulaId: '0', aulaAbertura: 'Todos', aulaFechamento: '', gradeId: 0, salaId: ''}, ...data]
           setAulas(dadosSelect);
         } else{
           setAulas(data);
         }
       } catch (error) {
+
         if (error instanceof Error) {
           if(error.message.toLowerCase() === "failed to fetch"){
             error.message = "Erro ao carregar as aulas disponíveis! Tente novamente ou contate o suporte."
           }
           toast.error(error.message);
           const erroPersonalizado: AulaProps = {
-            aulaId: 0, aulaAbertura: 'Erro ao obter as aulas', aulaFechamento: '', gradeId: 0, salaId: ''
+            aulaId: "0", aulaAbertura: 'Erro ao obter as aulas', aulaFechamento: '', gradeId: 0, salaId: ''
           };
           setAulas([erroPersonalizado]);
         } else {
@@ -50,7 +51,7 @@ const AulaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio }) => 
       >
         {aulas.map((aula) => (
           <MenuItem key={aula.aulaId} value={aula.aulaId}>
-            {`${aula.aulaId} - ${aula.aulaAbertura} - ${aula.salaId}`} 
+            {`${aula.aulaId} - ${aula.aulaAbertura}`} 
           </MenuItem>
         ))}
       </Select>

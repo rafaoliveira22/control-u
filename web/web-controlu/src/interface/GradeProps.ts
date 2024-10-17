@@ -1,5 +1,5 @@
 export interface GradeProps {
-  gradeId: number,
+  gradeId: string,
   cursoId: number,
   disciplinaId: string,
   professorId: string,

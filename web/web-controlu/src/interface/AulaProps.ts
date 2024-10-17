@@ -1,5 +1,5 @@
 export interface AulaProps{
-  aulaId: number,
+  aulaId: string,
   aulaAbertura: string,
   aulaFechamento: string,
   gradeId: number,

@@ -30,7 +30,7 @@ export default function Grade() {
     try{
       const dados: GradeProps[] = await obterDadosDeTodasGrades();
       const dadosConvertidos = dados.map(grade => [
-        grade.gradeId as number, 
+        grade.gradeId as string, 
         config.cursos[grade.cursoId],
         grade.disciplinaId as string,
         grade.professorId as string,
