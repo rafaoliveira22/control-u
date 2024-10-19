@@ -86,6 +86,7 @@ export default function Relatorio() {
         toast.error("Tipo de relatório inválido! Selecione ACESSO, AULA ou PRESENÇA.")
         return
       }
+      console.log(filtroRelatorio)
       const promise = gerarRelatorio(filtroRelatorio)
       toast.promise(promise, {
         loading: "Gerando relatório...",

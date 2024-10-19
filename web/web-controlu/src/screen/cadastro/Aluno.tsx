@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -20,6 +20,8 @@ export default function Aluno() {
   const [alunos, setAlunos] = useState<AlunoCadastroProps[]>([]);
 
   const [alunoFace, setAlunoFace] = useState(''); // Armazenará a imagem em Base64
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 
   useEffect(() => {
     fetchDados();
@@ -81,6 +83,10 @@ export default function Aluno() {
           setRa("")
           setNome("")
           setCursoSelecionado("")
+          setAlunoFace("")
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+          }
           fetchDados()
           return "Cadastro realizado com sucesso"
         },
@@ -157,6 +163,7 @@ export default function Aluno() {
                 type="file"
                 onChange={handleFileChange}
                 fullWidth
+                inputRef={fileInputRef}
             />
             <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>Cadastrar</Button>
         </Box>
