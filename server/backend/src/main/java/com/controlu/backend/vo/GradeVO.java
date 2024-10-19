@@ -4,7 +4,7 @@ package com.controlu.backend.vo;
 import org.springframework.hateoas.RepresentationModel;
 
 public class GradeVO extends RepresentationModel<GradeVO> {
-    private Integer gradeId;
+    private String gradeId;
 
     private Integer cursoId;
 
@@ -16,7 +16,7 @@ public class GradeVO extends RepresentationModel<GradeVO> {
 
     public GradeVO(){}
 
-    public GradeVO(Integer gradeId, Integer cursoId, String disciplinaId, String professorId, String cartaoId) {
+    public GradeVO(String gradeId, Integer cursoId, String disciplinaId, String professorId, String cartaoId) {
         this.gradeId = gradeId;
         this.cursoId = cursoId;
         this.disciplinaId = disciplinaId;
@@ -24,11 +24,11 @@ public class GradeVO extends RepresentationModel<GradeVO> {
         this.cartaoId = cartaoId;
     }
 
-    public Integer getGradeId() {
+    public String getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(Integer gradeId) {
+    public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
     }
 

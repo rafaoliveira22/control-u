@@ -1,0 +1,8 @@
+ALTER TABLE grade
+MODIFY grade_id VARCHAR(14),
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (grade_id);
+
+ALTER TABLE aula
+MODIFY grade_id VARCHAR(14);
+

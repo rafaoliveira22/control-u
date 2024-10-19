@@ -2,17 +2,25 @@ package com.controlu.backend.service;
 
 import com.controlu.backend.controller.AcessoController;
 import com.controlu.backend.entity.model.Acesso;
+import com.controlu.backend.entity.model.Aluno;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AcessoRepository;
+import com.controlu.backend.repository.AlunoRepository;
 import com.controlu.backend.repository.DispositivoLeituraRepository;
 import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
 import com.controlu.backend.vo.AcessoLeituraVO;
 import com.controlu.backend.vo.AcessoVO;
+import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +42,13 @@ public class AcessoService {
     private AlunoService alunoService;
 
     @Autowired
+    private AlunoRepository alunoRepository;
+
+    @Autowired
     private DateUtils dateUtils;
+
+    @Autowired
+    private ReconhecimentoFacialService reconhecimentoFacialService;
 
 
     /**
@@ -79,8 +93,9 @@ public class AcessoService {
      * @param acessoLeituraVO OBJETO CARREGADO COM OS DADOS DO ACESSO
      * @return ACESSO REGISTRADO
      */
-    public AcessoVO registrarDadosAcesso(AcessoLeituraVO acessoLeituraVO){
+    public AcessoVO registrarDadosAcesso(AcessoLeituraVO acessoLeituraVO) throws IOException {
         AcessoVO acessoVO = DozerMapper.parseObject(acessoLeituraVO, AcessoVO.class);
+        acessoVO.setAcessoFaceMomentoEntrada(Base64.getDecoder().decode(acessoLeituraVO.getFaceEntrada()));
 
         if(!(dispositivoLeituraRepository.existsById(acessoVO.getDispositivoId()))){
             throw new ResourceNotFoundException("O dispositivo " + acessoVO.getDispositivoId() + " é inválido.");
@@ -96,10 +111,23 @@ public class AcessoService {
 
         Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(acessoVO.getAlunoId());
         if(acessoValidacao.isPresent()){
+            // ACESSO EM ABERTO (SAÍDA)
             acessoVO.setAcessoId(acessoValidacao.get().getAcessoId());
             acessoVO.setAcessoEntrada(acessoValidacao.get().getAcessoEntrada());
             acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
         } else{
+            // SEM ACESSO EM ABERTO (ENTRADA)
+            Optional<Aluno> aluno = alunoRepository.findById(acessoVO.getAlunoId());
+            if(aluno.isPresent()){
+                System.out.println(reconhecimentoFacialService.enviarImagensParaReconhecimento(acessoVO.getAcessoFaceMomentoEntrada(), aluno.get().getAlunoFace()));
+                boolean faceReconhecida = true;
+                if(!faceReconhecida){
+                    throw new IllegalArgumentException("Reconhecimento facial do aluno " + acessoLeituraVO.getAlunoId() + " inválido! Tente novamente ou contate o suporte.");
+                }
+            } else{
+                throw new IllegalArgumentException("Reconhecimento facial do aluno " + acessoLeituraVO.getAlunoId() + " inválido! Tente novamente ou contate o suporte.");
+            }
+
             acessoVO.setAcessoEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
             acessoVO.setAcessoSaida(null);
         }
@@ -109,5 +137,16 @@ public class AcessoService {
         vo.add(linkTo(methodOn(AcessoController.class).obterDadosAcesso(String.valueOf(vo.getAcessoId()))).withSelfRel());
 
         return vo;
+    }
+
+
+    /**
+     * MÉTODO PARA VERIFICAR SE O ALUNO TEM UM ACESSO EM ABERTO
+     * @param ra REGISTRO DO ALUNO
+     * @return TRUE -> TEM ACESSO EM ABERTO, FALSE -> NÃO TEM ACESSO EM ABERTO
+     */
+    public boolean verificarSeTemAcessoEmAberto(String ra){
+        Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(ra);
+        return acessoValidacao.isPresent();
     }
 }

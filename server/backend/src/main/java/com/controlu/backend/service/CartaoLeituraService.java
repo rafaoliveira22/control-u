@@ -41,7 +41,7 @@ public class CartaoLeituraService {
      * MÉTODO PARA CONSTRUIR O ID DO CARTÃO A SER REGISTRADO
      * @return NOVO ID
      */
-    private String construirIdDoDispositivo(){
+    private String construirId(){
         CartaoLeitura ultimoCartaoRegistrado = obterUltimoCartaoRegistrado();
 
 
@@ -98,7 +98,7 @@ public class CartaoLeituraService {
      * @return CARTÃO REGISTRADO
      */
     public CartaoLeituraVO registrarDadosCartao(){
-        CartaoLeituraVO cartaoLeituraVO = new CartaoLeituraVO(construirIdDoDispositivo(), Defines.STATUS_CARTAO_SEM_USO);
+        CartaoLeituraVO cartaoLeituraVO = new CartaoLeituraVO(construirId(), Defines.STATUS_CARTAO_SEM_USO);
 
         CartaoLeitura cartao = DozerMapper.parseObject(cartaoLeituraVO, CartaoLeitura.class);
         var vo = DozerMapper.parseObject(repository.save(cartao), CartaoLeituraVO.class);

@@ -5,6 +5,7 @@ import com.controlu.backend.entity.model.Aluno;
 import com.controlu.backend.exception.ResourceNotFoundException;
 import com.controlu.backend.mapper.DozerMapper;
 import com.controlu.backend.repository.AlunoRepository;
+import com.controlu.backend.vo.AlunoCadastroVO;
 import com.controlu.backend.vo.AlunoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -49,12 +51,14 @@ public class AlunoService {
      * @param alunoVO OBJETO CARREGADO COM OS DADOS DO ALUNO
      * @return ALUNO REGISTRADO
      */
-    public AlunoVO registrarDadosAluno(AlunoVO alunoVO){
+    public AlunoVO registrarDadosAluno(AlunoCadastroVO alunoVO){
         if (repository.existsById(alunoVO.getAlunoRa())) {
             throw new IllegalArgumentException("Registro já existe.");
         }
 
+        byte[] dadosFace = Base64.getDecoder().decode(alunoVO.getFace());
         Aluno aluno = DozerMapper.parseObject(alunoVO, Aluno.class);
+        aluno.setAlunoFace(dadosFace);
         var vo = DozerMapper.parseObject(repository.save(aluno), AlunoVO.class);
         vo.add(linkTo(methodOn(AlunoController.class).obterDadosAluno(vo.getAlunoRa())).withSelfRel());
 

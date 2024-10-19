@@ -16,6 +16,8 @@ public class RelatorioController {
     private RelatorioService service;
     @PostMapping
     public ResponseEntity<ByteArrayResource> gerarRelatorio(@RequestBody FiltroRelatorioVO filtro) throws Exception {
+        System.out.println(filtro.toString());
+
         ByteArrayResource resource = service.gerarRelatorio(filtro);
 
         return ResponseEntity.ok()

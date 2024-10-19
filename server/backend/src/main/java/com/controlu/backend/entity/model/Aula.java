@@ -8,9 +8,8 @@ import java.time.OffsetDateTime;
 @Table(name = "aula")
 public class Aula {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "aula_id")
-    private Integer aulaId;
+    private String aulaId;
 
     @Column(name = "aula_abertura")
     private OffsetDateTime aulaAbertura;
@@ -19,14 +18,14 @@ public class Aula {
     private OffsetDateTime aulaFechamento;
 
     @Column(name = "grade_id")
-    private Integer gradeId;
+    private String gradeId;
 
     @Column(name = "sala_id")
     private String salaId;
 
     public Aula(){}
 
-    public Aula(Integer aulaId, OffsetDateTime aulaAbertura, OffsetDateTime aulaFechamento, Integer gradeId, String salaId) {
+    public Aula(String aulaId, OffsetDateTime aulaAbertura, OffsetDateTime aulaFechamento, String gradeId, String salaId) {
         this.aulaId = aulaId;
         this.aulaAbertura = aulaAbertura;
         this.aulaFechamento = aulaFechamento;
@@ -34,11 +33,11 @@ public class Aula {
         this.salaId = salaId;
     }
 
-    public Integer getAulaId() {
+    public String getAulaId() {
         return aulaId;
     }
 
-    public void setAulaId(Integer aulaId) {
+    public void setAulaId(String aulaId) {
         this.aulaId = aulaId;
     }
 
@@ -58,11 +57,11 @@ public class Aula {
         this.aulaFechamento = aulaFechamento;
     }
 
-    public Integer getGradeId() {
+    public String getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(Integer gradeId) {
+    public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
     }
 

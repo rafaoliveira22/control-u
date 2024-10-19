@@ -43,7 +43,14 @@ public class FiltroRelatorioAcessoVO extends FiltroRelatorioVO{
 
     public void setDispositivoId(String dispositivoId) {
         this.dispositivoId = dispositivoId;
+    }
 
-
+    @Override
+    public String toString() {
+        return "FiltroRelatorioAcessoVO{" +
+                "acessoId=" + acessoId +
+                ", dispositivoId='" + dispositivoId + '\'' +
+                ", alunoId='" + alunoId + '\'' +
+                '}';
     }
 }

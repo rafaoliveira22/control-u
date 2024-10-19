@@ -26,11 +26,14 @@ public class AulaController {
     @GetMapping
     public ResponseEntity<?> obterDadosTodasAulas(){
         List<AulaVO> aulas = service.obterDadosTodasAulas();
-        return new ResponseEntity<>(aulas.isEmpty() ? "Nenhuma aula disponível" : aulas, HttpStatus.OK);
+        return new ResponseEntity<>(aulas, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> registrarDadosAula(@RequestBody AulaLeituraVO aula){
+        System.out.println("\nREGISTRAR DADOS AULA - Aula Controller");
+        System.out.println(aula.toString());
+
         AulaVO aulaRegistrada = service.registrarDadosAula(aula);
         return new ResponseEntity<>(aulaRegistrada, HttpStatus.CREATED);
     }

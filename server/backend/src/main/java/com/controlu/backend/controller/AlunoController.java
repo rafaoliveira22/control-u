@@ -1,6 +1,7 @@
 package com.controlu.backend.controller;
 
 import com.controlu.backend.service.AlunoService;
+import com.controlu.backend.vo.AlunoCadastroVO;
 import com.controlu.backend.vo.AlunoVO;
 import com.controlu.backend.vo.AlunoVerificadorRaExistenteVO;
 import jakarta.validation.Valid;
@@ -40,7 +41,8 @@ public class AlunoController {
 
 
     @PostMapping()
-    public ResponseEntity<?> registrarDadosAluno(@Valid @RequestBody AlunoVO aluno){
+    public ResponseEntity<?> registrarDadosAluno(@RequestBody AlunoCadastroVO aluno){
+        System.out.println(aluno.toString());
         try {
             AlunoVO alunoRegistrado = alunoService.registrarDadosAluno(aluno);
             return new ResponseEntity<>(alunoRegistrado, HttpStatus.CREATED);

@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AulaRepository extends JpaRepository<Aula, Integer> {
+public interface AulaRepository extends JpaRepository<Aula, String> {
+    Aula findTopByOrderByAulaIdDesc();
+
     List<Aula> findAllByOrderByAulaAberturaDesc();
     Optional<Aula> findBySalaId(String salaId);
 
     @Query("SELECT a FROM Aula a WHERE a.gradeId = :gradeId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
-    Optional<Aula> findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNull(Integer gradeId);
+    Optional<Aula> findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNull(String gradeId);
 
     @Query("SELECT a FROM Aula a WHERE a.aulaId = :aulaId AND DATE(a.aulaAbertura) = CURRENT_DATE AND a.aulaFechamento IS NULL")
     Optional<Aula> findAulaByAulaIdAndAulaAberturaTodayAndAulaFechamentoNull(Integer aulaId);
@@ -34,10 +36,10 @@ public interface AulaRepository extends JpaRepository<Aula, Integer> {
             "(:gradeId IS NULL OR a.gradeId = :gradeId) AND " +
             "(:salaId IS NULL OR a.salaId = :salaId)")
     List<Aula> buscarPorFiltros(
-           @Param("aulaId") Integer aulaId,
+           @Param("aulaId") String aulaId,
            @Param("dataInicial") LocalDate dataInicial,
            @Param("dataFinal") LocalDate dataFinal,
-           @Param("gradeId") Integer gradeId,
+           @Param("gradeId") String gradeId,
            @Param("salaId") String salaId
     );
 }

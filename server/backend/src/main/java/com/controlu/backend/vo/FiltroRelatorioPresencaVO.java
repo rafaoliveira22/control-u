@@ -2,14 +2,14 @@ package com.controlu.backend.vo;
 
 public class FiltroRelatorioPresencaVO extends FiltroRelatorioVO{
     private Integer presencaId;
-    private Integer aulaId;
+    private String aulaId;
     private String gradeId;
 
     private String alunoId;
 
     public FiltroRelatorioPresencaVO(){}
 
-    public FiltroRelatorioPresencaVO(String dataInicial, String dataFinal, String tipo, String alunoId, Integer presencaId, Integer aulaId, String gradeId) {
+    public FiltroRelatorioPresencaVO(String dataInicial, String dataFinal, String tipo, String alunoId, Integer presencaId, String aulaId, String gradeId) {
         super(dataInicial, dataFinal, tipo);
         this.alunoId = alunoId;
         this.presencaId = presencaId;
@@ -25,11 +25,11 @@ public class FiltroRelatorioPresencaVO extends FiltroRelatorioVO{
         this.presencaId = presencaId;
     }
 
-    public Integer getAulaId() {
+    public String getAulaId() {
         return aulaId;
     }
 
-    public void setAulaId(Integer aulaId) {
+    public void setAulaId(String aulaId) {
         this.aulaId = aulaId;
     }
 

@@ -2,6 +2,8 @@ package com.controlu.backend.entity.model;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
+
 @Entity
 @Table(name  = "aluno")
 public class Aluno {
@@ -66,5 +68,15 @@ public class Aluno {
 
     public void setAlunoFace(byte[] alunoFace) {
         this.alunoFace = alunoFace;
+    }
+
+    @Override
+    public String toString() {
+        return "Aluno{" +
+                "alunoRa='" + alunoRa + '\'' +
+                ", alunoNome='" + alunoNome + '\'' +
+                ", cursoId=" + cursoId +
+                ", alunoFace=" + Arrays.toString(alunoFace) +
+                '}';
     }
 }

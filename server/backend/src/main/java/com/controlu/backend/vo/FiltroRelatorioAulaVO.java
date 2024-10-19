@@ -1,22 +1,22 @@
 package com.controlu.backend.vo;
 
 public class FiltroRelatorioAulaVO extends FiltroRelatorioVO {
-    private Integer aulaId;
-    private Integer gradeId;
+    private String aulaId;
+    private String gradeId;
     private String salaId;
     private String professorId;
 
 
     public FiltroRelatorioAulaVO(){}
 
-    public FiltroRelatorioAulaVO(Integer aulaId, Integer gradeId, String salaId, String professorId, String alunoId) {
+    public FiltroRelatorioAulaVO(String aulaId, String gradeId, String salaId, String professorId, String alunoId) {
         this.aulaId = aulaId;
         this.gradeId = gradeId;
         this.salaId = salaId;
         this.professorId = professorId;
     }
 
-    public FiltroRelatorioAulaVO(String dataInicial, String dataFinal, String tipo, Integer aulaId, Integer gradeId, String salaId, String professorId) {
+    public FiltroRelatorioAulaVO(String dataInicial, String dataFinal, String tipo, String aulaId, String gradeId, String salaId, String professorId) {
         super(dataInicial, dataFinal, tipo);
         this.aulaId = aulaId;
         this.gradeId = gradeId;
@@ -24,19 +24,19 @@ public class FiltroRelatorioAulaVO extends FiltroRelatorioVO {
         this.professorId = professorId;
     }
 
-    public Integer getAulaId() {
+    public String getAulaId() {
         return aulaId;
     }
 
-    public void setAulaId(Integer aulaId) {
+    public void setAulaId(String aulaId) {
         this.aulaId = aulaId;
     }
 
-    public Integer getGradeId() {
+    public String getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(Integer gradeId) {
+    public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
     }
 

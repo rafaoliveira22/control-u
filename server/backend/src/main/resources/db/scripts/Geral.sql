@@ -6,13 +6,12 @@ SET SQL_SAFE_UPDATES = 0;
 
 -- FLYWAY
 SELECT * FROM db_controlu.flyway_schema_history;
--- DELETE FROM flyway_schema_history WHERE version = '';
+-- DELETE FROM flyway_schema_history WHERE version = '?';
 
 -- ALUNO
 DESC aluno;
 SELECT * FROM aluno;
 SHOW INDEX FROM aluno;
-
 
 -- CURSO
 DESC curso;
@@ -143,7 +142,10 @@ SELECT * FROM presenca WHERE DATE(presenca_entrada) = CURDATE();
 DESC presenca;
 SELECT * FROM presenca ORDER BY presenca_entrada DESC, aluno_id;
 
+DESC aula;
+DESC disciplina;
 
+SELECT * FROM acesso;
 
 
 

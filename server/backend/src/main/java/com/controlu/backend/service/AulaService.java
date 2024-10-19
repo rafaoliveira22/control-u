@@ -36,14 +36,52 @@ public class AulaService {
     private DateUtils dateUtils;
 
     /**
+     * MÉTODO PARA OBTER A ULTIMO AULA DE LEITURA REGISTRADA NA BASE DE DADOS
+     * @return ULTIMO AULA REGISTRADA
+     */
+    private Aula obterUltimaAulaRegistrada(){
+        return repository.findTopByOrderByAulaIdDesc();
+    }
+
+    /**
+     * MÉTODO PARA OBTER A SEQUÊNCIA NUMERICA DO ID
+     * EX: A001 -> 000001
+     * @param id
+     * @return SEQUÊNCIA NUMERICA EXTRAÍDA DO ID
+     */
+    private String obterSequenciaNumericaDoId(String id){
+        return id.substring(id.length() - 6);
+    }
+
+    /**
+     * MÉTODO PARA CONSTRUIR O ID DA AULA A SER REGISTRADA
+     * @return NOVO ID (ex: A000001)
+     */
+    private String construirId(String grade){
+        Aula ultimaAularegistrada = obterUltimaAulaRegistrada();
+
+
+        String novoId = "";
+        String novaSequenciaNumerica = "";
+
+        if(ultimaAularegistrada == null){
+            novaSequenciaNumerica = "000001";
+        } else{
+            novaSequenciaNumerica =  String.format("%06d", Integer.parseInt(obterSequenciaNumericaDoId(ultimaAularegistrada.getAulaId())) + 1);
+        }
+        novoId = "A" + novaSequenciaNumerica;
+        return novoId;
+    }
+
+    /**
      * MÉTODO PARA OBTER OS DADOS DE UMA AULA ESPECÍFICA NA BASE DE DADOS
      * @param id IDENTIFICADOR DA AULA
      * @return DADOS DA AULA ENCONTRADA
      */
     public AulaVO obterDadosAula(String id){
-        var aula = repository.findById(Integer.parseInt(id)).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID."));
+        var aula = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para esse ID."));
         var vo = DozerMapper.parseObject(aula, AulaVO.class);
-        vo.add(linkTo(methodOn(AulaController.class).obterDadosAula(String.valueOf(vo.getAulaId()))).withSelfRel());
+        vo.add(linkTo(methodOn(AulaController.class).obterDadosAula(vo.getAulaId())).withSelfRel());
 
         return vo;
     }
@@ -55,7 +93,7 @@ public class AulaService {
      */
     public List<AulaVO> obterDadosTodasAulas(){
         var aulas = DozerMapper.parseListObjects(repository.findAllByOrderByAulaAberturaDesc(), AulaVO.class);
-        aulas.stream().forEach(aula -> aula.add(linkTo(methodOn(AulaController.class).obterDadosAula(String.valueOf(aula.getAulaId()))).withSelfRel()));
+        aulas.stream().forEach(aula -> aula.add(linkTo(methodOn(AulaController.class).obterDadosAula(aula.getAulaId())).withSelfRel()));
 
         return aulas;
     }
@@ -98,6 +136,7 @@ public class AulaService {
         Optional<Aula> aulaValidacao = repository.findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNull(aulaVO.getGradeId());
         if(aulaValidacao.isPresent()){
             if(aulaValidacao.get().getSalaId().equals(aulaVO.getSalaId())){
+                // FECHAMENTO DE AULA
                 aulaVO.setAulaId(aulaValidacao.get().getAulaId());
                 aulaVO.setAulaAbertura(aulaValidacao.get().getAulaAbertura());
                 aulaVO.setAulaFechamento(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
@@ -105,13 +144,15 @@ public class AulaService {
                 throw new IllegalArgumentException("A aula " + grade.get().getDisciplinaId() + " não pode ser aberta em uma nova sala pois essa aula ainda está aberta na sala " + aulaValidacao.get().getSalaId());
             }
         } else{
+            // ABERTURA DE AULA
+            aulaVO.setAulaId(construirId(grade.get().getGradeId()));
             aulaVO.setAulaAbertura(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
             aulaVO.setAulaFechamento(null);
         }
 
         Aula aula = DozerMapper.parseObject(aulaVO, Aula.class);
         var vo = DozerMapper.parseObject(repository.save(aula), AulaVO.class);
-        vo.add(linkTo(methodOn(AulaController.class).obterDadosAula(String.valueOf(vo.getAulaId()))).withSelfRel());
+        vo.add(linkTo(methodOn(AulaController.class).obterDadosAula(vo.getAulaId())).withSelfRel());
 
         return vo;
     }

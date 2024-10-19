@@ -22,11 +22,11 @@ public class Presenca {
     private String alunoId;
 
     @Column(name = "aula_id")
-    private Integer aulaId;
+    private String aulaId;
 
     public Presenca(){}
 
-    public Presenca(Integer presencaId, OffsetDateTime presencaEntrada, OffsetDateTime presencaSaida, String alunoId, Integer aulaId) {
+    public Presenca(Integer presencaId, OffsetDateTime presencaEntrada, OffsetDateTime presencaSaida, String alunoId, String aulaId) {
         this.presencaId = presencaId;
         this.presencaEntrada = presencaEntrada;
         this.presencaSaida = presencaSaida;
@@ -66,11 +66,11 @@ public class Presenca {
         this.alunoId = alunoId;
     }
 
-    public Integer getAulaId() {
+    public String getAulaId() {
         return aulaId;
     }
 
-    public void setAulaId(Integer aulaId) {
+    public void setAulaId(String aulaId) {
         this.aulaId = aulaId;
     }
 

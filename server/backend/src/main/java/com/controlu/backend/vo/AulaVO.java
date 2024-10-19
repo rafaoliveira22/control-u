@@ -7,13 +7,13 @@ import org.springframework.hateoas.RepresentationModel;
 import java.time.OffsetDateTime;
 
 public class AulaVO extends RepresentationModel<AlunoVO> {
-    private Integer aulaId;
+    private String aulaId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private OffsetDateTime aulaAbertura;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private OffsetDateTime aulaFechamento;
-    private Integer gradeId;
+    private String gradeId;
     private String salaId;
 
     @JsonIgnore
@@ -24,7 +24,7 @@ public class AulaVO extends RepresentationModel<AlunoVO> {
 
     public AulaVO(){}
 
-    public AulaVO(Integer aulaId, OffsetDateTime aulaAbertura, OffsetDateTime aulaFechamento, Integer gradeId, String salaId) {
+    public AulaVO(String aulaId, OffsetDateTime aulaAbertura, OffsetDateTime aulaFechamento, String gradeId, String salaId) {
         this.aulaId = aulaId;
         this.aulaAbertura = aulaAbertura;
         this.aulaFechamento = aulaFechamento;
@@ -32,7 +32,7 @@ public class AulaVO extends RepresentationModel<AlunoVO> {
         this.salaId = salaId;
     }
 
-    public AulaVO(Integer aulaId, OffsetDateTime aulaAbertura, OffsetDateTime aulaFechamento, Integer gradeId, String salaId, String dispositivoId, String cartaoId) {
+    public AulaVO(String aulaId, OffsetDateTime aulaAbertura, OffsetDateTime aulaFechamento, String gradeId, String salaId, String dispositivoId, String cartaoId) {
         this.aulaId = aulaId;
         this.aulaAbertura = aulaAbertura;
         this.aulaFechamento = aulaFechamento;
@@ -42,11 +42,11 @@ public class AulaVO extends RepresentationModel<AlunoVO> {
         this.cartaoId = cartaoId;
     }
 
-    public Integer getAulaId() {
+    public String getAulaId() {
         return aulaId;
     }
 
-    public void setAulaId(Integer aulaId) {
+    public void setAulaId(String aulaId) {
         this.aulaId = aulaId;
     }
 
@@ -66,11 +66,11 @@ public class AulaVO extends RepresentationModel<AlunoVO> {
         this.aulaFechamento = aulaFechamento;
     }
 
-    public Integer getGradeId() {
+    public String getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(Integer gradeId) {
+    public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
     }
 

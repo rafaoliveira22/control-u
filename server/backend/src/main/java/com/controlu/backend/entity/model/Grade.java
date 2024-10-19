@@ -6,9 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "grade")
 public class Grade {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "grade_id")
-    private Integer gradeId;
+    private String gradeId;
 
     @Column(name = "curso_id")
     private Integer cursoId;
@@ -24,7 +23,7 @@ public class Grade {
 
     public Grade(){}
 
-    public Grade(Integer gradeId, Integer cursoId, String disciplinaId, String professorId, String cartaoId) {
+    public Grade(String gradeId, Integer cursoId, String disciplinaId, String professorId, String cartaoId) {
         this.gradeId = gradeId;
         this.cursoId = cursoId;
         this.disciplinaId = disciplinaId;
@@ -32,11 +31,11 @@ public class Grade {
         this.cartaoId = cartaoId;
     }
 
-    public Integer getGradeId() {
+    public String getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(Integer gradeId) {
+    public void setGradeId(String gradeId) {
         this.gradeId = gradeId;
     }
 

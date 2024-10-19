@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.springframework.hateoas.RepresentationModel;
 
-public class AlunoVO extends RepresentationModel<AlunoVO> {
+public class AlunoCadastroVO extends RepresentationModel<AlunoCadastroVO> {
 
 
     @NotEmpty(message = "O RA do aluno não pode ser vazio.")
@@ -15,21 +15,21 @@ public class AlunoVO extends RepresentationModel<AlunoVO> {
 
     private Integer cursoId;
 
-    private String alunoFace;
+    private String face;
 
-    public AlunoVO(){}
+    public AlunoCadastroVO(){}
 
-    public AlunoVO(String alunoRa, String alunoNome, Integer cursoId){
+    public AlunoCadastroVO(String alunoRa, String alunoNome, Integer cursoId){
         this.alunoRa = alunoRa;
         this.alunoNome = alunoNome;
         this.cursoId = cursoId;
     }
 
-    public AlunoVO(String alunoRa, String alunoNome, Integer cursoId, String alunoFace) {
+    public AlunoCadastroVO(String alunoRa, String alunoNome, Integer cursoId, String alunoFace) {
         this.alunoRa = alunoRa;
         this.alunoNome = alunoNome;
         this.cursoId = cursoId;
-        this.alunoFace = alunoFace;
+        this.face = alunoFace;
     }
 
     public String getAlunoRa() {
@@ -56,11 +56,21 @@ public class AlunoVO extends RepresentationModel<AlunoVO> {
         this.cursoId = cursoId;
     }
 
-    public String getAlunoFace() {
-        return alunoFace;
+    public String getFace() {
+        return face;
     }
 
-    public void setAlunoFace(String alunoFace) {
-        this.alunoFace = alunoFace;
+    public void setFace(String face) {
+        this.face = face;
+    }
+
+    @Override
+    public String toString() {
+        return "AlunoCadastroVO{" +
+                "alunoRa='" + alunoRa + '\'' +
+                ", alunoNome='" + alunoNome + '\'' +
+                ", cursoId=" + cursoId +
+                ", face='" + face + '\'' +
+                '}';
     }
 }

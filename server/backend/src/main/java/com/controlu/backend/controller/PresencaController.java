@@ -26,7 +26,7 @@ public class PresencaController {
     @GetMapping
     public ResponseEntity<?> obterDadosTodasPresencas(){
         List<PresencaVO> presencas = service.obterDadosTodasPresencas();
-        return new ResponseEntity<>(presencas.isEmpty() ? "Nenhuma presença disponível" : presencas, HttpStatus.OK);
+        return new ResponseEntity<>(presencas, HttpStatus.OK);
     }
 
     @PostMapping

@@ -1,0 +1,6 @@
+ALTER TABLE aula
+MODIFY aula_id VARCHAR(7);
+
+ALTER TABLE presenca
+MODIFY aula_id VARCHAR(7);
+

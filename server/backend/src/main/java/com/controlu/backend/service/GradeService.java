@@ -1,6 +1,7 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.GradeController;
+import com.controlu.backend.entity.model.Aula;
 import com.controlu.backend.entity.model.CartaoLeitura;
 import com.controlu.backend.entity.model.Grade;
 import com.controlu.backend.exception.ResourceNotFoundException;
@@ -24,6 +25,46 @@ public class GradeService {
 
     @Autowired
     private CartaoLeituraRepository cartaoLeituraRepository;
+
+    /**
+     * MÉTODO PARA OBTER A ULTIMA GRADE REGISTRADA NA BASE DE DADOS
+     * @return ULTIMO GRADE REGISTRADA
+     */
+    private Grade obterUltimoRegistro(){
+        return repository.findTopByOrderByGradeIdDesc();
+    }
+
+    /**
+     * MÉTODO PARA OBTER A SEQUÊNCIA NUMERICA DO ID
+     * EX: G001 -> 001
+     * @param id
+     * @return SEQUÊNCIA NUMERICA EXTRAÍDA DO ID
+     */
+    private String obterSequenciaNumericaDoId(String id){
+        String[] parts = id.split("-"); // G001-ING018A
+        String sequenciaGrade = parts[0];
+        return id.substring(id.length() - 3);
+    }
+
+    /**
+     * MÉTODO PARA CONSTRUIR O ID DA GRADE A SER REGISTRADA
+     * @return NOVO ID (ex: G001-ING018A)
+     */
+    private String construirId(String discplina){
+        Grade ultimoRegistro = obterUltimoRegistro();
+
+
+        String novoId = "";
+        String novaSequenciaNumerica = "";
+
+        if(ultimoRegistro == null){
+            novaSequenciaNumerica = "001";
+        } else{
+            novaSequenciaNumerica =  String.format("%03d", Integer.parseInt(obterSequenciaNumericaDoId(ultimoRegistro.getGradeId())) + 1);
+        }
+        novoId = "G" + novaSequenciaNumerica + "-" + discplina;
+        return novoId;
+    }
 
 
     /**
@@ -61,6 +102,7 @@ public class GradeService {
         }
 
         Grade grade = DozerMapper.parseObject(gradeVO, Grade.class);
+        grade.setGradeId(construirId(grade.getDisciplinaId()));
         var vo = DozerMapper.parseObject(repository.save(grade), GradeVO.class);
 
         CartaoLeitura cartaoLeitura = new CartaoLeitura(vo.getCartaoId(), Defines.STATUS_CARTAO_EM_USO);

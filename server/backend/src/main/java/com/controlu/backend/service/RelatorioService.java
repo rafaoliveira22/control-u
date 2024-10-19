@@ -17,7 +17,9 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RelatorioService {
@@ -69,20 +71,32 @@ public class RelatorioService {
         PDFRelatorio pdfRelatorio = new PDFRelatorio("Relatório de Presença");
 
 
-        table = new Table(new float[]{80F, 80F, 100F, 150F, 150F});
+        table = new Table(new float[]{80F, 80F, 80F, 100F, 150F, 150F});
         adicionarParagrafoTabela("ID");
         adicionarParagrafoTabela("ID Aula");
+        adicionarParagrafoTabela("ID Grade");
         adicionarParagrafoTabela("R.A do Aluno");
         adicionarParagrafoTabela("Entrada");
         adicionarParagrafoTabela("Saída");
 
-        List<Presenca> dadosRelatorio = presencaRepository.buscarPorFiltros(filtro.getAlunoId(), filtro.getAulaId(), dataInicialFinalRelatorioVO.getDataInicial(), dataInicialFinalRelatorioVO.getDataFinal());
+        List<Presenca> dadosRelatorio = new ArrayList<>();
+        if(filtro.getGradeId() == null || filtro.getGradeId().equals("0") || filtro.getGradeId().equals("")){
+            dadosRelatorio = presencaRepository.buscarPorFiltros(filtro.getAlunoId(), filtro.getAulaId(), dataInicialFinalRelatorioVO.getDataInicial(), dataInicialFinalRelatorioVO.getDataFinal());
+        } else{
+            dadosRelatorio = presencaRepository.buscarPorFiltrosComGrade(filtro.getAlunoId(), filtro.getAulaId(), filtro.getGradeId(), dataInicialFinalRelatorioVO.getDataInicial(), dataInicialFinalRelatorioVO.getDataFinal());
+        }
         if(dadosRelatorio.isEmpty()){
             pdfRelatorio.getDocument().add(new Paragraph("Nenhum registro disponível."));
         } else{
             for(Presenca p : dadosRelatorio){
                 adicionarParagrafoTabela(String.valueOf(p.getPresencaId()));
-                adicionarParagrafoTabela(String.valueOf(p.getAulaId()));
+                adicionarParagrafoTabela(p.getAulaId());
+                Optional<Aula> aula = aulaRepository.findById(p.getAulaId());
+                if(aula.isPresent()){
+                    adicionarParagrafoTabela(aula.get().getGradeId());
+                } else{
+                    adicionarParagrafoTabela("Grade indefinida");
+                }
                 adicionarParagrafoTabela(p.getAlunoId());
                 adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(p.getPresencaEntrada(), "dd/MM/yyyy HH:mm:ss"));
                 adicionarParagrafoTabela(p.getPresencaSaida() != null ? dateUtils.formatarOffsetDateTimeParaString(p.getPresencaSaida(), "dd/MM/yyyy HH:mm:ss") : "Presença não registrada");
@@ -96,6 +110,9 @@ public class RelatorioService {
     }
 
     private ByteArrayResource gerarRelatorioDeAcesso(FiltroRelatorioAcessoVO filtro, DataInicialFinalRelatorioVO dataInicialFinalRelatorioVO) {
+        System.out.println(filtro.toString());
+
+
         PDFRelatorio pdfRelatorio = new PDFRelatorio("Relatório de Acesso");
 
 
@@ -107,6 +124,8 @@ public class RelatorioService {
         adicionarParagrafoTabela("Saída");
 
         List<Acesso> dadosRelatorio = acessoRepository.buscarPorFiltros(filtro.getAcessoId(), dataInicialFinalRelatorioVO.getDataInicial(),  dataInicialFinalRelatorioVO.getDataFinal(), filtro.getDispositivoId(), filtro.getAlunoId());
+        System.out.println(dadosRelatorio.toString());
+
         if(dadosRelatorio.isEmpty()){
             pdfRelatorio.getDocument().add(new Paragraph("Nenhum registro disponível."));
         } else{
@@ -141,7 +160,7 @@ public class RelatorioService {
             pdfRelatorio.getDocument().add(new Paragraph("Nenhum registro disponível."));
         } else{
             for(Aula a : dadosRelatorio){
-                adicionarParagrafoTabela(String.valueOf(a.getAulaId()));
+                adicionarParagrafoTabela(a.getAulaId());
                 adicionarParagrafoTabela(String.valueOf(a.getGradeId()));
                 adicionarParagrafoTabela(a.getSalaId());
                 adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(a.getAulaAbertura(), "dd/MM/yyyy HH:mm:ss"));

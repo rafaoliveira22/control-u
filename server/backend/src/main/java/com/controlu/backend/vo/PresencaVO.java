@@ -13,14 +13,14 @@ public class PresencaVO extends RepresentationModel<PresencaVO> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private OffsetDateTime presencaSaida;
     private String alunoId;
-    private Integer aulaId;
+    private String aulaId;
 
     @JsonIgnore
     private String dispositivoId;
 
     public PresencaVO(){}
 
-    public PresencaVO(Integer presencaId, OffsetDateTime presencaEntrada, OffsetDateTime presencaSaida, String alunoId, Integer aulaId) {
+    public PresencaVO(Integer presencaId, OffsetDateTime presencaEntrada, OffsetDateTime presencaSaida, String alunoId, String aulaId) {
         this.presencaId = presencaId;
         this.presencaEntrada = presencaEntrada;
         this.presencaSaida = presencaSaida;
@@ -68,11 +68,11 @@ public class PresencaVO extends RepresentationModel<PresencaVO> {
         this.alunoId = alunoId;
     }
 
-    public Integer getAulaId() {
+    public String getAulaId() {
         return aulaId;
     }
 
-    public void setAulaId(Integer aulaId) {
+    public void setAulaId(String aulaId) {
         this.aulaId = aulaId;
     }
 
@@ -82,5 +82,17 @@ public class PresencaVO extends RepresentationModel<PresencaVO> {
 
     public void setDispositivoId(String dispositivoId) {
         this.dispositivoId = dispositivoId;
+    }
+
+    @Override
+    public String toString() {
+        return "PresencaVO{" +
+                "presencaId=" + presencaId +
+                ", presencaEntrada=" + presencaEntrada +
+                ", presencaSaida=" + presencaSaida +
+                ", alunoId='" + alunoId + '\'' +
+                ", aulaId='" + aulaId + '\'' +
+                ", dispositivoId='" + dispositivoId + '\'' +
+                '}';
     }
 }

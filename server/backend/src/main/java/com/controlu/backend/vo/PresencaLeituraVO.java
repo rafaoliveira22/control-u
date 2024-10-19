@@ -29,4 +29,12 @@ public class PresencaLeituraVO {
     public void setDispositivoId(String dispositivoId) {
         this.dispositivoId = dispositivoId;
     }
+
+    @Override
+    public String toString() {
+        return "PresencaLeituraVO{" +
+                "alunoId='" + alunoId + '\'' +
+                ", dispositivoId='" + dispositivoId + '\'' +
+                '}';
+    }
 }

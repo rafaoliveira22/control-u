@@ -87,6 +87,8 @@ public class PresencaService {
      */
     public PresencaVO registrarDadosPresenca(PresencaLeituraVO presencaLeituraVO){
         PresencaVO presencaVO = DozerMapper.parseObject(presencaLeituraVO, PresencaVO.class);
+        System.out.println(presencaLeituraVO.toString());
+        System.out.println(presencaVO.toString());
 
         if(!(alunoService.verificarSeEstaRegistrado(presencaVO.getAlunoId()))){
             throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não tem autorização para realizar um acesso à essa aula.");
