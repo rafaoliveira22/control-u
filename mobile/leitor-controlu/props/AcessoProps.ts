@@ -6,5 +6,5 @@ export interface AcessoProps {
 export interface AcessoCadastroProps {
   dispositivoId: string,
   alunoId: string,
-  faceEntrada: string
+  faceEntrada: string | null
 }

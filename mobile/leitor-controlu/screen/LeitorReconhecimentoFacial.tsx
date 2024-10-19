@@ -49,7 +49,6 @@ export const LeitorReconhecimentoFacial: React.FC<LeitorReconhecimentoFacialScre
     const { alunoId } = route.params
 
     setDadoEscaneado(photo.base64);
-
     setLoading(true)
     setEscaneado(true);
     if(cameraRef){
@@ -57,22 +56,17 @@ export const LeitorReconhecimentoFacial: React.FC<LeitorReconhecimentoFacialScre
         const acesso : AcessoCadastroProps = {
           dispositivoId: Config.dispositivoIdAcesso,
           alunoId: alunoId,
-          faceEntrada: photo,
+          faceEntrada: photo.base64,
         }
         
         const response = await registrarDadosAcesso(acesso);
         Alert.alert('OK', `Acesso do aluno ${response.alunoId} atualizado com sucesso`, [{ text: 'OK', onPress: () => {
           setEscaneado(false)
-          navigation.navigate('LeitorCarteirinhaAcesso')
+          navigation.navigate('Menu')
         } }])
       } catch (e) {
         if(e instanceof Error){
-          if(e.message.toLowerCase().includes("json") || e.message.toLowerCase().includes("sql")){
             Alert.alert('Erro', 'Erro inesperado! Tente novamente ou contate o suporte.', [{ text: 'OK', onPress: () => setEscaneado(false) }]);
-            console.error(e.message)
-          } else{
-            Alert.alert('Erro', e.message, [{ text: 'OK', onPress: () => setEscaneado(false) }]);
-          }
         } else {
           Alert.alert('Erro', 'Erro inesperado! Tente novamente ou contate o suporte.', [{ text: 'OK', onPress: () => setEscaneado(false) }]);
         }
@@ -97,7 +91,7 @@ export const LeitorReconhecimentoFacial: React.FC<LeitorReconhecimentoFacialScre
           <Text style={styles.text}>Faça o reconhecimento facial</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
+          <TouchableOpacity style={styles.button} onPress={handleFaceEscaneada}>
             <Text style={styles.text}>Tirar foto</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buttonIcon} onPress={toggleCameraFacing}>

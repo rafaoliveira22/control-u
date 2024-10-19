@@ -33,6 +33,9 @@ export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProp
         const response = await verificarSeEstaRegistrado(dadoEscaneadoTrim);
         console.log(response)
         if(response.estaRegistrado){
+          // TODO: VERIFICAR SE TEM ACESSO EM ABERTO, SE TIVER, É SAÍDA, E NÃO PRECISA
+          // DE RECONHECIMENTO FACIAL
+          // SE NÃOO TIVER ACESSO EM ABERTOO, É ENTRADA, ENTÃO PRECISA DE RECONHECIMENTO FACIAL
           navigation.navigate('LeitorReconhecimentoFacial', { alunoId: dadoEscaneadoTrim } )
         } else{
           Alert.alert('Acesso não autorizado', `O aluno ${dadoEscaneadoTrim} não está na registrado na base de dados.`, [{ text: 'OK', onPress: () => setEscaneado(false) }]);
