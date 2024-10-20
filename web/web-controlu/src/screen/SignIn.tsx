@@ -181,7 +181,7 @@ import { salvarAuthToken } from '../utils/TokenUtils';
                 variant="contained"
                 sx={{ backgroundColor: '#115571', '&:hover': { backgroundColor: '#215571' } }}
                 >
-                Sign in
+                Entrar
               </Button>
             </Box>
           </Card>
