@@ -12,10 +12,6 @@ import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
 import com.controlu.backend.vo.AcessoLeituraVO;
 import com.controlu.backend.vo.AcessoVO;
-import org.opencv.core.*;
-import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
