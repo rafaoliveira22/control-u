@@ -42,7 +42,6 @@ public class AlunoController {
 
     @PostMapping()
     public ResponseEntity<?> registrarDadosAluno(@RequestBody AlunoCadastroVO aluno){
-        System.out.println(aluno.toString());
         try {
             AlunoVO alunoRegistrado = alunoService.registrarDadosAluno(aluno);
             return new ResponseEntity<>(alunoRegistrado, HttpStatus.CREATED);

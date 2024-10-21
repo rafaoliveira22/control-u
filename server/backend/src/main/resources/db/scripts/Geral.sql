@@ -1,3 +1,4 @@
+CREATE DATABASE db_controlu;
 USE db_controlu;
 SHOW TABLES;
 
