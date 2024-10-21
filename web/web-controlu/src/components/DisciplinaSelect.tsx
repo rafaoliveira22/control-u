@@ -47,8 +47,8 @@ const DisciplinaSelect: React.FC<SelectProps> = ({ value, onChange, isRelatorio 
       >
         {disciplinas.map((disciplina) => (
           <MenuItem key={disciplina.disciplinaId} value={disciplina.disciplinaId}>
-            {disciplina.disciplinaNome} 
-          </MenuItem>
+            {`${disciplina.disciplinaId} - ${disciplina.disciplinaNome}`} 
+            </MenuItem>
         ))}
       </Select>
     </FormControl>

@@ -36,10 +36,10 @@ export const secondaryListItems = (
     <ListItem icon={SchoolIcon} primary="Professor" pathRouter="professor" />
     <ListItem icon={BadgeIcon} primary="Cartão de leitura" pathRouter="cartao" />
     <ListItem icon={ClassIcon} primary="Disciplina" pathRouter="disciplina" />
+    <ListItem icon={QrCodeScannerIcon} primary="Dispositivo de leitura" pathRouter="dispositivo" />
     <ListItem icon={RoomPreferencesIcon} primary="Sala" pathRouter="sala" />
     <ListItem icon={GradeIcon} primary="Curso" pathRouter="curso" />
     <ListItem icon={BookmarksIcon} primary="Grade" pathRouter="grade" />
-    <ListItem icon={QrCodeScannerIcon} primary="Dispositivo de leitura" pathRouter="dispositivo" />
     <ListItem icon={PersonIcon} primary="Usuario" pathRouter="usuario"/>
   </React.Fragment>
 );

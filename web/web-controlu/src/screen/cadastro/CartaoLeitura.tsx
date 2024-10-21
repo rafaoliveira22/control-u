@@ -3,6 +3,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import { Typography } from '@mui/material';
 import { Toaster, toast } from 'sonner';
 import TabelaDadosRegistrados from '../../components/TabelaDadosRegistrados';
 import { CartaoProps } from '../../interface/CartaoProps';
@@ -56,6 +57,12 @@ export default function CartaoLeitura() {
     <>
       <Grid item xs={12}>
         <Toaster richColors expand={true} closeButton />
+        <Box component="div" >
+          <Typography variant="h6" gutterBottom>Instruções</Typography>
+          <Typography variant="body1" gutterBottom>- Após gerar o Cartão de Leitura, você terá acesso ao ID (Ex: C001). Deve-se gerar (ou imprimir) um código de barrar a partir desse ID 
+            e colar (ou gravar) no Cartão que será associado à Grade, posteriormente.</Typography>
+          <Typography variant="body1" gutterBottom>- O método de gravação, seja ele gravando diretamente em um cartão, ou imprimindo e colando, é de escolha da instituição.</Typography>
+        </Box>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <Box
             sx={{
