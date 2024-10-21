@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Modal, Image } from 'react-native';
 import { fazerLogin } from '../http/HttpClientUsuario';
 import { obterAuthToken, removerAuthToken, salvarAuthToken } from '../utils/TokenUtils';
 import { LoginScreenProps } from '../props/ScreenProps';
@@ -47,7 +47,11 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
 
   return(
     <View style={styles.container}>
-      <Text style={styles.title}>ControlU Login</Text>
+      <Image
+        source={require('../assets/logo.png')} 
+        style={{ width: 140, height: 140 }}
+        alt="Logo ControlU"
+      />
       <TextInput
         style={styles.input}
         placeholder="Usuário"
