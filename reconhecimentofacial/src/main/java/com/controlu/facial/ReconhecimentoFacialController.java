@@ -27,8 +27,6 @@ public class ReconhecimentoFacialController {
     @PostMapping("/reconhecer")
     public ResponseEntity<String> reconhecerFace(@RequestBody ReconhecimentoFacialRequest reconhecimentoFacialRequest) {
         System.out.println("\nPOST /reconhecer");
-        System.out.println("reconhecer,  faceCapturada:  " + reconhecimentoFacialRequest.getFaceCapturada().substring(0, 100));
-        System.out.println("reconhecer,  faceArmazenada:  " + reconhecimentoFacialRequest.getFaceArmazenada().substring(0, 100));
         try {
             // Validar as imagens no payload
             if (reconhecimentoFacialRequest.getFaceCapturada() == null || reconhecimentoFacialRequest.getFaceArmazenada() == null) {
@@ -63,9 +61,11 @@ public class ReconhecimentoFacialController {
             }
         } catch (IllegalArgumentException e) {
             // Captura problemas com a decodificação Base64 ou outros erros de argumento inválido
+            e.printStackTrace();
             return ResponseEntity.badRequest().body("Erro de argumento inválido: " + e.getMessage());
         } catch (Exception e) {
             // Exceções genéricas
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar a imagem: " + e.getMessage());
         }
     }
@@ -87,12 +87,10 @@ public class ReconhecimentoFacialController {
 
         // Processar a imagem da face detectada
         Mat processedDetectedFace = processarImagem(detectedFace);
-
-
-        Mat storedFaceMat = Imgcodecs.imdecode(new MatOfByte(faceArmazenada), Imgcodecs.IMREAD_COLOR);
+        //Mat storedFaceMat = Imgcodecs.imdecode(new MatOfByte(faceArmazenada), Imgcodecs.IMREAD_COLOR);
 
         // Processar a imagem do banco de dados
-        Mat processedStoredFace = processarImagem(storedFaceMat);
+        Mat processedStoredFace = processarImagem(faceArmazenada);
 
         // Comparar as duas imagens (usando um método como a distância euclidiana)
         double similarity = compararFaces(processedDetectedFace, processedStoredFace);
