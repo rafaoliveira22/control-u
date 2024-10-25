@@ -16,6 +16,8 @@ public class ReconhecimentoFacialService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public ResponseEntity<String> enviarImagensParaReconhecimento(byte[] faceCapturada, byte[] faceArmazenada) {
+        System.out.println("\nENVIAR IMAGENS PARA RECONHECIMENTO - ReconhecimentoService");
+
         // Converter ambas as imagens para Base64
         String faceCapturadaBase64 = Base64.getEncoder().encodeToString(faceCapturada);
         String faceArmazenadaBase64 = Base64.getEncoder().encodeToString(faceArmazenada);
@@ -33,7 +35,8 @@ public class ReconhecimentoFacialService {
         HttpEntity<ReconhecimentoFacialRequestVO> requestEntity = new HttpEntity<>(reconhecimentoFacialRequestVO, headers);
 
         // Fazer a requisição para a API de reconhecimento facial
-        String url = "http://localhost:8081/api/facial/reconhecer";
+        String url = "http://localhost:8082/api/facial/reconhecer";
+        System.out.println("enviarImagensParaReconhecimento, urlRequest: " + url);
         ResponseEntity<String> response = restTemplate.exchange(
                 url,
                 HttpMethod.POST,

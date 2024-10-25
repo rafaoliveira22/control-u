@@ -111,6 +111,7 @@ public class AcessoService {
             acessoVO.setAcessoId(acessoValidacao.get().getAcessoId());
             acessoVO.setAcessoEntrada(acessoValidacao.get().getAcessoEntrada());
             acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+            acessoVO.setAcessoFaceMomentoEntrada(acessoValidacao.get().getAcessoFaceMomentoEntrada());
         } else{
             // SEM ACESSO EM ABERTO (ENTRADA)
             Optional<Aluno> aluno = alunoRepository.findById(acessoVO.getAlunoId());

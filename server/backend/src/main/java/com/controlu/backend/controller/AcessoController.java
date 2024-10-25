@@ -3,6 +3,8 @@ package com.controlu.backend.controller;
 import com.controlu.backend.service.AcessoService;
 import com.controlu.backend.vo.AcessoLeituraVO;
 import com.controlu.backend.vo.AcessoVO;
+import com.controlu.backend.vo.AcessoVerificadorAcessoEmAbertoVO;
+import com.controlu.backend.vo.AlunoVerificadorRaExistenteVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +32,24 @@ public class AcessoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarDadosAcesso(@RequestBody AcessoLeituraVO acesso) throws IOException {
+    public ResponseEntity<?> registrarDadosAcesso(@RequestBody AcessoLeituraVO acesso) {
         System.out.println("\nREGISTRAR DADOS ACESSO - AcessoController");
-        AcessoVO acessoRegistrado = service.registrarDadosAcesso(acesso);
-        return new ResponseEntity<>(acessoRegistrado, HttpStatus.CREATED);
+        try{
+            AcessoVO acessoRegistrado = service.registrarDadosAcesso(acesso);
+            return new ResponseEntity<>(acessoRegistrado, HttpStatus.CREATED);
+        } catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/verificarSeTemAcessoEmAberto/{ra}")
+    public ResponseEntity<?> verificarSeTemAcessoEmAberto(@PathVariable("ra") String ra){
+        try {
+            AcessoVerificadorAcessoEmAbertoVO acessoVerificadorAcessoEmAbertoVO = new AcessoVerificadorAcessoEmAbertoVO(service.verificarSeTemAcessoEmAberto(ra));
+            return new ResponseEntity<>(acessoVerificadorAcessoEmAbertoVO, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

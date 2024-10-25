@@ -57,7 +57,7 @@ public class AulaService {
      * MÉTODO PARA CONSTRUIR O ID DA AULA A SER REGISTRADA
      * @return NOVO ID (ex: A000001)
      */
-    private String construirId(String grade){
+    private String construirId(){
         Aula ultimaAularegistrada = obterUltimaAulaRegistrada();
 
 
@@ -145,7 +145,7 @@ public class AulaService {
             }
         } else{
             // ABERTURA DE AULA
-            aulaVO.setAulaId(construirId(grade.get().getGradeId()));
+            aulaVO.setAulaId(construirId());
             aulaVO.setAulaAbertura(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
             aulaVO.setAulaFechamento(null);
         }
