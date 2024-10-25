@@ -49,7 +49,7 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <Image
         source={require('../assets/logo.png')} 
-        style={{ width: 140, height: 140 }}
+        style={styles.logo}
         alt="Logo ControlU"
       />
       <TextInput
@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  logo: {
     textAlign: 'center',
     marginBottom: 24,
+    resizeMode: 'contain',
+    width: '100%'
   },
   input: {
     height: 50,
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },  
   button: {
-    backgroundColor: '#1E90FF',
+    backgroundColor: '#115571',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

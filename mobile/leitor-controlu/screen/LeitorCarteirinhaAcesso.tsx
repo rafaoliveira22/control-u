@@ -7,8 +7,8 @@ import { LeitorCarteirinha } from '../components/LeitorCarteirinha';
 import Config from '../config/Config';
 import { registrarDadosAula } from '../http/HttClientAula';
 import { registrarDadosPresenca } from '../http/HttpClientPresenca';
-import { AcessoProps } from '../props/AcessoProps';
-import { registrarDadosAcesso } from '../http/HttpClientAcesso';
+import { AcessoCadastroProps, AcessoProps } from '../props/AcessoProps';
+import { registrarDadosAcesso, verificarSeTemAcessoEmAberto } from '../http/HttpClientAcesso';
 import { verificarSeEstaRegistrado } from '../http/HttpClientAluno';
 
 export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProps> = ({ navigation }) => {
@@ -31,12 +31,22 @@ export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProp
     setEscaneado(true);
     try {
         const response = await verificarSeEstaRegistrado(dadoEscaneadoTrim);
-        console.log(response)
         if(response.estaRegistrado){
-          // TODO: VERIFICAR SE TEM ACESSO EM ABERTO, SE TIVER, É SAÍDA, E NÃO PRECISA
-          // DE RECONHECIMENTO FACIAL
-          // SE NÃOO TIVER ACESSO EM ABERTOO, É ENTRADA, ENTÃO PRECISA DE RECONHECIMENTO FACIAL
-          navigation.navigate('LeitorReconhecimentoFacial', { alunoId: dadoEscaneadoTrim } )
+          const response = await verificarSeTemAcessoEmAberto(dadoEscaneadoTrim);
+          if(response.temAcessoEmAberto){
+            const acesso : AcessoCadastroProps = {
+              dispositivoId: Config.dispositivoIdAcesso,
+              alunoId: dadoEscaneadoTrim,
+              faceEntrada: null,
+            }
+            const response = await registrarDadosAcesso(acesso);
+            Alert.alert('OK', `Acesso do aluno ${response.alunoId} atualizado com sucesso`, [{ text: 'OK', onPress: () => {
+              setEscaneado(false)
+              navigation.navigate('Menu')
+            } }])
+          } else{
+            navigation.navigate('LeitorReconhecimentoFacial', { alunoId: dadoEscaneadoTrim } )
+          }
         } else{
           Alert.alert('Acesso não autorizado', `O aluno ${dadoEscaneadoTrim} não está na registrado na base de dados.`, [{ text: 'OK', onPress: () => setEscaneado(false) }]);
         }

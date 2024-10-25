@@ -28,3 +28,26 @@ export const registrarDadosAcesso = async  (acesso: AcessoProps) => {
 
   return response.json()
 }
+
+export const verificarSeTemAcessoEmAberto = async(ra: string) => {
+  token = await obterAuthToken();
+
+  if (!token) {
+    throw new Error('Token de autenticação não encontrado');
+  }
+
+  const response = await fetch(`${Config.apiUrl}/acesso/verificarSeTemAcessoEmAberto/${ra}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+
+  return response.json();
+}
