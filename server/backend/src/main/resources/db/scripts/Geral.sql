@@ -1,4 +1,4 @@
-CREATE DATABASE db_controlu;
+-- CREATE DATABASE db_controlu;
 USE db_controlu;
 SHOW TABLES;
 
@@ -147,6 +147,7 @@ DESC aula;
 DESC disciplina;
 
 SELECT * FROM acesso;
+DELETE FROM acesso;
 
 
 
