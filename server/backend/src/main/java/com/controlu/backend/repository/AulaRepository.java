@@ -32,7 +32,7 @@ public interface AulaRepository extends JpaRepository<Aula, String> {
     @Query("SELECT a FROM Aula a WHERE " +
             "(:aulaId IS NULL OR a.aulaId = :aulaId) AND " +
             "(:dataInicial IS NULL OR DATE(a.aulaAbertura) >= :dataInicial) AND " +
-            "(:dataFinal IS NULL OR DATE(a.aulaFechamento) <= :dataFinal) AND " +
+            "(:dataFinal IS NULL OR a.aulaFechamento IS NULL OR DATE(a.aulaFechamento) <= :dataFinal) AND " +
             "(:gradeId IS NULL OR a.gradeId = :gradeId) AND " +
             "(:salaId IS NULL OR a.salaId = :salaId)")
     List<Aula> buscarPorFiltros(

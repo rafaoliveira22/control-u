@@ -91,8 +91,6 @@ public class AcessoService {
      */
     public AcessoVO registrarDadosAcesso(AcessoLeituraVO acessoLeituraVO) throws IOException {
         AcessoVO acessoVO = DozerMapper.parseObject(acessoLeituraVO, AcessoVO.class);
-        acessoVO.setAcessoFaceMomentoEntrada(Base64.getDecoder().decode(acessoLeituraVO.getFaceEntrada()));
-
         if(!(dispositivoLeituraRepository.existsById(acessoVO.getDispositivoId()))){
             throw new ResourceNotFoundException("O dispositivo " + acessoVO.getDispositivoId() + " é inválido.");
         }
@@ -113,6 +111,7 @@ public class AcessoService {
             acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
             acessoVO.setAcessoFaceMomentoEntrada(acessoValidacao.get().getAcessoFaceMomentoEntrada());
         } else{
+            acessoVO.setAcessoFaceMomentoEntrada(Base64.getDecoder().decode(acessoLeituraVO.getFaceEntrada()));
             // SEM ACESSO EM ABERTO (ENTRADA)
             Optional<Aluno> aluno = alunoRepository.findById(acessoVO.getAlunoId());
             if(aluno.isPresent()){

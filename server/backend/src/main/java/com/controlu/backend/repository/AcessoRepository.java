@@ -24,7 +24,7 @@ public interface AcessoRepository extends JpaRepository<Acesso, Integer> {
     @Query("SELECT a FROM Acesso a WHERE " +
             "(:acessoId IS NULL OR a.acessoId = :acessoId) AND " +
             "(:dataInicial IS NULL OR DATE(a.acessoEntrada) >= :dataInicial) AND " +
-            "(:dataFinal IS NULL OR DATE(a.acessoSaida) <= :dataFinal) AND " +
+            "(:dataFinal IS NULL OR a.acessoSaida IS NULL OR DATE(a.acessoSaida) <= :dataFinal) AND " +
             "(:dispositivoId IS NULL OR a.dispositivoId = :dispositivoId) AND " +
             "(:alunoId IS NULL OR a.alunoId = :alunoId)")
             List<Acesso> buscarPorFiltros(
