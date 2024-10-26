@@ -40,7 +40,7 @@ export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProp
               faceEntrada: null,
             }
             const response = await registrarDadosAcesso(acesso);
-            Alert.alert('OK', `Acesso do aluno ${response.alunoId} atualizado com sucesso`, [{ text: 'OK', onPress: () => {
+            Alert.alert('OK', `Saída do aluno ${response.alunoId} registrada com sucesso com sucesso`, [{ text: 'OK', onPress: () => {
               setEscaneado(false)
               navigation.navigate('Menu')
             } }])

@@ -31,18 +31,6 @@ export const LeitorReconhecimentoFacial: React.FC<LeitorReconhecimentoFacialScre
     })();
   }, []);
 
-  const takePicture = async () => {
-    if (cameraRef) {
-      try {
-        const photo = await cameraRef.takePictureAsync({ base64: true });
-        setDadoEscaneado(photo.uri);
-
-        Alert.alert('OK', `Imagem capturada com sucesso`, [{ text: 'OK', onPress: () => setEscaneado(false) }])
-      } catch (error) {
-        console.error("Erro ao tirar a foto:", error);
-      }
-    }
-  };
 
   const handleFaceEscaneada = async ({ type, data }: any) => {
     const photo = await cameraRef.takePictureAsync({ base64: true });
@@ -60,16 +48,12 @@ export const LeitorReconhecimentoFacial: React.FC<LeitorReconhecimentoFacialScre
         }
         
         const response = await registrarDadosAcesso(acesso);
-        Alert.alert('OK', `Acesso do aluno ${response.alunoId} atualizado com sucesso`, [{ text: 'OK', onPress: () => {
+        Alert.alert('OK', `Entrada do aluno ${response.alunoId} registrada com sucesso`, [{ text: 'OK', onPress: () => {
           setEscaneado(false)
           navigation.navigate('Menu')
         } }])
       } catch (e) {
-        if(e instanceof Error){
-            Alert.alert('Erro', 'Erro inesperado! Tente novamente ou contate o suporte.', [{ text: 'OK', onPress: () => setEscaneado(false) }]);
-        } else {
-          Alert.alert('Erro', 'Erro inesperado! Tente novamente ou contate o suporte.', [{ text: 'OK', onPress: () => setEscaneado(false) }]);
-        }
+          Alert.alert('Erro', 'Não autorizado. Rosto não reconhecido.', [{ text: 'OK', onPress: () => setEscaneado(false) }]);
       } finally{
         setLoading(false)
       }
