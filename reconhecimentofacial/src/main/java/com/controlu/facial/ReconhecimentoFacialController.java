@@ -55,9 +55,10 @@ public class ReconhecimentoFacialController {
 
             // Retornar o resultado do reconhecimento
             if (isRecognized) {
-                return ResponseEntity.ok("Reconhecimento facial bem-sucedido");
+                System.out.println("reconhecerFace, resultado: ROSTO RECONHECIDOO");
+                return ResponseEntity.ok("OK");
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Rosto não reconhecido");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ERRO");
             }
         } catch (IllegalArgumentException e) {
             // Captura problemas com a decodificação Base64 ou outros erros de argumento inválido
@@ -95,7 +96,7 @@ public class ReconhecimentoFacialController {
         // Comparar as duas imagens (usando um método como a distância euclidiana)
         double similarity = compararFaces(processedDetectedFace, processedStoredFace);
 
-        if (similarity > 0.7) {  // Defina um limite de similaridade adequado
+        if (similarity >= 0.6) {
             return true;  // Face reconhecida
         }
 
