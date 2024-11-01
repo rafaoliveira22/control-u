@@ -9,6 +9,8 @@ import com.controlu.backend.repository.AulaRepository;
 import com.controlu.backend.repository.PresencaRepository;
 import com.controlu.backend.utils.DateUtils;
 import com.controlu.backend.vo.*;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Cell;
@@ -70,7 +72,6 @@ public class RelatorioService {
     private ByteArrayResource gerarRelatorioDePresenca(FiltroRelatorioPresencaVO filtro, DataInicialFinalRelatorioVO dataInicialFinalRelatorioVO) {
         PDFRelatorio pdfRelatorio = new PDFRelatorio("Relatório de Presença");
 
-
         table = new Table(new float[]{80F, 80F, 80F, 100F, 150F, 150F});
         adicionarParagrafoTabela("ID");
         adicionarParagrafoTabela("ID Aula");
@@ -110,21 +111,17 @@ public class RelatorioService {
     }
 
     private ByteArrayResource gerarRelatorioDeAcesso(FiltroRelatorioAcessoVO filtro, DataInicialFinalRelatorioVO dataInicialFinalRelatorioVO) {
-        System.out.println(filtro.toString());
-
-
         PDFRelatorio pdfRelatorio = new PDFRelatorio("Relatório de Acesso");
 
-
-        table = new Table(new float[]{80F, 150F, 150F, 80F, 80F});
+        table = new Table(new float[]{50F, 100F, 100F, 80F, 80F, 100F});
         adicionarParagrafoTabela("ID");
         adicionarParagrafoTabela("R.A Aluno");
         adicionarParagrafoTabela("ID Dispositivo");
         adicionarParagrafoTabela("Entrada");
         adicionarParagrafoTabela("Saída");
+        adicionarParagrafoTabela("Face Entrada");
 
         List<Acesso> dadosRelatorio = acessoRepository.buscarPorFiltros(filtro.getAcessoId(), dataInicialFinalRelatorioVO.getDataInicial(),  dataInicialFinalRelatorioVO.getDataFinal(), filtro.getDispositivoId(), filtro.getAlunoId());
-        System.out.println(dadosRelatorio.toString());
 
         if(dadosRelatorio.isEmpty()){
             pdfRelatorio.getDocument().add(new Paragraph("Nenhum registro disponível."));
@@ -134,7 +131,17 @@ public class RelatorioService {
                 adicionarParagrafoTabela(String.valueOf(a.getAlunoId()));
                 adicionarParagrafoTabela(a.getDispositivoId());
                 adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(a.getAcessoEntrada(), "dd/MM/yyyy HH:mm:ss"));
-                adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(a.getAcessoSaida(), "dd/MM/yyyy HH:mm:ss"));
+                adicionarParagrafoTabela(a.getAcessoSaida() == null ? "Sem saída registrada" : dateUtils.formatarOffsetDateTimeParaString(a.getAcessoSaida(), "dd/MM/yyyy HH:mm:ss"));
+
+                byte[] imagemBytes = a.getAcessoFaceMomentoEntrada();
+                if (imagemBytes != null) {
+                    Image imagem = new Image(ImageDataFactory.create(imagemBytes));
+                    imagem.setWidth(50);
+                    imagem.setHeight(50);
+                    table.addCell(new Cell().add(imagem));
+                } else {
+                    table.addCell(new Cell().add(new Paragraph("Sem imagem")));
+                }
             }
             pdfRelatorio.adicionarTabelaNoDocumento(table);
         }
@@ -146,7 +153,6 @@ public class RelatorioService {
 
     private ByteArrayResource gerarRelatorioDeAula(FiltroRelatorioAulaVO filtro, DataInicialFinalRelatorioVO dataInicialFinalRelatorioVO) {
         PDFRelatorio pdfRelatorio = new PDFRelatorio("Relatório de Aula");
-
 
         table = new Table(new float[]{80F, 80F, 80F, 150F, 150F});
         adicionarParagrafoTabela("ID");

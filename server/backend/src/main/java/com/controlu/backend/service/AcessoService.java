@@ -14,8 +14,10 @@ import com.controlu.backend.vo.AcessoLeituraVO;
 import com.controlu.backend.vo.AcessoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -86,9 +88,13 @@ public class AcessoService {
      * NÃO TEM COMO ELE TER LIDO UM ACESSO
      * 4. VALIDA SE O ALUNO PASSADO, ESTÁ REGISTRADO NA BASE DE DADOS
      *
+     * obs: O HORÁRIO DA ENTRADA É INSERIDO DIRETAMENTE NO MYSQL, POR UMA CONFIGURAÇÃO
+     * FEITA DIRETAMENTE NO CAMPO DA TABELA.
+     *
      * @param acessoLeituraVO OBJETO CARREGADO COM OS DADOS DO ACESSO
      * @return ACESSO REGISTRADO
      */
+    @Transactional
     public AcessoVO registrarDadosAcesso(AcessoLeituraVO acessoLeituraVO) throws IOException {
         AcessoVO acessoVO = DozerMapper.parseObject(acessoLeituraVO, AcessoVO.class);
         if(!(dispositivoLeituraRepository.existsById(acessoVO.getDispositivoId()))){
@@ -103,19 +109,22 @@ public class AcessoService {
             throw new ResourceNotFoundException("O aluno " + acessoVO.getAlunoId() + " não tem autorização para realizar um acesso.");
         }
 
+        Acesso acesso = new Acesso();
         Optional<Acesso> acessoValidacao = repository.findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(acessoVO.getAlunoId());
         if(acessoValidacao.isPresent()){
             // ACESSO EM ABERTO (SAÍDA)
-            acessoVO.setAcessoId(acessoValidacao.get().getAcessoId());
-            acessoVO.setAcessoEntrada(acessoValidacao.get().getAcessoEntrada());
-            acessoVO.setAcessoSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
-            acessoVO.setAcessoFaceMomentoEntrada(acessoValidacao.get().getAcessoFaceMomentoEntrada());
+            repository.atualizarHorarioAcessoSaidaParaDataHoraAtual(acessoValidacao.get().getAcessoId());
+
+            acesso = DozerMapper.parseObject(acessoValidacao.get(), Acesso.class);
+            acesso.setAcessoSaida(OffsetDateTime.now());
         } else{
-            acessoVO.setAcessoFaceMomentoEntrada(Base64.getDecoder().decode(acessoLeituraVO.getFaceEntrada()));
             // SEM ACESSO EM ABERTO (ENTRADA)
+            acessoVO.setAcessoFaceMomentoEntrada(Base64.getDecoder().decode(acessoLeituraVO.getFaceEntrada()));
+            acessoVO.setAcessoSaida(null);
+
             Optional<Aluno> aluno = alunoRepository.findById(acessoVO.getAlunoId());
             if(aluno.isPresent()){
-                System.out.println(reconhecimentoFacialService.enviarImagensParaReconhecimento(acessoVO.getAcessoFaceMomentoEntrada(), aluno.get().getAlunoFace()));
+                reconhecimentoFacialService.enviarImagensParaReconhecimento(acessoVO.getAcessoFaceMomentoEntrada(), aluno.get().getAlunoFace());
                 boolean faceReconhecida = true;
                 if(!faceReconhecida){
                     throw new IllegalArgumentException("Reconhecimento facial do aluno " + acessoLeituraVO.getAlunoId() + " inválido! Tente novamente ou contate o suporte.");
@@ -123,13 +132,10 @@ public class AcessoService {
             } else{
                 throw new IllegalArgumentException("Reconhecimento facial do aluno " + acessoLeituraVO.getAlunoId() + " inválido! Tente novamente ou contate o suporte.");
             }
-
-            acessoVO.setAcessoEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
-            acessoVO.setAcessoSaida(null);
+            acesso = DozerMapper.parseObject(acessoVO, Acesso.class);
+            acesso = repository.save(acesso);
         }
-
-        Acesso acesso = DozerMapper.parseObject(acessoVO, Acesso.class);
-        var vo = DozerMapper.parseObject(repository.save(acesso), AcessoVO.class);
+        var vo = DozerMapper.parseObject(acesso, AcessoVO.class);
         vo.add(linkTo(methodOn(AcessoController.class).obterDadosAcesso(String.valueOf(vo.getAcessoId()))).withSelfRel());
 
         return vo;

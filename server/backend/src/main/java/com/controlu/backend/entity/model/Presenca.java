@@ -12,7 +12,7 @@ public class Presenca {
     @Column(name = "presenca_id")
     private Integer presencaId;
 
-    @Column(name = "presenca_entrada")
+    @Column(name = "presenca_entrada", insertable = false, updatable = false)
     private OffsetDateTime presencaEntrada;
 
     @Column(name = "presenca_saida")

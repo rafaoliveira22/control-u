@@ -11,7 +11,7 @@ public class Aula {
     @Column(name = "aula_id")
     private String aulaId;
 
-    @Column(name = "aula_abertura")
+    @Column(name = "aula_abertura" ,insertable = false, updatable = false)
     private OffsetDateTime aulaAbertura;
 
     @Column(name = "aula_fechamento")

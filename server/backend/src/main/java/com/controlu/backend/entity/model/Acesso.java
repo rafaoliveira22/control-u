@@ -14,11 +14,11 @@ public class Acesso {
     @Column(name = "acesso_id")
     private Integer acessoId;
 
-    @Column(name = "acesso_entrada")
+    @Column(name = "acesso_entrada", insertable = false, updatable = false)
     private OffsetDateTime acessoEntrada;
 
     @Column(name = "acesso_saida")
-    private OffsetDateTime  acessoSaida;
+    private OffsetDateTime acessoSaida;
 
     @Column(name = "dispositivo_id")
     private String dispositivoId ;

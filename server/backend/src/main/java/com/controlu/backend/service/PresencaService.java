@@ -13,9 +13,12 @@ import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
 import com.controlu.backend.vo.PresencaLeituraVO;
 import com.controlu.backend.vo.PresencaVO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,15 +88,15 @@ public class PresencaService {
      * @param presencaLeituraVO OBJETO CARREGADO COM OS DADOS DA PRESENCA
      * @return PRESENCA REGISTRADA
      */
+    @Transactional
     public PresencaVO registrarDadosPresenca(PresencaLeituraVO presencaLeituraVO){
         PresencaVO presencaVO = DozerMapper.parseObject(presencaLeituraVO, PresencaVO.class);
-        System.out.println(presencaLeituraVO.toString());
-        System.out.println(presencaVO.toString());
 
         if(!(alunoService.verificarSeEstaRegistrado(presencaVO.getAlunoId()))){
             throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não tem autorização para realizar um acesso à essa aula.");
         }
 
+        Presenca presenca = new Presenca();
         if(acessoRepository.findAcessoByAlunoIdAndAcessoEntradaTodayAndAcessoSaidaNull(presencaVO.getAlunoId()).isPresent()){
             // BUSCA DA SALA QUE ESTA O DISPOSITIVO QUE FEZ A LEITURA DA CARTEIRINHA
             Optional<Sala> salaAula = salaRepository.findByDispositivoId(presencaVO.getDispositivoId());
@@ -108,17 +111,16 @@ public class PresencaService {
                     Optional<Presenca> presencaAtual = repository.findByAulaIdAndAlunoIdAndPresencaEntradaTodayAndPresencaSaidaNull(presencaVO.getAulaId(), presencaVO.getAlunoId());
                     if(presencaAtual.isPresent()){
                         // SE ESTIVER PRESENÇA EM ABERTO, ATUALIZAR HORÁRIO DE SAÍDA
-                        presencaVO.setPresencaId(presencaAtual.get().getPresencaId());
-                        presencaVO.setPresencaEntrada(presencaAtual.get().getPresencaEntrada());
-                        presencaVO.setPresencaSaida(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+                        repository.atualizarHorarioPresencaSaidaParaDataHoraAtual(presencaAtual.get().getPresencaId());
+                        presenca.setPresencaSaida(OffsetDateTime.now());
                     } else{
                         // SENÃO, O ALUNO ACABOU DE CHEGAR NA AULA (INDEPENDENTE DA VEZ), ELE PODE REGISTRAR ENTRADA
                         // QUANTAS VEZES QUISER, ENTÃO, REGISTRAR O HORÁRIO DE ENTRADA
-                        presencaVO.setPresencaEntrada(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
-                        presencaVO.setPresencaSaida(null);
+                        presenca = DozerMapper.parseObject(presencaVO, Presenca.class);
+                        presenca = repository.save(presenca);
                     }
                 } else{
-                    throw new IllegalArgumentException("A aula está fechada! Não é possível mais registrar presença.");
+                    throw new IllegalArgumentException("A aula está fechada! Não é possível registrar presença.");
                 }
             } else {
                 throw new IllegalArgumentException("O dispositivo de leitura " + presencaVO.getDispositivoId()+ " não está associado há uma sala.");
@@ -126,10 +128,7 @@ public class PresencaService {
         } else{
             throw new IllegalArgumentException("O aluno " + presencaVO.getAlunoId() + " não está na faculdade, sendo assim, não pode registrar presença na aula.");
         }
-
-
-        Presenca presenca = DozerMapper.parseObject(presencaVO, Presenca.class);
-        var vo = DozerMapper.parseObject(repository.save(presenca), PresencaVO.class);
+        var vo = DozerMapper.parseObject(presenca, PresencaVO.class);
         vo.add(linkTo(methodOn(PresencaController.class).obterDadosPresenca(String.valueOf(vo.getPresencaId()))).withSelfRel());
 
         return vo;

@@ -1,6 +1,7 @@
 package com.controlu.backend.service;
 
 import com.controlu.backend.controller.AulaController;
+import com.controlu.backend.entity.model.Acesso;
 import com.controlu.backend.entity.model.Aula;
 import com.controlu.backend.entity.model.Grade;
 import com.controlu.backend.entity.model.Sala;
@@ -12,9 +13,11 @@ import com.controlu.backend.repository.SalaRepository;
 import com.controlu.backend.utils.DateUtils;
 import com.controlu.backend.vo.AulaLeituraVO;
 import com.controlu.backend.vo.AulaVO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,6 +118,7 @@ public class AulaService {
      * @param aulaLeituraVO OBJETO CARREGADO COM OS DADOS NCESSÁRIOS PARA ABERTURA DA AULA
      * @return AULA REGISTRADA
      */
+    @Transactional
     public AulaVO registrarDadosAula(AulaLeituraVO aulaLeituraVO){
         AulaVO aulaVO = DozerMapper.parseObject(aulaLeituraVO, AulaVO.class);
 
@@ -133,25 +137,25 @@ public class AulaService {
             throw new IllegalArgumentException("O cartão lido, " + aulaVO.getCartaoId()+ ", não está associado há uma grade de aula.");
         }
 
+        Aula aula = new Aula();
         Optional<Aula> aulaValidacao = repository.findAulaByGradeIdAndAulaAberturaTodayAndAulaFechamentoNull(aulaVO.getGradeId());
         if(aulaValidacao.isPresent()){
             if(aulaValidacao.get().getSalaId().equals(aulaVO.getSalaId())){
                 // FECHAMENTO DE AULA
-                aulaVO.setAulaId(aulaValidacao.get().getAulaId());
-                aulaVO.setAulaAbertura(aulaValidacao.get().getAulaAbertura());
-                aulaVO.setAulaFechamento(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
+                repository.atualizarHorarioAulaFechamentoParaDataHoraAtual(aulaValidacao.get().getAulaId());
+                aula = DozerMapper.parseObject(aulaValidacao.get(), Aula.class);
+                aula.setAulaFechamento(OffsetDateTime.now());
             } else{
                 throw new IllegalArgumentException("A aula " + grade.get().getDisciplinaId() + " não pode ser aberta em uma nova sala pois essa aula ainda está aberta na sala " + aulaValidacao.get().getSalaId());
             }
         } else{
             // ABERTURA DE AULA
             aulaVO.setAulaId(construirId());
-            aulaVO.setAulaAbertura(dateUtils.obterDataHoraAtualSemPrecisaoDeSegundos());
-            aulaVO.setAulaFechamento(null);
+            aula = DozerMapper.parseObject(aulaVO, Aula.class);
+            aula = repository.save(aula);
         }
 
-        Aula aula = DozerMapper.parseObject(aulaVO, Aula.class);
-        var vo = DozerMapper.parseObject(repository.save(aula), AulaVO.class);
+        var vo = DozerMapper.parseObject(aula, AulaVO.class);
         vo.add(linkTo(methodOn(AulaController.class).obterDadosAula(vo.getAulaId())).withSelfRel());
 
         return vo;

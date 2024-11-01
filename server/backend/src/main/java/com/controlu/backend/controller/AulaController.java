@@ -31,9 +31,6 @@ public class AulaController {
 
     @PostMapping
     public ResponseEntity<?> registrarDadosAula(@RequestBody AulaLeituraVO aula){
-        System.out.println("\nREGISTRAR DADOS AULA - Aula Controller");
-        System.out.println(aula.toString());
-
         AulaVO aulaRegistrada = service.registrarDadosAula(aula);
         return new ResponseEntity<>(aulaRegistrada, HttpStatus.CREATED);
     }

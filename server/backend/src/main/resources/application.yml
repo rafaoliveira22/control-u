@@ -10,7 +10,7 @@ spring:
   application:
     name: backend
   datasource:
-    url: jdbc:mysql://localhost:3306/db_controlu?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/db_controlu
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root

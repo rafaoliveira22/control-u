@@ -2,6 +2,7 @@ package com.controlu.backend.repository;
 
 import com.controlu.backend.entity.model.Presenca;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -45,7 +46,9 @@ public interface PresencaRepository extends JpaRepository<Presenca, Integer> {
             "(:aulaId IS NULL OR p.aulaId = :aulaId) AND " +
             "a.gradeId = :gradeId AND " +
             "(:dataInicial IS NULL OR DATE(p.presencaEntrada) >= :dataInicial) AND " +
-            "(:dataFinal IS NULL OR p.presencaSaida IS NULL OR DATE(p.presencaSaida) <= :dataFinal)")
+            "(:dataFinal IS NULL OR p.presencaSaida IS NULL OR DATE(p.presencaSaida) <= :dataFinal) " +
+            "ORDER BY " +
+            "CASE WHEN p.presencaSaida IS NOT NULL THEN p.presencaSaida ELSE p.presencaEntrada END DESC")
     List<Presenca> buscarPorFiltrosComGrade(
             @Param("alunoId") String alunoId,
             @Param("aulaId") String aulaId,
@@ -53,4 +56,8 @@ public interface PresencaRepository extends JpaRepository<Presenca, Integer> {
             @Param("dataInicial") LocalDate dataInicial,
             @Param("dataFinal") LocalDate dataFinal
     );
+
+    @Modifying
+    @Query(value = "UPDATE presenca a SET presenca_saida = NOW() WHERE presenca_id = :presencaId", nativeQuery = true)
+    int atualizarHorarioPresencaSaidaParaDataHoraAtual(@Param("presencaId") Integer presencaId);
 }

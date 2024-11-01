@@ -2,14 +2,27 @@ package com.controlu.backend.utils;
 
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @Service
 public class DateUtils {
-    public OffsetDateTime obterDataHoraAtualSemPrecisaoDeSegundos() {
+    /*public OffsetDateTime obterDataHoraAtualSemPrecisaoDeSegundos() {
         return OffsetDateTime.now().withNano(0);
+    } */
+
+    /*public OffsetDateTime obterDataHoraAtualSemPrecisaoDeSegundos() {
+        // Define o fuso horário para São Paulo (ou ajuste conforme necessário)
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
+
+        // Converte para OffsetDateTime e remove os nanossegundos
+        return zonedDateTime.toOffsetDateTime().withNano(0);
+    } */
+
+    public OffsetDateTime obterDataHoraAtualSemPrecisaoDeSegundos() {
+        // Obtem a data/hora local e converte para UTC
+        OffsetDateTime dataHoraLocal = OffsetDateTime.now(ZoneId.of("America/Sao_Paulo"));
+        return dataHoraLocal.withOffsetSameInstant(ZoneOffset.UTC).withNano(0);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.controlu.backend.repository;
 
 import com.controlu.backend.entity.model.Aula;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -34,7 +35,9 @@ public interface AulaRepository extends JpaRepository<Aula, String> {
             "(:dataInicial IS NULL OR DATE(a.aulaAbertura) >= :dataInicial) AND " +
             "(:dataFinal IS NULL OR a.aulaFechamento IS NULL OR DATE(a.aulaFechamento) <= :dataFinal) AND " +
             "(:gradeId IS NULL OR a.gradeId = :gradeId) AND " +
-            "(:salaId IS NULL OR a.salaId = :salaId)")
+            "(:salaId IS NULL OR a.salaId = :salaId) " +
+            "ORDER BY " +
+            "CASE WHEN a.aulaFechamento IS NOT NULL THEN a.aulaFechamento ELSE a.aulaAbertura END DESC")
     List<Aula> buscarPorFiltros(
            @Param("aulaId") String aulaId,
            @Param("dataInicial") LocalDate dataInicial,
@@ -42,4 +45,8 @@ public interface AulaRepository extends JpaRepository<Aula, String> {
            @Param("gradeId") String gradeId,
            @Param("salaId") String salaId
     );
+
+    @Modifying
+    @Query(value = "UPDATE aula a SET aula_fechamento = NOW() WHERE aula_id = :aulaId", nativeQuery = true)
+    int atualizarHorarioAulaFechamentoParaDataHoraAtual(@Param("aulaId") String aulaId);
 }

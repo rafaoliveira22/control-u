@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.List;
 
 @RestController
@@ -34,6 +35,8 @@ public class AcessoController {
     @PostMapping
     public ResponseEntity<?> registrarDadosAcesso(@RequestBody AcessoLeituraVO acesso) {
         System.out.println("\nREGISTRAR DADOS ACESSO - AcessoController");
+        System.out.println("Fuso horário da JVM: " + ZoneId.systemDefault());
+
         try{
             AcessoVO acessoRegistrado = service.registrarDadosAcesso(acesso);
             return new ResponseEntity<>(acessoRegistrado, HttpStatus.CREATED);
