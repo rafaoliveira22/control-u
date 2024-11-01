@@ -8,13 +8,15 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { CardMedia } from '@mui/material';
+import { CardMedia, IconButton, InputAdornment } from '@mui/material';
 import logo from '../assets/img/logo.png'
 import { Toaster, toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import { UsuarioLoginProps } from '../interface/UsuarioProps';
 import { fazerLogin } from '../http/HttpClientUsuario';
 import { salvarAuthToken } from '../utils/TokenUtils';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
 
   
   const Card = styled(MuiCard)(({ theme }) => ({
@@ -67,8 +69,9 @@ import { salvarAuthToken } from '../utils/TokenUtils';
     const [usuarioNome, setUsuarioNome] = useState<string>('')
     const [usuarioSenha, setUsuarioSenha] = useState<string>('')
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
-
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
     const validarDadosFormulario = () => {
       if(!usuarioNome){
         return 'Nome do usuário'
@@ -146,41 +149,48 @@ import { salvarAuthToken } from '../utils/TokenUtils';
                   id="usuario"
                   type="text"
                   name="usuario"
-                  placeholder="nome de usuário"
-                  autoComplete="usuario"
-                  autoFocus
+                  placeholder="Nome de usuário"
+                  autoComplete="username"
                   required
                   fullWidth
                   variant="outlined"
-                  color={'primary'}
-                  onChange={(e) => {setUsuarioNome(e.target.value as string)}}
+                  color="primary"
+                  onChange={(e) => setUsuarioNome(e.target.value)}
                   value={usuarioNome}
                 />
               </FormControl>
+  
               <FormControl>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <FormLabel htmlFor="password">Senha</FormLabel>
-                </Box>
+                <FormLabel htmlFor="password">Senha</FormLabel>
                 <TextField
                   name="password"
                   placeholder="••••••"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   id="password"
                   autoComplete="current-password"
-                  autoFocus
                   required
                   fullWidth
                   variant="outlined"
-                  onChange={(e) => {setUsuarioSenha(e.target.value as string)}}
+                  onChange={(e) => setUsuarioSenha(e.target.value)}
                   value={usuarioSenha}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={togglePasswordVisibility} edge="end">
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </FormControl>
+  
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ backgroundColor: '#115571', '&:hover': { backgroundColor: '#215571' } }}
-                >
+              >
                 Entrar
               </Button>
             </Box>
@@ -188,4 +198,4 @@ import { salvarAuthToken } from '../utils/TokenUtils';
         </SignInContainer>
       </>
     );
-  }
+  };
