@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     gap: 10
   },  
   button: {
-    backgroundColor: '#1E90FF',
+    backgroundColor: '#115571',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

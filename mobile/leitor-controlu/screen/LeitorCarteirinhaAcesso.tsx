@@ -63,7 +63,7 @@ export const LeitorCarteirinhaAcesso: React.FC<LeitorCarteirinhaAcessoScreenProp
       }
     } finally{
       setLoading(false)
-    }
+    } 
   };
 
   if (temPermissao === null) {
