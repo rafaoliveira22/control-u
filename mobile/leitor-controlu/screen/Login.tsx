@@ -25,7 +25,6 @@ export const Login: React.FC<LoginScreenProps> = ({ navigation }) => {
         const response = await fazerLogin(usuario)
 
         await salvarAuthToken(response.token)
-        console.log(`Salvando token... ${response.token}`)
      
         setUsuarioNome('')
         setUsuarioSenha('')
