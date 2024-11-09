@@ -100,7 +100,7 @@ public class RelatorioService {
                 }
                 adicionarParagrafoTabela(p.getAlunoId());
                 adicionarParagrafoTabela(dateUtils.formatarOffsetDateTimeParaString(p.getPresencaEntrada(), "dd/MM/yyyy HH:mm:ss"));
-                adicionarParagrafoTabela(p.getPresencaSaida() != null ? dateUtils.formatarOffsetDateTimeParaString(p.getPresencaSaida(), "dd/MM/yyyy HH:mm:ss") : "Presença não registrada");
+                adicionarParagrafoTabela(p.getPresencaSaida() != null ? dateUtils.formatarOffsetDateTimeParaString(p.getPresencaSaida(), "dd/MM/yyyy HH:mm:ss") : "Saída não registrada");
             }
             pdfRelatorio.adicionarTabelaNoDocumento(table);
         }

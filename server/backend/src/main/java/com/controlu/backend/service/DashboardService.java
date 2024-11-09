@@ -76,7 +76,7 @@ public class DashboardService {
                     } else if (rr.getTipo().equalsIgnoreCase(Defines.TIPO_REGISTRO_RECENTE_ACESSO_SAIDA)) {
                         acao = "saiu da";
                     }
-                    dadoDashboard.setDescricao(String.format("O aluno %s %s faculdade pelo dispositovo %s", rr.getReferencia(), acao, rr.getDescricao()));
+                    dadoDashboard.setDescricao(String.format("O aluno %s %s faculdade pelo dispositivo %s", rr.getReferencia(), acao, rr.getDescricao()));
                 } else if(rr.getTipo().contains("AULA")){
                     // A AULA X, DA GRADE Y, FOI (ABERTA/FECHADA) NA SALA Z
                     String[] aulaIdSalaId = rr.getReferencia().split("_");
