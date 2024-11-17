@@ -11,11 +11,11 @@ export const Menu: React.FC<MenuScreenProps> = ({ navigation }) => {
   return(
     <View style={styles.container}> 
       <TouchableOpacity style={styles.button} onPress={() => {handleClick('LeitorCarteirinhaAcesso')}}>
-        <Text style={styles.buttonText}>Controle de Acesso</Text>
+        <Text style={styles.buttonText}>Acesso</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={() => {navigation.navigate('LeitorAula')}}>
-        <Text style={styles.buttonText}>Controle Presenças na Aula</Text>
+        <Text style={styles.buttonText}>Aula/Presença</Text>
       </TouchableOpacity>
     </View>
   )
