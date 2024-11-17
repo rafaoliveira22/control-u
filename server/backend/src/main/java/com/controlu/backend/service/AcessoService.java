@@ -102,7 +102,7 @@ public class AcessoService {
         }
 
         if(salaRepository.countByDispositivoId(acessoVO.getDispositivoId()) <= 0){
-            throw new IllegalArgumentException("O dispositivo " + acessoVO.getDispositivoId() + " é inválido.");
+            throw new IllegalArgumentException("Sala inválida.");
         }
 
         if(!(alunoService.verificarSeEstaRegistrado(acessoVO.getAlunoId()))){

@@ -7,7 +7,7 @@ SET SQL_SAFE_UPDATES = 0;
 
 -- FLYWAY
 SELECT * FROM db_controlu.flyway_schema_history;
--- DELETE FROM flyway_schema_history WHERE version = '28';
+-- DELETE FROM flyway_schema_history WHERE version = '29';
 
 -- ALUNO
 DESC aluno;
@@ -48,6 +48,7 @@ SELECT * FROM nivel_acesso;
 
 -- USUARIO
 SELECT * FROM usuario;
+DESC usuario;
 -- DELETE FROM usuario;
 -- ALTER TABLE usuario AUTO_INCREMENT = 1;
 
