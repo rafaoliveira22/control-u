@@ -74,85 +74,63 @@ public class ReconhecimentoFacialController {
 
     public boolean processarReconhecimentoFacial(Mat faceCapturada, Mat faceArmazenada) throws IOException {
         System.out.println("\nPROCESSAR RECONHECIMENTO FACIAL");
+
+        // Detectar faces na imagem capturada
         MatOfRect faceDetections = new MatOfRect();
-        faceDetector.detectMultiScale(faceCapturada, faceDetections);
+        faceDetector.detectMultiScale(faceCapturada, faceDetections, 1.1, 10, 0, new Size(30, 30), new Size());
 
         if (faceDetections.toArray().length == 0) {
             // Nenhuma face foi detectada
+            System.out.println("Nenhuma face detectada.");
             return false;
         }
 
-        // Pegar a primeira face detectada
         Rect rect = faceDetections.toArray()[0];
         Mat detectedFace = new Mat(faceCapturada, rect);
 
-        // Processar a imagem da face detectada
+        // Pré-processar as imagens
         Mat processedDetectedFace = processarImagem(detectedFace);
-        //Mat storedFaceMat = Imgcodecs.imdecode(new MatOfByte(faceArmazenada), Imgcodecs.IMREAD_COLOR);
-
-        // Processar a imagem do banco de dados
         Mat processedStoredFace = processarImagem(faceArmazenada);
 
-        // Comparar as duas imagens (usando um método como a distância euclidiana)
+        // Comparar as faces
         double similarity = compararFaces(processedDetectedFace, processedStoredFace);
 
-        if (similarity >= 0.6) {
-            return true;  // Face reconhecida
-        }
+        System.out.println("Pontuação de similaridade: " + similarity);
 
-
-        return false;
+        // Ajuste do limiar de similaridade baseado em testes empíricos
+        double limiarSimilaridade = 0.7;
+        return similarity >= limiarSimilaridade;
     }
 
-    /**
-     * normalizar e preparar a imagem para a comparação
-     * @param face
-     * @return
-     */
     private Mat processarImagem(Mat face) {
-        // Redimensiona a face para um tamanho fixo (por exemplo, 100x100 pixels)
         Mat resizedFace = new Mat();
         Size size = new Size(100, 100);
         Imgproc.resize(face, resizedFace, size);
 
-        // Converte para cinza (se necessário, dependendo do algoritmo)
         Mat grayFace = new Mat();
         Imgproc.cvtColor(resizedFace, grayFace, Imgproc.COLOR_BGR2GRAY);
 
-        // Normalizar a face ou extrair características (aqui usando a normalização simples)
+        Imgproc.equalizeHist(grayFace, grayFace); // Equalização do histograma
         Core.normalize(grayFace, grayFace, 0, 255, Core.NORM_MINMAX);
 
         return grayFace;
     }
 
-    /**
-     * comparar as faces usando um algoritmo como a distância euclidiana entre os vetores das duas imagens processadas
-     * @param face1
-     * @param face2
-     * @return
-     */
     private double compararFaces(Mat face1, Mat face2) {
         System.out.println("\nCOMPARAR FACES");
-        System.out.println("compararFaces face1: " + face1);
-        System.out.println("compararFaces face2: " + face2);
 
-        // Calcular a diferença entre os dois vetores de imagem
         Mat diff = new Mat();
         Core.absdiff(face1, face2, diff);
 
-        // Somar todos os valores absolutos da matriz de diferença
         Scalar sum = Core.sumElems(diff);
-        System.out.println("compararFaces sum: " + sum);
+        double score = sum.val[0];
 
-        // Calcular a pontuação de similaridade (quanto menor, mais similares)
-        double score = sum.val[0] + sum.val[1] + sum.val[2];
-        System.out.println("compararFaces score: " + score);
-
-        // Converter a pontuação em uma porcentagem de similaridade
+        // Similaridade: quanto menor o score, mais similares as faces
         double similarity = 1.0 - (score / (100 * 100 * 255));
-        System.out.println("compararFaces similarity: " + similarity);
-
+        System.out.println("Score de diferença: " + score);
+        System.out.println("Similaridade calculada: " + similarity);
 
         return similarity;
     }
+
 }
